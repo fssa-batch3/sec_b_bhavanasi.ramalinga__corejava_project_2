@@ -50,14 +50,14 @@ public class TestCreateCategory {
         Exception exception = assertThrows(ValidationException.class, () -> {
             categoryService.create(null);
         });
-        String expectedMessage = "Invalid category input";
+        String expectedMessage = "Category object can not be null";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage)); // Use contains to handle additional error details if any
         System.out.println(actualMessage);
     }
     
     @Test
-	public void testDeleteCategroy() {
+	public void testDeleteCategory() {
 		
 		CategoryService categoryService = new CategoryService();
 
@@ -81,6 +81,69 @@ public class TestCreateCategory {
 			});
 		
 	}
+		
+		@Test
+		public void testCreateUserWithNameNull() {
+			
+			CategoryService categoryService = new CategoryService();
+			
+			Category newCategory = new Category();
+			
+			newCategory.setName(null);
+			
+			newCategory.toString();
+
+				Exception exception = assertThrows(ValidationException.class, () ->{
+					categoryService.create(newCategory);
+		});
+		String expectedMessage = "Name cannot be null or empty";
+		String actualMessage = exception.getMessage();
+		assertTrue(expectedMessage.equals(actualMessage));
+	}
+		
+		@Test
+		public void testCreateUserWithNameEmpty() {
+			
+			CategoryService categoryService = new CategoryService();
+			
+			Category newCategory = new Category();
+			
+			newCategory.setName(" ");
+			
+			newCategory.toString();
+				
+				Exception exception = assertThrows(ValidationException.class, () ->{
+					categoryService.create(newCategory);
+		});
+		String expectedMessage = "Name cannot be null or empty";
+		String actualMessage = exception.getMessage();
+		System.out.println(actualMessage);
+		assertTrue(expectedMessage.equals(actualMessage));
+	}
+
+		@Test
+		public void testCreateUserWithInvalidName() {
+			
+			CategoryService categoryService = new CategoryService();
+			
+			Category newCategory = new Category();
+			
+			newCategory.setName("Sound123");
+			
+			newCategory.toString();
+				
+				Exception exception = assertThrows(ValidationException.class, () ->{
+					categoryService.create(newCategory);
+		});
+		String expectedMessage = "Name doesn't match the pattern";
+		String actualMessage = exception.getMessage();
+		System.out.println(actualMessage);
+		assertTrue(expectedMessage.equals(actualMessage));
+	}
+		
+	}
+		
+		
 
    
-}
+

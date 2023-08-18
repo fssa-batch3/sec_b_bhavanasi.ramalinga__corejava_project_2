@@ -3,7 +3,7 @@ package in.fssa.productprice.interfaces;
 import java.util.Set;
 
 import in.fssa.productprice.model.Category;
-import in.fssa.productprice.model.CategoryEntity;
+
 
 public interface CategoryInterface {
 

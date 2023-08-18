@@ -5,14 +5,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.List;
+
 
 
 import in.fssa.productprice.interfaces.CategoryInterface;
 import in.fssa.productprice.util.ConnectionUtil;
 import in.fssa.productprice.model.Category;
-import in.fssa.productprice.model.CategoryEntity;
-import in.fssa.productprice.model.Product;
+
 
 
 
@@ -47,7 +46,7 @@ public class CategoryDAO implements CategoryInterface{
 	
 	@Override
 	public void updateName(int id, String categoryName) {
-		  // TODO Auto-generated method stub
+		
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
@@ -103,7 +102,7 @@ public class CategoryDAO implements CategoryInterface{
 		Set<Category> allcategory = new HashSet<>(); 
 		
 		try {
-			String query = "SELECT * FROM product";
+			String query = "SELECT * FROM category";
 			conn = ConnectionUtil.getConnection();
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();

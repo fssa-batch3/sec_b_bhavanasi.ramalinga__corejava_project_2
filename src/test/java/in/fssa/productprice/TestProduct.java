@@ -62,7 +62,7 @@ public class TestProduct {
 		Exception exception = assertThrows(ValidationException.class, () ->{
 			productService.createProduct(null);
 		});
-		String expectedMessage = "Invalid Product input";
+		String expectedMessage = "Invalid Product object input";
 		String actualMessage = exception.getMessage();
 		assertTrue(expectedMessage.equals(actualMessage));
 		System.out.println(actualMessage);
@@ -95,7 +95,7 @@ public class TestProduct {
 		
 		Product product = new Product();
 		
-		product.setName("Lenovo");
+		product.setName("");
 		
 		product.toString();
 
@@ -160,7 +160,7 @@ public class TestProduct {
         ProductService productService = new ProductService();
         Product updateProduct = new Product();
         updateProduct.setId(1);
-        updateProduct.setName("Mobiles");
+        updateProduct.setName("Vivo 9");
         
         assertDoesNotThrow(() -> {
             productService.updateProduct(updateProduct.getId(), updateProduct.getName());
@@ -170,12 +170,20 @@ public class TestProduct {
     @Test
     public void testUpdateProductInvalidName() {
         ProductService productService = new ProductService();
-        int productId = 1;
-        String invalidName = null; // Or use an empty string: ""
+        Product Invalid = new Product();
+       
         
-        assertThrows(ValidationException.class, () -> {
-            productService.updateProduct(productId, invalidName);
-        });
+        Invalid.setName("Sound123");
+		
+        Invalid.toString();
+			
+			Exception exception = assertThrows(ValidationException.class, () ->{
+				productService. createProduct(Invalid);
+	});
+	String expectedMessage = "Name doesn't match the pattern";
+	String actualMessage = exception.getMessage();
+	System.out.println(actualMessage);
+	assertTrue(expectedMessage.equals(actualMessage));
     }
 	}
 
