@@ -139,16 +139,22 @@ C -- Invalid --> F(Validation Exception)
 ​
 
 ### Flow:  
-
-​
+> Invalid When a category's name is not in use or when the input provided does not meet the criteria, categories arise.
 
 ```mermaid  
 
 graph TD;  
 
-​
 
-A(CategoryService - findAll) --> B(Category DAO - findAll) --> C(List of categories) 
+A(CategoryService - int id, String name) --> B(Form Validation) -- Valid --> C(Business Validation)  
+
+B -- Invalid -->  G(Validation Exception)
+
+C -- Valid --> D(Argument Passed to CategoryDAO)  
+
+D --> E(Store Value in Database)  
+
+C -- Invalid --> F(Validation Exception)  
 
 ```
 
@@ -217,7 +223,6 @@ A(CategoryService - findAll) --> B(Category DAO - findAll) --> C(List of categor
 
 graph TD;  
 
-​
 
 A(CategoryService - int id, String name) --> B(Form Validation) -- Valid --> C(Business Validation)  
 
@@ -293,7 +298,6 @@ C -- Invalid --> F(Validation Exception)
 
 graph TD;  
 
-​
 
 A(Argument Passed to CategoryService - int id) --> B(Form Validation) -- Valid --> C(Business Validation) 
 
