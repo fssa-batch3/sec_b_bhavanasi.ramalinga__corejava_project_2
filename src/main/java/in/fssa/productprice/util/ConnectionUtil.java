@@ -10,6 +10,10 @@ import java.sql.SQLException;
 import io.github.cdimascio.dotenv.Dotenv;
 
 public class ConnectionUtil {
+	/**
+	 * 
+	 * @return
+	 */
 	public static Connection getConnection() {
 		Dotenv env = Dotenv.load();
 		String url = env.get("DATABASE_HOSTNAME");
@@ -28,6 +32,11 @@ public class ConnectionUtil {
 		}
 		return connection;
 	}
+	/**
+	 * 
+	 * @param connection
+	 * @param ps
+	 */
 	
 	public static void close(Connection connection , PreparedStatement  ps) {
 		try {
@@ -42,6 +51,13 @@ public class ConnectionUtil {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * 
+	 * @param connection
+	 * @param ps
+	 * @param rs
+	 */
+			
 	
 	public static void close(Connection connection , PreparedStatement  ps , ResultSet  rs) {
 		try {

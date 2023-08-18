@@ -11,7 +11,11 @@ import in.fssa.productprice.validator.CategoryValidator;
 
 
 public class CategoryService {
-
+/**
+ * 
+ * @param newcategory
+ * @throws Exception
+ */
 	public void create (Category newcategory) throws Exception{
 		
 		CategoryValidator.validateCategory(newcategory);
@@ -20,7 +24,11 @@ public class CategoryService {
 		
 		categoryDao.create(newcategory);
 	}
-	
+	/**
+	 * 
+	 * @param categoryId
+	 * @throws Exception
+	 */
 	public void delete(int categoryId) throws Exception{
 		
 		CategoryValidator.validateId(categoryId);
@@ -29,6 +37,12 @@ public class CategoryService {
 		
 		categoryDao.delete(categoryId);
 	}
+	/**
+	 * 
+	 * @param id
+	 * @param newCategoryName
+	 * @throws Exception
+	 */
 	
 	public void updateCategoryName(int id, String newCategoryName)throws Exception{
 		
@@ -38,6 +52,11 @@ public class CategoryService {
 		categoryDao.updateName(id, newCategoryName);
 		
 	}
+	/**
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 
 public Set<Category> listAllCategory()throws Exception{
 		

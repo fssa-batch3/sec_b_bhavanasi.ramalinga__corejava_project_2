@@ -6,6 +6,11 @@ import in.fssa.productprice.model.Product;
 import java.util.Set;
 public class ProductService {
 	
+	/**
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
 public Set<Product> listAllProduct()throws Exception{
 		
 		ProductDAO product = new ProductDAO();
@@ -13,6 +18,12 @@ public Set<Product> listAllProduct()throws Exception{
 		
 		return allProducts;
 	}
+/**
+ * 
+ * @param category_id
+ * @return
+ * @throws Exception
+ */
 	
 	public Set<Product> findProductDetailByCategoryId(int category_id) throws Exception {
 	    ProductValidator validator = new ProductValidator();
@@ -24,7 +35,11 @@ public Set<Product> listAllProduct()throws Exception{
 	    return products;
 	}
 	
-	
+	/**
+	 * 
+	 * @param product
+	 * @throws Exception
+	 */
 	
 	
 	
@@ -37,6 +52,11 @@ public Set<Product> listAllProduct()throws Exception{
 		productDAO.create(product);
 		
 	}
+	/**
+	 * 
+	 * @param productId
+	 * @throws Exception
+	 */
 	
 	public void deleteProduct(int productId) throws Exception{
 		
@@ -48,6 +68,12 @@ public Set<Product> listAllProduct()throws Exception{
 		
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @param name
+	 * @throws Exception
+	 */
 	
 
 	public void updateProduct(int id, String name) throws Exception {

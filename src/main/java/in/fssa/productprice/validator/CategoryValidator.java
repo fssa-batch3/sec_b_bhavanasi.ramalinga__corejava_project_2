@@ -14,6 +14,11 @@ import in.fssa.productprice.util.ConnectionUtil;
 import in.fssa.productprice.util.StringUtil;
 
 public class CategoryValidator {
+	/**
+	 * 
+	 * @param category
+	 * @throws ValidationException
+	 */
 
 	public static void validateCategory(Category category) throws ValidationException{
 		
@@ -52,6 +57,11 @@ public class CategoryValidator {
 
 		validateName(category.getName());
 	}
+	/**
+	 * 
+	 * @param Categoryname
+	 * @throws ValidationException
+	 */
 	
 	public static void validateName(String Categoryname) throws ValidationException{
 		
@@ -91,6 +101,11 @@ public class CategoryValidator {
 			throw new ValidationException("Name doesn't match the pattern");
 		}
 	}
+	/**
+	 * 
+	 * @param categoryId
+	 * @throws ValidationException
+	 */
 	
 	public static void validateId(int categoryId) throws ValidationException{
 		

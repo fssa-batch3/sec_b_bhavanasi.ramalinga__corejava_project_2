@@ -12,8 +12,13 @@ import in.fssa.productprice.util.ConnectionUtil;
 import in.fssa.productprice.util.StringUtil;
 
 public class ProductValidator {
-private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
 	
+private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
+	/**
+	 * 
+	 * @param product
+	 * @throws ValidationException
+	 */
 	public void validateProduct(Product product) throws ValidationException{
 		
 		if(product == null) {
@@ -48,6 +53,11 @@ private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
 		validateCategoryId(product.getCategory_id());
 		
 	}
+	/**
+	 * 
+	 * @param name
+	 * @throws ValidationException
+	 */
 	
 	public  void validateName(String name) throws ValidationException {
         
@@ -67,6 +77,7 @@ private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
 			throw new ValidationException("Id cannot be negative or zero");
 		}
 	}
+	
 	public void validateProductId(int productId)throws ValidationException{
 		
 		if(productId <= 0) {
@@ -100,7 +111,11 @@ private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
            ConnectionUtil.close(con, ps);
        }
 	}
-	
+	/**
+	 * 
+	 * @param categoryId
+	 * @throws ValidationException
+	 */
 	public void validateCategoryId(int categoryId)throws ValidationException{
 		
 		 if (categoryId <= 0) {
@@ -132,6 +147,12 @@ private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
            ConnectionUtil.close(con, ps);
        }
 	}
+	/**
+	 * 
+	 * @param id
+	 * @param name
+	 * @throws ValidationException
+	 */
 
 	public void validateProductUpdate(int id, String name) throws ValidationException {
 	    if (id <= 0) {

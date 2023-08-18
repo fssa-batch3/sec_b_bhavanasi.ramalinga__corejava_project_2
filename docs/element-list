@@ -1,0 +1,7 @@
+in.fssa.productprice.dao
+in.fssa.productprice.exception
+in.fssa.productprice.interfaces
+in.fssa.productprice.model
+in.fssa.productprice.service
+in.fssa.productprice.util
+in.fssa.productprice.validator

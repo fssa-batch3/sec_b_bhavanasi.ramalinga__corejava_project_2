@@ -13,7 +13,10 @@ import in.fssa.productprice.interfaces.ProductInterface;
 	
 	public class ProductDAO implements ProductInterface {
 
-	
+	/**
+	 * 
+	 * @param product
+	 */
 		public void create(Product product) {
 			
 			Connection conn = null;
@@ -41,6 +44,11 @@ import in.fssa.productprice.interfaces.ProductInterface;
 			}
 		}
 		
+		/**
+		 * 
+		 * @param productId
+		 * @param name
+		 */
 
 		public void updateProduct(int productId, String name) {
 		    Connection conn = null;
@@ -71,7 +79,10 @@ import in.fssa.productprice.interfaces.ProductInterface;
 
 
 
-		
+		/**
+		 * 
+		 * @param id
+		 */
 
 	
 		public void deleteProduct(int id) {
@@ -97,7 +108,9 @@ import in.fssa.productprice.interfaces.ProductInterface;
 			}
 		}
 
-	
+	/**
+	 * 
+	 */
 		public Set<Product> listAllProducts() {
 
 			Connection conn = null;
@@ -132,7 +145,11 @@ import in.fssa.productprice.interfaces.ProductInterface;
 			}
 			return allProducts;
 		}
-
+/**
+ * 
+ * @param category_id
+ * @return
+ */
 	
 		public Set<Product> listallProductsByCategoryId(int category_id) {
 			
