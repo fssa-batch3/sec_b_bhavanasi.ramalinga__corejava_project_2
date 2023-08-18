@@ -96,9 +96,7 @@
 
 ```mermaid  
 
-graph TD;  
-
-​
+ graph TD;  
 
 A(CategoryService - Category Object) --> B(Form Validation) -- Valid --> C(Business Validation)
 
@@ -382,8 +380,14 @@ List all Products stored in the database.
 ```mermaid  
 
 graph TD;  
+A(ProductService - int id, String name) --> B(Form Validation) -- Valid --> C(Business Validation)  
+B -- Invalid -->  G(Validation Exception)
 
-A(ProductService- findAll) --> B(ChategoryDAO - findAll) --> C(List of Products) 
+C -- Valid --> D(Argument Passed to ProductDAO)  
+
+D --> E(Store Value in Database)  
+
+C -- Invalid --> F(Validation Exception)  
 
 ```
 
