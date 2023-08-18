@@ -111,6 +111,7 @@ C -- Invalid --> F(Validation Exception)
 ```
 
 ​
+​
 
 ### Feature 2 : List all categories
 
