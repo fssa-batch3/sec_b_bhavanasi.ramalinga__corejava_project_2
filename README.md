@@ -1,82 +1,100 @@
-Database Design
- Create an ER diagram of the database
- Write Create table scripts script
-ER Diagram
+# Todo Application Checklist
 
-Project Setup
- Create a new Java project
- Set up a MySQL database
- Add necessary libraries
- JDBC,
- MySQL Connector,
- JUnit,
- Dotenv
-Module 1: Category
+## Database Design
+
+- [ ] Create an ER diagram of the database
+- [ ] Write Create table scripts [script](path/to/sql/file)
+
+![ER Diagram](https://iili.io/Htvmp8Q.png)
+
+
+## Project Setup
+
+- [ ] Create a new Java project
+- [ ] Set up a MySQL database
+- [ ] Add necessary libraries
+	- [ ] JDBC, 
+	- [ ] MySQL Connector, 
+	- [ ] JUnit, 
+	- [ ] Dotenv
+
+
+## Module 1: Category
+
 ​
 
-Attributes
+* Attributes  
 
-int cate_id;
-String name;
-Boolean isActive;
+	* int cate_id; 
+  	* String name;  
+	* Boolean isActive;  
 ​
-Feature 1 : Create Category
+
+### Feature 1 : Create Category
+
 ​### User story :
 
 ​
 
-	Category created and successfully category details stored in database.
-​
-
-Pre-requisites:- [ ] category DAO(create category)
-​
-
- category table
-
- category model
-
- category DAO
-
- category service ( create )
+		Category created and successfully category details stored in database.
 
 ​
 
-Validations:
-​
-
- Form Validation
-
-category null
-
-name ( null, empty, pattern )
+### Pre-requisites:- [ ] category DAO(create category)  
 
 ​
 
- Business Validation
+- [ ] category table
 
-Category name Already exists
-​
+- [ ] category model
 
-Messages:
-​
+- [ ] category DAO
 
-Category object cannot be null
-
-Name cannot be null or empty
-
-Name should be match with the given pattern
-
-Category already exists
+- [ ] category service ( create )
 
 ​
 
-Flow:
-​
-
-Invalid When a category’s name is already in use or when the input provided does not meet the criteria, categories arise.
+#### Validations:  
 
 ​
 
+- [ ] Form Validation  
+
+	* category null  
+
+	* name ( null, empty, pattern )  
+
+​
+
+- [ ] Business Validation  
+
+	* Category name Already exists
+
+​
+
+#### Messages:  
+
+​
+
+* Category object cannot be null  
+
+* Name cannot be null or empty
+
+* Name should be match with the given pattern  
+
+* Category already exists  
+
+​
+
+#### Flow:  
+
+​
+
+> Invalid When a category's name is already in use or when the input provided does not meet the criteria, categories arise.
+
+​
+
+```mermaid  
 
 graph TD;  
 
@@ -92,31 +110,39 @@ D --> E(Store Value in Database)
 
 C -- Invalid --> F(Validation Exception)  
 
-​
-
-Feature 2 : List all categories
-​
-
-User story :
-​
-
-	List all categories stored in the database.
-​
-
-Pre-requisites :- [ ] category DAO (findAll category)
-​
-
- complete feature 1 - create category
-
- category dao ( find all )
-
- category service ( find all )
+```
 
 ​
 
-Flow:
+### Feature 2 : List all categories
+
 ​
 
+### User story :
+
+​
+
+		List all categories stored in the database.
+
+​
+
+### Pre-requisites :- [ ] category DAO (findAll category)
+
+​
+
+- [ ] complete feature 1 - create category
+
+- [ ]  category dao ( find all )
+
+- [ ] category service ( find all )
+
+​
+
+### Flow:  
+
+​
+
+```mermaid  
 
 graph TD;  
 
@@ -124,60 +150,70 @@ graph TD;
 
 A(CategoryService - findAll) --> B(Category DAO - findAll) --> C(List of categories) 
 
-​
-
-Feature 3 : Update Category
-​
-
-User story :
-​
-
-	Category deatils are successfully updated and stored in databse.
-​
-
-Pre-requisites:- [ ] category DAO(update category)
-​
-
- complete feature 4 - create category
-
- category dao ( create )
-
- category service ( create )
+```
 
 ​
 
-Validations:
-​
+### Feature 3 : Update Category
 
- Form Validation
-
-id (less than 0)
-
-name ( null, empty, pattern )
+​ 
+### User story :
 
 ​
 
- Business Validation
-
-Check whether the id exist
-​
-
-Messages:
-Id cannot be 0 or in negative
-
-Name cannot be null or empty
-
-Name should be match with the given pattern
-
-Category id does not exists
+		Category deatils are successfully updated and stored in databse.
 
 ​
 
-Flow:
-Invalid When a category’s name is not in use or when the input provided does not meet the criteria, categories arise.
+### Pre-requisites:- [ ] category DAO(update category)  
 
 ​
 
+- [ ] complete feature 4 - create category
+
+- [ ] category dao ( create )
+
+- [ ] category service ( create )
+
+​
+
+#### Validations:  
+
+​
+
+- [ ] Form Validation 
+
+	* id (less than 0) 
+
+	* name ( null, empty, pattern )  
+
+​
+
+- [ ] Business Validation  
+
+	* Check whether the id exist
+
+​
+
+#### Messages:  
+
+* Id cannot be 0 or in negative  
+
+* Name cannot be null or empty
+
+* Name should be match with the given pattern   
+
+* Category id does not exists  
+
+​
+
+#### Flow:  
+
+> Invalid When a category's name is not in use or when the input provided does not meet the criteria, categories arise.
+
+​
+
+```mermaid  
 
 graph TD;  
 
@@ -193,57 +229,67 @@ D --> E(Store Value in Database)
 
 C -- Invalid --> F(Validation Exception)  
 
-Feature 4 : Delete Category
-​
+```
 
-User story :
-​ Category is deleted successfully.
+### Feature 4 : Delete Category
 
 ​
 
-Pre-requisites:- [ ] category DAO(delete category)
-​
+### User story :
 
- complete feature 1 - create category
-
- category dao ( delete )
-
- category service ( delete )
+​	Category is deleted successfully.
 
 ​
 
-Validations:
-​
-
- Form Validation
-
-id (less than or equal to 0)
-
-name (null, empty, pattern)
+### Pre-requisites:- [ ] category DAO(delete category)  
 
 ​
 
- Business Validation
+- [ ] complete feature 1 - create category
 
-Check whether the id or name exists
-​
+- [ ] category dao ( delete )
 
-Messages:
-Id cannot be 0 or in negative
-
-Name cannot be null or empty
-
-Name should be match with the given pattern
-
-Category id or name does not exists
+- [ ] category service ( delete )
 
 ​
 
-Flow:
-Invalid When a category’s name is not in use or when the input provided does not meet the criteria, categories arise.
+#### Validations:  
 
 ​
 
+- [ ] Form Validation 
+
+	* id (less than or equal to 0) 
+
+	* name (null, empty, pattern)
+
+​
+
+- [ ]  Business Validation  
+
+	* Check whether the id or name exists
+
+​
+
+#### Messages:
+
+* Id cannot be 0 or in negative
+
+* Name cannot be null or empty
+
+* Name should be match with the given pattern
+
+* Category id or name does not exists 
+
+​
+
+#### Flow:  
+
+> Invalid When a category's name is not in use or when the input provided does not meet the criteria, categories arise.
+
+​
+
+```mermaid  
 
 graph TD;  
 
@@ -259,188 +305,251 @@ D --> E(Set is_active=false in Database)
 
 C -- Invalid --> F(Validation Exception)  
 
-Module 2: Product
-Attributes
+```
 
-int id
-String name
-Boolean is_active
-int category_id
-Feature 1: Create Product
-Product Story:
+## Module 2: Product
+   Attributes
+   * int id
+   * String name
+   * Boolean  is_active
+   * int  category_id
+   
+### Feature 1: Create Product
+#### Product Story:
 Product created Successfully and the product details will be stored in database.
+#### Pre-requisites:
+-
+- [ ] complete category table
+- [ ] Create product table
+- [ ] product model
+- [ ] product DAO
+- [ ]  Product Service( create )
 
-Pre-requisites:
- complete category table
- Create product table
- product model
- product DAO
- Product Service( create )
-Validations:
- Form Validation
-Product( null )
-name( null , empty , pattern)
- Business Validation
-Product name Already exists
-Messages:
-Product object Can not be null
-Name can not be null or empty
-Name should be match with the given pattern
-Flow:
-Invalid When a category’s name is already in use or when the input provided does not meet the criteria, categories arise.
+#### Validations:
+- [ ] Form Validation
+* Product( null )
+* name( null , empty , pattern)
+- [ ] Business Validation
+* Product name Already exists 
+#### Messages:
+* Product object Can not be null
+* Name can not be null or empty
+* Name should be match with the given pattern
+
+
+#### Flow:  
+> Invalid When a category's name is already in use or when the input provided does not meet the criteria, categories arise.
 
 ​
 
-Valid
-Invalid
-Valid
-Invalid
-ProductService - Product Object
-Form Validation
-Business Validation
-Validation Exception
-Argument Passed to ProductDAO
-Store Value in Database
-Validation Exception
-​
+```mermaid  
 
-Feature 2: List all products
-Product Story:
+graph TD;  
+
+
+A(ProductService - Product Object) --> B(Form Validation) -- Valid --> C(Business Validation)
+
+B -- Invalid --> G(Validation Exception)  
+
+C -- Valid --> D(Argument Passed to ProductDAO)  
+
+D --> E(Store Value in Database)  
+
+C -- Invalid --> F(Validation Exception)  
+
+```
+
+​
+#### Feature 2: List all products
+ 
+#### Product Story:
+
 List all Products stored in the database.
 
-Pre-requisites:
- Products DAO ( findAll products)
- complete feature 1- create Product
- Product DAO (find all)
- Product Service(find all)
-Flow:
-ProductService- findAll
-ChategoryDAO - findAll
-List of Products
-Feature 3: List products By Category_id
-Product Story:
+#### Pre-requisites:
+- [ ] Products DAO ( findAll products)  
+- [ ] complete feature 1- create Product
+- [ ] Product DAO (find all)
+- [ ] Product Service(find all)
+
+
+
+#### Flow:
+```mermaid  
+
+graph TD;  
+
+A(ProductService- findAll) --> B(ChategoryDAO - findAll) --> C(List of Products) 
+
+```
+
+### Feature  3: List products By Category_id
+### Product Story:
 Products are successfully listed by Category id.
 
-Pre-requisites :-
- Complete create products
- Category dao (findById)
- Category service (findById)
-Validations :-
- Form Validation
-id (less than 0)
-name ( null, empty, pattern )
- Business Validation
-Check whether the id exist
-Messages:
-Id cannot be 0 or in negative
-Category id does not exists
-Flow:
-Invalid When a Product’s name is not in use or when the input provided does not meet the criteria, categories arise.
+### Pre-requisites :-
+- [ ] Complete create products
+- [ ] Category dao (findById)
+- [ ] Category service (findById)
+
+### Validations :-
+
+ - [ ] Form Validation 
+    * id (less than 0) 
+    * name ( null, empty, pattern )  
+- [ ] Business Validation  
+    * Check whether the id exist
+
+#### Messages:  
+
+* Id cannot be 0 or in negative  
+* Category id does not exists
+
+
+#### Flow:  
+
+> Invalid When a Product's name is not in use or when the input provided does not meet the criteria, categories arise.
 
 ​
 
-Valid
-Invalid
-Valid
-Invalid
-ProductService - int id, String name
-Form Validation
-Business Validation
-Validation Exception
-Argument Passed to ProductDAO
-Store Value in Database
-Validation Exception
-Feature 4: Update Product
-Product story :
-    Products deatils are successfully updated and stored in databse.
-Pre-requisites :
- Product DAO (Update Product)
- complete feature 1- create product
- product dao ( Update)
- product service ( Update)
-Validations:
- Form Validation
+```mermaid  
 
-id (less than 0)
+graph TD;  
 
-name ( null, empty, pattern )
 
- Business Validation
+A(ProductService - int id, String name) --> B(Form Validation) -- Valid --> C(Business Validation)  
 
-Check whether the id exist
-Messages:
-Id cannot be 0 or in negative
+B -- Invalid -->  G(Validation Exception)
 
-Name cannot be null or empty
+C -- Valid --> D(Argument Passed to ProductDAO)  
 
-Name should be match with the given pattern
+D --> E(Store Value in Database)  
 
-Product id does not exists
+C -- Invalid --> F(Validation Exception)  
 
-Flow:
-Invalid When a Product’s name is not in use or when the input provided does not meet the criteria, categories arise.
+```
+
+
+### Feature  4: Update Product
+
+### Product story :
+
+        Products deatils are successfully updated and stored in databse.
+
+
+### Pre-requisites :
+- [ ] Product DAO (Update Product)
+- [ ] complete feature 1- create product
+- [ ] product dao ( Update)
+- [ ] product service ( Update)
+
+#### Validations:  
+
+- [ ] Form Validation 
+
+    * id (less than 0) 
+
+    * name ( null, empty, pattern )  
+
+- [ ] Business Validation  
+
+    * Check whether the id exist
+
+#### Messages:  
+
+* Id cannot be 0 or in negative  
+
+* Name cannot be null or empty
+
+* Name should be match with the given pattern   
+
+* Product id does not exists
+
+
+#### Flow:  
+
+> Invalid When a Product's name is not in use or when the input provided does not meet the criteria, categories arise.
 
 ​
 
-Valid
-Invalid
-Valid
-Invalid
-ProductService - int id, String name
-Form Validation
-Business Validation
-Validation Exception
-Argument Passed to ProductDAO
-Store Value in Database
-Validation Exception
-Feature 5: Delete Product
-User story :
+```mermaid  
+
+graph TD;  
+
+
+A(ProductService - int id, String name) --> B(Form Validation) -- Valid --> C(Business Validation)  
+
+B -- Invalid -->  G(Validation Exception)
+
+C -- Valid --> D(Argument Passed to ProductDAO)  
+
+D --> E(Store Value in Database)  
+
+C -- Invalid --> F(Validation Exception)  
+
+```
+
+### Feature 5: Delete Product
+
+
+### User story :
+
 ​
 Product is deleted successfully.
 
-Pre-requisites:
- Product DAO(delete Product)
- complete feature 1 - create Product
- Product dao ( delete )
- Product service ( delete )
-​
-
-Validations:
- Form Validation
-
-id (less than or equal to 0)
-
-name (null, empty, pattern)
-
- Business Validation
-
-Check whether the id or name exists
-​
-
-Messages:
-Id cannot be 0 or in negative
-
-Name cannot be null or empty
-
-Name should be match with the given pattern
-
-Product id or name does not exists
+### Pre-requisites:
+- [ ] Product DAO(delete Product)  
+- [ ] complete feature 1 - create Product
+- [ ] Product dao ( delete )
+- [ ] Product service ( delete )
 
 ​
 
-Flow:
-Invalid When a Product’s name is not in use or when the input provided does not meet the criteria, categories arise.
+#### Validations:  
+
+
+- [ ] Form Validation 
+
+	* id (less than or equal to 0) 
+
+	* name (null, empty, pattern)
+
+- [ ]  Business Validation  
+
+	* Check whether the id or name exists
 
 ​
 
-Valid
-Invalid
-Valid
-Invalid
-Argument Passed to Product Service - int id
-Form Validation
-Business Validation
-Validation Exception
-Argument Passed to Product DAO
-Set is_active=false in Database
-Validation Exception
+#### Messages:
+
+* Id cannot be 0 or in negative
+
+* Name cannot be null or empty
+
+* Name should be match with the given pattern
+
+* Product id or name does not exists 
+
+​
+
+#### Flow:  
+
+> Invalid When a Product's name is not in use or when the input provided does not meet the criteria, categories arise.
+
+​
+
+```mermaid  
+
+graph TD;  
+
+
+A(Argument Passed to Product Service - int id) --> B(Form Validation) -- Valid --> C(Business Validation) 
+
+B -- Invalid --> G(Validation Exception) 
+
+C -- Valid --> D(Argument Passed to Product DAO)  
+
+D --> E(Set is_active=false in Database)  
+
+C -- Invalid --> F(Validation Exception) 
+
