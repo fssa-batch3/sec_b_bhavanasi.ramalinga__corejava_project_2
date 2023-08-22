@@ -102,7 +102,7 @@ public class CategoryDAO implements CategoryInterface{
 		Set<Category> allcategory = new HashSet<>(); 
 		
 		try {
-			String query = "SELECT * FROM category";
+			String query = "SELECT * FROM category where isActive = 1";
 			conn = ConnectionUtil.getConnection();
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
@@ -135,7 +135,7 @@ public class CategoryDAO implements CategoryInterface{
 		Set<Category> allCategory = new HashSet<>(); 
 		
 		try {
-			String query = "SELECT * FROM category";
+			String query = "SELECT * FROM category where isActive = 1";
 			conn = ConnectionUtil.getConnection();
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();

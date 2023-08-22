@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 
 
 public class TestCreateCategory {
-
 	
     @Test
     public void testCreateCategoryWithValidInput() {
@@ -53,7 +52,8 @@ public class TestCreateCategory {
         });
         String expectedMessage = "Category object can not be null";
         String actualMessage = exception.getMessage();
-        assertTrue(actualMessage.contains(expectedMessage)); // Use contains to handle additional error details if any
+        System.out.println(expectedMessage);
+        assertTrue(actualMessage.contains(expectedMessage)); 
         System.out.println(actualMessage);
     }
     
@@ -76,7 +76,7 @@ public class TestCreateCategory {
 
 			Category updateCategory = new Category();
 			updateCategory.setId(4);
-			updateCategory.setName("LapCharger");
+			updateCategory.setName("PhoneCharger");
 			assertDoesNotThrow(() ->{
 				categoryService.updateCategoryName(updateCategory.getId(),updateCategory.getName());
 			});
@@ -99,6 +99,7 @@ public class TestCreateCategory {
 		});
 		String expectedMessage = "Name cannot be null or empty";
 		String actualMessage = exception.getMessage();
+		System.out.println(actualMessage);
 		assertTrue(expectedMessage.equals(actualMessage));
 	}
 		
