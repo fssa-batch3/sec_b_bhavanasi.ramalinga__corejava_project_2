@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.regex.Pattern;
 
+import in.fssa.productprice.exception.PersistenceException;
 import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.model.Product;
 import in.fssa.productprice.util.ConnectionUtil;
@@ -13,7 +14,8 @@ import in.fssa.productprice.util.StringUtil;
 
 public class ProductValidator {
 	
-private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
+	private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
+
 	/**
 	 * 
 	 * @param product
@@ -22,7 +24,7 @@ private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
 	public void validateProduct(Product product) throws ValidationException{
 		
 		if(product == null) {
-			throw new ValidationException("Invalid Product input");
+			throw new ValidationException("Invalid Product object input");
 		}
 		// business validation
 		Connection con = null;
@@ -30,7 +32,7 @@ private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
 	     ResultSet rs = null;
 	     
 		try {
-			String query = "SELECT * FROM product WHERE name = ?";
+			String query = "SELECT * FROM products WHERE name = ?";
 			con = ConnectionUtil.getConnection();
          ps = con.prepareStatement(query);
          ps.setString(1, product.getName());
@@ -50,7 +52,7 @@ private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
 		validateProductId1(product.getId());
 		validateName(product.getName());
 		
-		validateCategoryId(product.getCategory_id());
+		validateCategoryId(product.getcategoryId());
 		
 	}
 	/**
@@ -68,6 +70,17 @@ private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
         }
     
     }
+	
+public static void validate (Long price) throws ValidationException, PersistenceException {
+		
+		if(price <=0) {
+			
+			throw new ValidationException("Price cannot be null or empty");
+			
+		}
+		
+		
+	}
 	
 	
 	
@@ -90,7 +103,7 @@ private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
 	     ResultSet rs = null;
 	     
 		try {
-			String query = "SELECT * FROM product WHERE id = ?";
+			String query = "SELECT * FROM products WHERE id = ?";
 			con = ConnectionUtil.getConnection();
            ps = con.prepareStatement(query);
            ps.setInt(1, productId);
@@ -126,7 +139,7 @@ private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
 	     ResultSet rs = null;
 	     
 		try {
-			String query = "SELECT * FROM category WHERE id = ?";
+			String query = "SELECT * FROM categories WHERE id = ?";
 			con = ConnectionUtil.getConnection();
            ps = con.prepareStatement(query);
            ps.setInt(1, categoryId);
@@ -151,26 +164,27 @@ private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
 	 * 
 	 * @param id
 	 * @param name
+	 * @param price 
 	 * @throws ValidationException
 	 */
 
-	public void validateProductUpdate(int id, String name) throws ValidationException {
+	public void validateProductUpdate(int id, String name, double price) throws ValidationException {
 	    if (id <= 0) {
-	        throw new ValidationException("Product ID cannot be negative or zero");
+	        throw new ValidationException("Name doesn't match the pattern");
 	    }
 
 	    if (name == null || name.trim().isEmpty()) {
-	        throw new ValidationException("Product name cannot be null or empty");
+	        throw new ValidationException("Product name and price  cannot be null or empty");
 	    }
 	    
-	    // You might add more specific validation rules for 'name' if needed
+	    
 
 	    Connection con = null;
 	    PreparedStatement ps = null;
 	    ResultSet rs = null;
 
 	    try {
-	        String query = "SELECT * FROM product WHERE id = ?";
+	        String query = "SELECT * FROM products WHERE id = ?";
 	        con = ConnectionUtil.getConnection();
 	        ps = con.prepareStatement(query);
 	        ps.setInt(1, id);
@@ -186,6 +200,10 @@ private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
 	    } finally {
 	        ConnectionUtil.close(con, ps);
 	    }
+	}
+	public static void validateId(int productId) {
+		
+		
 	}
 
 

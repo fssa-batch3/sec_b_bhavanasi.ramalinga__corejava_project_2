@@ -2,6 +2,7 @@ package in.fssa.productprice.service;
 
 import java.util.Set;
 
+
 import in.fssa.productprice.dao.CategoryDAO;
 import in.fssa.productprice.dao.ProductDAO;
 import in.fssa.productprice.model.Category;
@@ -58,13 +59,14 @@ public class CategoryService {
 	 * @throws Exception
 	 */
 
-public Set<Category> listAllCategory()throws Exception{
+public static  Set<Category> listAllCategory()throws Exception{
 		
 		CategoryDAO cateogry = new CategoryDAO();
 		Set<Category> allCategory = cateogry.listAllCategory();
 		
 		return allCategory;
 	}
+	
 }
 
 

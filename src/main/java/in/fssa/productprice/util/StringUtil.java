@@ -14,5 +14,38 @@ public class StringUtil {
    		 throw new ValidationException(inputName.concat(" cannot be null or empty"));
    	 }
     }
+	 /**
+		 * 
+		 * @param input
+		 * @return
+		 */
+
+		public static boolean isValidString(String input) {
+
+			if (input == null || "".equals(input.trim())) {
+				return true;
+			} else {
+				return false;
+			}
+
+		}
+		
+		/**
+		 * 
+		 * @param input
+		 * @return
+		 */
+
+		public static boolean isInvalidString(String input) {
+
+			if (input == null || "".equals(input.trim())) {
+				return false;
+			} else {
+				return true;
+
+			}
+
+		}
+
 
 }

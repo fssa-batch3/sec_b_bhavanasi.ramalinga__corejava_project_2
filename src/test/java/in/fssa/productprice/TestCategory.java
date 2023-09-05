@@ -16,14 +16,14 @@ import org.junit.jupiter.api.Test;
 
 
 
-public class TestCreateCategory {
+public class TestCategory {
 	
     @Test
     public void testCreateCategoryWithValidInput() {
         CategoryService categoryService = new CategoryService();
 
         Category newCategory = new Category();
-        newCategory.setName("LaptopCharger");
+        newCategory.setName("PhoneCover");
         assertDoesNotThrow(() -> {
             categoryService.create(newCategory);
         });
@@ -54,7 +54,7 @@ public class TestCreateCategory {
         String actualMessage = exception.getMessage();
         System.out.println(expectedMessage);
         assertTrue(actualMessage.contains(expectedMessage)); 
-        System.out.println(actualMessage);
+        
     }
     
     @Test
@@ -75,8 +75,8 @@ public class TestCreateCategory {
 			CategoryService categoryService = new CategoryService();
 
 			Category updateCategory = new Category();
-			updateCategory.setId(4);
-			updateCategory.setName("PhoneCharger");
+			updateCategory.setId(1);
+			updateCategory.setName("Mobiles");
 			assertDoesNotThrow(() ->{
 				categoryService.updateCategoryName(updateCategory.getId(),updateCategory.getName());
 			});
@@ -130,7 +130,7 @@ public class TestCreateCategory {
 			
 			Category newCategory = new Category();
 			
-			newCategory.setName("Sound123");
+			newCategory.setName("9987@9@@@sj");
 			
 			newCategory.toString();
 				

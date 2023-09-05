@@ -13,6 +13,8 @@ import in.fssa.productprice.interfaces.ProductInterface;
 	
 	public class ProductDAO implements ProductInterface {
 
+	private long price;
+
 	/**
 	 * 
 	 * @param product
@@ -23,12 +25,13 @@ import in.fssa.productprice.interfaces.ProductInterface;
 			PreparedStatement ps = null;
 
 			try {
-				String query = "INSERT INTO product (name,category_id) VALUES (?,?)";
+				String query = "INSERT INTO products (name,categoryId,price,image_url) VALUES (?,?,?,?)";
 				conn = ConnectionUtil.getConnection();
 				ps = conn.prepareStatement(query);
 				ps.setString(1,product.getName());
-				ps.setInt(2, product.getCategory_id());
-				
+				ps.setInt(2, product.getcategoryId());
+				ps.setDouble(3,product.getPrice());
+				ps.setString(4,product.getImage_url());
 				
 				ps.executeUpdate();
 				
@@ -48,19 +51,22 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		 * 
 		 * @param productId
 		 * @param name
+		 * @param image_url 
 		 */
 
-		public void updateProduct(int productId, String name) {
+		public void updateProduct(int productId, String name, double price, String image_url) {
 		    Connection conn = null;
 		    PreparedStatement ps = null;
 		    
 		    try {
-		        String query = "UPDATE product SET name = ? WHERE id = ?";
+		        String query = "UPDATE products SET name = ? , price=? , image_url=? WHERE id = ?";
 		        conn = ConnectionUtil.getConnection();
 		        ps = conn.prepareStatement(query);
 		        ps.setString(1, name);
-		        ps.setInt(2, productId);
-		        
+		        ps.setDouble(2,price);
+		        ps.setString(3,image_url);
+		        ps.setInt(4, productId);
+		      
 		        int rowsAffected = ps.executeUpdate();
 		        
 		        if (rowsAffected > 0) {
@@ -91,7 +97,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 			PreparedStatement ps = null;
 			
 			try {
-				String query = "DELETE FROM product WHERE id = ?";
+				String query = "UPDATE products SET isActive = 0 WHERE id = ?";
 				conn = ConnectionUtil.getConnection();
 				ps = conn.prepareStatement(query);
 				ps.setInt(1, id);
@@ -120,7 +126,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 			Set<Product> allProducts = new HashSet<>(); 
 			
 			try {
-				String query = "SELECT * FROM product WHERE isActive = 1";
+				String query = "SELECT * FROM products WHERE isActive = 1" ;
 				conn = ConnectionUtil.getConnection();
 				ps = conn.prepareStatement(query);
 				rs = ps.executeQuery();
@@ -129,7 +135,9 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					Product product = new Product();
 					product.setId(rs.getInt("id"));
 					product.setName(rs.getString("name"));
-					product.setCategory_id(rs.getInt("category_id"));
+					product.setCategoryId(rs.getInt("categoryId"));
+					product.setPrice(rs.getDouble("price"));
+					product.setImage_url(rs.getNString("image_url"));
 					product.setIsActive(rs.getBoolean("isActive"));
 					
 					
@@ -151,7 +159,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
  * @return
  */
 	
-		public Set<Product> listallProductsByCategoryId(int category_id) {
+		public Set<Product> listallProductsByCategoryId(int categoryId) {
 			
 			Connection conn = null;
 			PreparedStatement ps = null;
@@ -160,18 +168,19 @@ import in.fssa.productprice.interfaces.ProductInterface;
 			Set<Product> listOfProductsByCategoryId = new HashSet<>(); 
 			
 			try {
-				String query = "SELECT * FROM product WHERE category_id = ?";
+				String query = "SELECT * FROM products WHERE categoryId = ?";
 				conn = ConnectionUtil.getConnection();
 				ps = conn.prepareStatement(query);
-				ps.setInt(1,category_id);
+				ps.setInt(1,categoryId);
 				rs = ps.executeQuery();
 				
 				while(rs.next()) {
 					Product product = new Product();
 					product.setId(rs.getInt("id"));
 					product.setName(rs.getString("name"));
-					product.setCategory_id(rs.getInt("category_id"));
-					
+					product.setCategoryId(rs.getInt("categoryId"));
+					product.setImage_url(rs.getString("image_url"));
+					product.setPrice(rs.getDouble("price"));
 					
 					listOfProductsByCategoryId.add(product);
 				}
@@ -186,13 +195,32 @@ import in.fssa.productprice.interfaces.ProductInterface;
 			return listOfProductsByCategoryId;
 			
 		}
-
-
-		public Product findProductDetailsByProductId(int product_id) {
-			// TODO Auto-generated method stub
-			return null;
+		@Override
+		public void delete(int id) {
+			
+			
+			Connection conn = null;
+			PreparedStatement ps = null;
+			
+			try {
+				String query = "DELETE FROM products WHERE id = ?";
+				conn = ConnectionUtil.getConnection();
+				ps = conn.prepareStatement(query);
+				ps.setInt(1, id);
+				ps.executeUpdate();
+				
+				System.out.println("Product deleted Successfully");
+				
+			}catch(SQLException e) {
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+				throw new RuntimeException();
+			}
+			finally {
+				ConnectionUtil.close(conn, ps);
+			}
+			
 		}
-
 
 		@Override
 		public Set<Product> listAllProductsByCategoryId(int category_id) {
@@ -201,11 +229,49 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		}
 
 
+		public Product findProductsById(int id) {
+		    Connection conn = null;
+		    PreparedStatement ps = null;
+		    ResultSet rs = null;
+		    Product product = null;
+		    
+		    try {
+		        String query = "SELECT * FROM products WHERE id = ?";
+		        conn = ConnectionUtil.getConnection();
+		        ps = conn.prepareStatement(query);
+		        ps.setInt(1, id);
+		        rs = ps.executeQuery();
+		        
+		        while(rs.next()) {
+					 product = new Product();
+					product.setId(rs.getInt("id"));
+					product.setName(rs.getString("name"));
+					product.setCategoryId(rs.getInt("categoryId"));
+					product.setImage_url(rs.getString("image_url"));
+					product.setPrice(rs.getDouble("price"));
+					
+				}
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		        throw new RuntimeException("Error fetching product by ID", e);
+		    } finally {
+		        ConnectionUtil.close(conn, ps, rs);
+		    }
+		    
+		    return product;
+		}
+
 		@Override
-		public void updateProduct(int productId, String name, int categoryId) {
+		public void updateProduct(int productId, String name, int categoryId, long price) {
 			// TODO Auto-generated method stub
 			
 		}
+
+
+	
+		
+
+	
 
 		
 	}

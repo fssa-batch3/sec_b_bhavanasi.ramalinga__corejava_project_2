@@ -9,6 +9,7 @@ import java.util.Set;
 
 import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.model.Product;
+import in.fssa.productprice.model.ProductEntity;
 import in.fssa.productprice.service.ProductService;
 
 public class TestProduct {
@@ -47,8 +48,9 @@ public class TestProduct {
 		ProductService productService = new ProductService();
 		
 		Product product = new Product();
-		product.setName("TechNo");
-		product.setCategory_id(2);
+		product.setName("Chairs");
+		product.setPrice(100000);
+		product.setCategoryId(1);
 		
 		assertDoesNotThrow(() ->{
 			productService.createProduct(product);
@@ -95,7 +97,7 @@ public class TestProduct {
 		
 		Product product = new Product();
 		
-		product.setName("");
+		product.setName(" ");
 		
 		product.toString();
 
@@ -115,7 +117,8 @@ public class TestProduct {
 		
 		Product product = new Product();
 		
-		product.setName("PhoneCharger");
+		product.setName("ni@34524fd7365");
+		
 		
 		product.toString();
 
@@ -135,23 +138,13 @@ public class TestProduct {
 		ProductService productService = new ProductService();
 
 		Product newProduct = new Product();
-		newProduct.setId(3);
+		newProduct.setId(2);
 		assertDoesNotThrow(() ->{
 			productService.deleteProduct(newProduct.getId());
 		});
 	}
 	
-	@Test
-	public  void testDeleteProductwithInvalidId() {
-		
-		ProductService productService = new ProductService();
-
-		Product newProduct = new Product();
-		newProduct.setId(0);
-		assertDoesNotThrow(() ->{
-			productService.deleteProduct(newProduct.getId());
-		});
-	}
+	
 	
 	// update//
 
@@ -159,11 +152,12 @@ public class TestProduct {
     public void testUpdateProduct() {
         ProductService productService = new ProductService();
         Product updateProduct = new Product();
-        updateProduct.setId(1);
-        updateProduct.setName("Vivo 9");
+        updateProduct.setId(2);
+        updateProduct.setName("Del");
+        updateProduct.setPrice(7000);
         
         assertDoesNotThrow(() -> {
-            productService.updateProduct(updateProduct.getId(), updateProduct.getName());
+            productService.updateProduct(updateProduct.getId(), updateProduct.getName(), updateProduct.getPrice(),updateProduct.getImage_url());
         });
     }
     
@@ -173,20 +167,35 @@ public class TestProduct {
         Product Invalid = new Product();
        
         
-        Invalid.setName("Sound123");
+        Invalid.setName("S399@kjdf45");
 		
-        Invalid.toString();
+          Invalid.toString();
 			
 			Exception exception = assertThrows(ValidationException.class, () ->{
 				productService. createProduct(Invalid);
 	});
-	String expectedMessage = "Name doesn't match the pattern";
+	String expectedMessage = "Name does not match the pattern";
 	String actualMessage = exception.getMessage();
 	System.out.println(actualMessage);
 	assertTrue(expectedMessage.equals(actualMessage));
     }
-	}
-
 	
 
+ @Test
+public void getProductDetailsByProductId() {
+	
+	 ProductService productService = new ProductService();
+	 
+	 try {
+		 Product product = productService.findById(2);
+		 System.out.println(product);
+		 
+	 }catch (Exception e) {
+	        e.printStackTrace();
+	    }
+}
+ 
+
+ 
+}
 

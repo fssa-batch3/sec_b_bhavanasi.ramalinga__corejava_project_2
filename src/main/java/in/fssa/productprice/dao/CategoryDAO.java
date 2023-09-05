@@ -6,18 +6,14 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-
-
+import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.interfaces.CategoryInterface;
 import in.fssa.productprice.util.ConnectionUtil;
 import in.fssa.productprice.model.Category;
-
-
-
-
-
 	
 public class CategoryDAO implements CategoryInterface{
+
+	private String imageURL;
 
 	@Override
 	public void create(Category category) {
@@ -25,10 +21,11 @@ public class CategoryDAO implements CategoryInterface{
 		PreparedStatement ps = null;
 		
 		try {
-			String query = "INSERT INTO category (name) values(?)";
+			String query = "INSERT INTO categories (name,image_url) values(?,?)";
 			conn = ConnectionUtil.getConnection();
 			ps = conn.prepareStatement(query);
 			ps.setString(1, category.getName());
+			ps.setString(2, category.getImageURL());
 			
 			ps.executeUpdate();
 			
@@ -51,11 +48,12 @@ public class CategoryDAO implements CategoryInterface{
 		PreparedStatement ps = null;
 		
 		try {
-			String query = "UPDATE category set name = ? WHERE id = ?";
+			String query = "UPDATE categories set name = ?, image_url=? WHERE id = ?";
 			conn = ConnectionUtil.getConnection();
 			ps = conn.prepareStatement(query);
 			ps.setString(1, categoryName);
-			ps.setInt(2, id);
+			ps.setString(2, imageURL);
+			ps.setInt(3, id);
 			
 			int rowsAffected = ps.executeUpdate();
 			if(rowsAffected > 0) {
@@ -63,6 +61,9 @@ public class CategoryDAO implements CategoryInterface{
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException();	
+		}
+		finally {
+			ConnectionUtil.close(conn, ps);
 		}
 	}
 
@@ -74,7 +75,7 @@ public class CategoryDAO implements CategoryInterface{
 		PreparedStatement ps = null;
 		
 		try {
-			String query = "DELETE FROM category WHERE id = ?";
+			String query = "UPDATE categories SET isActive = 0 WHERE id = ?";
 			conn = ConnectionUtil.getConnection();
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, id);
@@ -102,7 +103,7 @@ public class CategoryDAO implements CategoryInterface{
 		Set<Category> allcategory = new HashSet<>(); 
 		
 		try {
-			String query = "SELECT * FROM category where isActive = 1";
+			String query = "SELECT * FROM categories where isActive = 1";
 			conn = ConnectionUtil.getConnection();
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
@@ -111,6 +112,7 @@ public class CategoryDAO implements CategoryInterface{
 				Category category = new Category();
 				category.setId(rs.getInt("id"));
 				category.setName(rs.getString("name"));
+				category.setImageURL("image_url");
 				
 				
 				
@@ -135,7 +137,7 @@ public class CategoryDAO implements CategoryInterface{
 		Set<Category> allCategory = new HashSet<>(); 
 		
 		try {
-			String query = "SELECT * FROM category where isActive = 1";
+			String query = "SELECT * FROM categories where isActive = 1";
 			conn = ConnectionUtil.getConnection();
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
@@ -144,6 +146,7 @@ public class CategoryDAO implements CategoryInterface{
 				Category category = new Category();
 				category.setId(rs.getInt("id"));
 				category.setName(rs.getString("name"));
+				category.setImageURL(rs.getString("image_url"));
 				category.setActive(rs.getBoolean("isActive"));
 				
 				
@@ -158,6 +161,34 @@ public class CategoryDAO implements CategoryInterface{
 			ConnectionUtil.close(conn, ps);
 		}
 		return allCategory;
+	}
+	
+	public void checkNameAlreadyExist(String name) {
+		
+		Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    
+		try {
+			String query = "SELECT name FROM categories WHERE name = ?";
+			con = ConnectionUtil.getConnection();
+           ps = con.prepareStatement(query);
+           ps.setString(1, name);
+           rs = ps.executeQuery();
+           
+           if(rs.next()) {
+           	throw new RuntimeException("Category name already exist");
+           }
+           
+		} catch (SQLException e) {
+           
+           e.printStackTrace();
+           System.out.println(e.getMessage());
+           throw new RuntimeException(e);
+       
+       } finally {
+           ConnectionUtil.close(con, ps);
+       }
 	}
 
 }

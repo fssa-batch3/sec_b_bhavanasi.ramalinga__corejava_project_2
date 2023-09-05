@@ -1,7 +1,10 @@
 package in.fssa.productprice.service;
+import in.fssa.productprice.validator.CategoryValidator;
 import in.fssa.productprice.validator.ProductValidator;
+import in.fssa.productprice.dao.CategoryDAO;
 import in.fssa.productprice.dao.ProductDAO;
 import in.fssa.productprice.model.Product;
+import in.fssa.productprice.model.ProductEntity;
 
 import java.util.Set;
 public class ProductService {
@@ -58,6 +61,35 @@ public Set<Product> listAllProduct()throws Exception{
 	 * @throws Exception
 	 */
 	
+public void delete(int productId) throws Exception{
+		
+		ProductValidator.validateId(productId);
+		
+		ProductDAO categoryDao = new ProductDAO();
+		
+		categoryDao.delete(productId);
+	}
+/**
+ * 
+ * @param id
+ * @throws Exception
+ */
+
+  public Product findById(int id) throws Exception {
+    ProductValidator validator = new ProductValidator();
+    
+    ProductDAO productDAO = new ProductDAO();
+    Product product = productDAO.findProductsById(id);
+    
+    return product;
+  }
+
+	/**
+	 * 
+	 * @param productId
+	 * @throws Exception
+	 */
+	
 	public void deleteProduct(int productId) throws Exception{
 		
 		ProductValidator validator = new ProductValidator();
@@ -72,17 +104,20 @@ public Set<Product> listAllProduct()throws Exception{
 	 * 
 	 * @param id
 	 * @param name
+	 * @param price 
 	 * @throws Exception
 	 */
 	
 
-	public void updateProduct(int id, String name) throws Exception {
+	public void updateProduct(int id, String name, double price,String image_url) throws Exception {
 	    ProductValidator validator = new ProductValidator();
-	    validator.validateProductUpdate(id, name); // You might need to create this validation method
+	    validator.validateProductUpdate(id, name,price); 
 
 	    ProductDAO productDAO = new ProductDAO();
-	    productDAO.updateProduct(id, name);
+	    productDAO.updateProduct(id, name, price,image_url);
 	}
+	
+	
 
 	
 

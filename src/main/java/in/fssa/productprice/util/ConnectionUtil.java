@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import io.github.cdimascio.dotenv.Dotenv;
+//import io.github.cdimascio.dotenv.Dotenv;
 
 public class ConnectionUtil {
 	/**
@@ -18,28 +18,30 @@ public class ConnectionUtil {
 		String url;
 		String userName;
 		String passWord;
-		Connection connection;
-		if (System.getenv("CI") != null) {
+		
+		// cloud//
             url = System.getenv("DATABASE_HOSTNAME");
             userName = System.getenv("DATABASE_USERNAME");
             passWord = System.getenv("DATABASE_PASSWORD");
-        } else {
-            Dotenv env = Dotenv.load();
-            url = env.get("DATABASE_HOSTNAME");
-            userName = env.get("DATABASE_USERNAME");
-            passWord = env.get("DATABASE_PASSWORD");
-        }
+      
+        	// local//
+//        	url = "jdbc:mysql://164.52.216.41/bhavanasi_ramalinga__corejava_project";
+//             userName ="uCyUroAdHR99";
+//        	passWord	="1b926b10-5b63-4775-a252-561e679f0668";
+
+
+       Connection connection1 = null;
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
-       connection = DriverManager.getConnection(url, userName,passWord);
+       connection1 = DriverManager.getConnection(url, userName,passWord);
 		}
 		catch(Exception e){
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
-		return connection;
+		return connection1;
 	}
 	/**
 	 * 

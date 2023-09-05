@@ -1,9 +1,22 @@
 package in.fssa.productprice.model;
 
+import java.awt.image.BufferedImage;
+
 public class Category {
     private int id;
     private String name;
+    private String imageURL;
     private boolean isActive;
+    
+    public String getImageURL() {
+		return imageURL;
+	}
+
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
+	}
+
+	
 
     public int getId() {
         return id;

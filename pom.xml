@@ -21,7 +21,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.26</version>
-		</dependency>
+		  </dependency>
 
 		<!-- JUnit Jupiter API for writing tests -->
 		<dependency>
@@ -39,11 +39,7 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<dependency>
-			<groupId>io.github.cdimascio</groupId>
-			<artifactId>java-dotenv</artifactId>
-			<version>5.2.2</version>
-		</dependency>
+	
 
 		<dependency>
 			<groupId>com.fssa.corejava</groupId>

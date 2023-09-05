@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import in.fssa.productprice.dao.CategoryDAO;
 import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.model.Category;
 import in.fssa.productprice.model.CategoryEntity;
@@ -23,37 +24,11 @@ public class CategoryValidator {
 	public static void validateCategory(Category category) throws ValidationException{
 		
 		if (category == null) {
-			throw new ValidationException("Invalid category input");
+			throw new ValidationException("Category object can not be null");
 		}
 		if(category.getId() < 0) {
 			throw new ValidationException("Invalid category id");
 		}
-		
-		//Business validation
-		
-		 Connection con = null;
-	     PreparedStatement ps = null;
-	     ResultSet rs = null;
-		try {
-			String query = "SELECT * FROM category WHERE name = ?";
-			con = ConnectionUtil.getConnection();
-            ps = con.prepareStatement(query);
-            ps.setString(1, category.getName());
-            rs = ps.executeQuery();
-            
-            if(rs.next()) {
-            	throw new ValidationException("Category name already exist");
-            }
-            
-		} catch (SQLException e) {
-            
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        
-        } finally {
-            ConnectionUtil.close(con, ps);
-        }
 
 		validateName(category.getName());
 	}
@@ -68,30 +43,9 @@ public class CategoryValidator {
 		if(Categoryname == null || "".equals(Categoryname.trim())) {
 			throw new ValidationException("Name cannot be null or empty");
 		}
-		Connection con = null;
-	    PreparedStatement ps = null;
-	    ResultSet rs = null;
-		try {
-			String query = "SELECT * FROM category WHERE name = ?";
-			con = ConnectionUtil.getConnection();
-           ps = con.prepareStatement(query);
-           ps.setString(1, Categoryname);
-           rs = ps.executeQuery();
-           
-           if(rs.next()) {
-           	throw new ValidationException("Category name already exist");
-           }
-           
-		} catch (SQLException e) {
-           
-           e.printStackTrace();
-           System.out.println(e.getMessage());
-           throw new RuntimeException(e);
-       
-       } finally {
-           ConnectionUtil.close(con, ps);
-       }
 		
+		CategoryDAO categoryDAO = new CategoryDAO();
+		categoryDAO.checkNameAlreadyExist(Categoryname);
 		
 		String regexp = "^[A-Za-z][A-Za-z\\\\\\\\s]*$";
 		Pattern pattern = Pattern.compile(regexp);
@@ -100,6 +54,7 @@ public class CategoryValidator {
 		if(!matcher.matches()) {
 			throw new ValidationException("Name doesn't match the pattern");
 		}
+		
 	}
 	/**
 	 * 
@@ -117,7 +72,7 @@ public class CategoryValidator {
 	    PreparedStatement ps = null;
 	    ResultSet rs = null;
 		try {
-			String query = "SELECT * FROM category WHERE id = ?";
+			String query = "SELECT * FROM categories WHERE id = ?";
 			con = ConnectionUtil.getConnection();
            ps = con.prepareStatement(query);
            ps.setInt(1, categoryId);

@@ -4,10 +4,38 @@ package in.fssa.productprice.model;
 	 
 	 int id;
 	 String name;
-	 int category_id;
-	 boolean isActive;
+	 int categoryId;
+	 
+	 public int getCategoryId() {
+		return categoryId;
+	}
 
-	 public int getId() {
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	boolean isActive;
+	 double price;
+	 
+	 public String getImage_url() {
+		return image_url;
+	}
+
+	public void setImage_url(String image_url) {
+		this.image_url = image_url;
+	}
+
+	String image_url;
+
+	 public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public int getId() {
 		return id;
 	}
 	
@@ -20,11 +48,11 @@ package in.fssa.productprice.model;
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getCategory_id() {
-		return category_id;
+	public int getcategoryId() {
+		return categoryId;
 	}
-	public void setCategory_id(int category_id) {
-		this.category_id = category_id;
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 	public boolean getIsActive() {
 		return isActive;
@@ -35,7 +63,11 @@ package in.fssa.productprice.model;
 	
 	 @Override
 		public String toString() {
-			return "Product id=" + id + ", name=" + name + ", category_id=" + category_id + ", isActive=" + isActive + "";
+			return "ProductId=" + id + ", name=" + name + ", categoryId=" + +categoryId + ",image_url=" + image_url +", Price=" + price + ", isActive=" + isActive + "";
 		}
+
+	
+
+	
 	
 }
