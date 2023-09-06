@@ -48,14 +48,19 @@ public class TestProduct {
 		ProductService productService = new ProductService();
 		
 		Product product = new Product();
-		product.setName("Chairs");
-		product.setPrice(100000);
-		product.setCategoryId(1);
+		product.setName("camera");
+		product.setCategoryId(2);
+		product.setPrice(1000000);
+		product.setImage_url("https://iili.io/J95jyYb.jpg");
+		product.setDetails("4K and vertical movies, streaming, Auto video transcoding, Use as a webcam, Great in low light kladfskdlfjskldfjsallllllasdfskjdFHLSKDJFWSEDJFHSKDJFHKJSDFHKJASDFHKJSDFHKJSADFHJKSDFHJKSDFHJSDFHSJKDFHSJKHSDJFKGJFDHSLJDFKHASDKJFHSDKJFHSKJDFHSKJDF");
 		
 		assertDoesNotThrow(() ->{
 			productService.createProduct(product);
 		});
 	}
+	
+
+
 	
 	@Test    
 	public void testCreateProductWithInvalidInput() {
@@ -153,11 +158,13 @@ public class TestProduct {
         ProductService productService = new ProductService();
         Product updateProduct = new Product();
         updateProduct.setId(2);
-        updateProduct.setName("Del");
-        updateProduct.setPrice(7000);
+        updateProduct.setName("SAM");
+        updateProduct.setPrice(8000);
+        updateProduct.setImage_url("https://iili.io/J9728oG.jpg");
+        updateProduct.setDetails("adukfhwswiaheioqhediwjasdbfjw");
         
         assertDoesNotThrow(() -> {
-            productService.updateProduct(updateProduct.getId(), updateProduct.getName(), updateProduct.getPrice(),updateProduct.getImage_url());
+            productService.updateProduct(updateProduct.getId(), updateProduct.getName(), updateProduct.getPrice(),updateProduct.getImage_url(),updateProduct.getDetails());
         });
     }
     
@@ -185,15 +192,15 @@ public class TestProduct {
 public void getProductDetailsByProductId() {
 	
 	 ProductService productService = new ProductService();
-	 
-	 try {
-		 Product product = productService.findById(2);
-		 System.out.println(product);
-		 
-	 }catch (Exception e) {
+	    Product products;
+	    try {
+	        products = productService.findProductDetailsByProductId(1);
+	        System.out.println(products);
+	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-}
+	}
+
  
 
  

@@ -4,7 +4,17 @@ package in.fssa.productprice.model;
 	 
 	 int id;
 	 String name;
+	 
 	 int categoryId;
+	 public String getDetails() {
+		return Details;
+	}
+
+	public void setDetails(String details) {
+		Details = details;
+	}
+
+	String Details;
 	 
 	 public int getCategoryId() {
 		return categoryId;
@@ -63,7 +73,7 @@ package in.fssa.productprice.model;
 	
 	 @Override
 		public String toString() {
-			return "ProductId=" + id + ", name=" + name + ", categoryId=" + +categoryId + ",image_url=" + image_url +", Price=" + price + ", isActive=" + isActive + "";
+			return "ProductId=" + id + ", name=" + name  +" ,Details" + Details + " , categoryId="  +categoryId + ",image_url=" + image_url +", Price=" + price + ", isActive=" + isActive + "";
 		}
 
 	

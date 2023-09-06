@@ -72,17 +72,31 @@ public void delete(int productId) throws Exception{
 /**
  * 
  * @param id
+ * @return 
  * @throws Exception
  */
 
-  public Product findById(int id) throws Exception {
+  public Product findByIdproductdetails(int id) throws Exception {
     ProductValidator validator = new ProductValidator();
     
     ProductDAO productDAO = new ProductDAO();
     Product product = productDAO.findProductsById(id);
+	return product;
     
-    return product;
-  }
+    
+     }
+  
+  public Product findProductDetailsByProductId(int productId)throws Exception{
+		
+		ProductValidator validator = new ProductValidator();
+		validator.validateProductId(productId);
+		
+		ProductDAO productDAO = new ProductDAO();
+		Product product = productDAO.findProductDetailsByProductId(productId);
+		
+		return product;
+		
+	}
 
 	/**
 	 * 
@@ -109,12 +123,13 @@ public void delete(int productId) throws Exception{
 	 */
 	
 
-	public void updateProduct(int id, String name, double price,String image_url) throws Exception {
+	public void updateProduct(int id, String name, double price,String image_url, String Details) throws Exception {
+		
 	    ProductValidator validator = new ProductValidator();
-	    validator.validateProductUpdate(id, name,price); 
+	    validator.validateProductUpdate(id, name, price, image_url,Details); 
 
 	    ProductDAO productDAO = new ProductDAO();
-	    productDAO.updateProduct(id, name, price,image_url);
+	    productDAO.updateProduct(id, name, price,image_url,Details);
 	}
 	
 	

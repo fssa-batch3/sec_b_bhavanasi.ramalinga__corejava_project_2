@@ -51,7 +51,6 @@ public class ProductValidator {
      }
 		validateProductId1(product.getId());
 		validateName(product.getName());
-		
 		validateCategoryId(product.getcategoryId());
 		
 	}
@@ -168,7 +167,7 @@ public static void validate (Long price) throws ValidationException, Persistence
 	 * @throws ValidationException
 	 */
 
-	public void validateProductUpdate(int id, String name, double price) throws ValidationException {
+	public void validateProductUpdate(int id, String name, double price,String image_url, String Details) throws ValidationException {
 	    if (id <= 0) {
 	        throw new ValidationException("Name doesn't match the pattern");
 	    }

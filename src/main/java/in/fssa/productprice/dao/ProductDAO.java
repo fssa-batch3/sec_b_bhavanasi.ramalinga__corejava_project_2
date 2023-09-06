@@ -25,13 +25,14 @@ import in.fssa.productprice.interfaces.ProductInterface;
 			PreparedStatement ps = null;
 
 			try {
-				String query = "INSERT INTO products (name,categoryId,price,image_url) VALUES (?,?,?,?)";
+				String query = "INSERT INTO products (name,categoryId,price,image_url,Details) VALUES (?,?,?,?,?)";
 				conn = ConnectionUtil.getConnection();
 				ps = conn.prepareStatement(query);
 				ps.setString(1,product.getName());
 				ps.setInt(2, product.getcategoryId());
 				ps.setDouble(3,product.getPrice());
 				ps.setString(4,product.getImage_url());
+				ps.setString(5, product.getDetails());
 				
 				ps.executeUpdate();
 				
@@ -40,7 +41,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 			}catch(SQLException e) {
 				e.printStackTrace();
 				System.out.println(e.getMessage());
-				throw new RuntimeException("Product is created");
+				throw new RuntimeException("Product is not created");
 			}
 			finally {
 				ConnectionUtil.close(conn, ps);
@@ -54,18 +55,20 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		 * @param image_url 
 		 */
 
-		public void updateProduct(int productId, String name, double price, String image_url) {
+		public void updateProduct( int productId, String name, double price, String image_url, String Details) {
 		    Connection conn = null;
 		    PreparedStatement ps = null;
 		    
 		    try {
-		        String query = "UPDATE products SET name = ? , price=? , image_url=? WHERE id = ?";
+		        String query = "UPDATE products SET name = ? , price=? , image_url=?, Details=? WHERE id = ?";
 		        conn = ConnectionUtil.getConnection();
 		        ps = conn.prepareStatement(query);
 		        ps.setString(1, name);
 		        ps.setDouble(2,price);
 		        ps.setString(3,image_url);
-		        ps.setInt(4, productId);
+		        ps.setString(4, Details);
+		        ps.setInt(5, productId);
+		       
 		      
 		        int rowsAffected = ps.executeUpdate();
 		        
@@ -138,6 +141,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					product.setCategoryId(rs.getInt("categoryId"));
 					product.setPrice(rs.getDouble("price"));
 					product.setImage_url(rs.getNString("image_url"));
+					product.setDetails(rs.getString("Details"));
 					product.setIsActive(rs.getBoolean("isActive"));
 					
 					
@@ -168,7 +172,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 			Set<Product> listOfProductsByCategoryId = new HashSet<>(); 
 			
 			try {
-				String query = "SELECT * FROM products WHERE categoryId = ?";
+				String query = "SELECT * FROM products WHERE isActive=1 and categoryId = ?";
 				conn = ConnectionUtil.getConnection();
 				ps = conn.prepareStatement(query);
 				ps.setInt(1,categoryId);
@@ -181,6 +185,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					product.setCategoryId(rs.getInt("categoryId"));
 					product.setImage_url(rs.getString("image_url"));
 					product.setPrice(rs.getDouble("price"));
+					product.setDetails(rs.getString("Details"));
 					
 					listOfProductsByCategoryId.add(product);
 				}
@@ -203,7 +208,8 @@ import in.fssa.productprice.interfaces.ProductInterface;
 			PreparedStatement ps = null;
 			
 			try {
-				String query = "DELETE FROM products WHERE id = ?";
+				String query = "UPDATE products SET isActive=0 WHERE isActive=1 AND id=?";
+				
 				conn = ConnectionUtil.getConnection();
 				ps = conn.prepareStatement(query);
 				ps.setInt(1, id);
@@ -236,7 +242,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		    Product product = null;
 		    
 		    try {
-		        String query = "SELECT * FROM products WHERE id = ?";
+		        String query = "SELECT * FROM products WHERE isActive = 1 AND id = ?";
 		        conn = ConnectionUtil.getConnection();
 		        ps = conn.prepareStatement(query);
 		        ps.setInt(1, id);
@@ -249,6 +255,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					product.setCategoryId(rs.getInt("categoryId"));
 					product.setImage_url(rs.getString("image_url"));
 					product.setPrice(rs.getDouble("price"));
+					product.setDetails(rs.getString("Details"));
 					
 				}
 		    } catch (SQLException e) {
@@ -260,9 +267,44 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		    
 		    return product;
 		}
+		
+		
+		
+		@Override
+		public Product findProductDetailsByProductId(int id){
+			
+			Connection conn = null;
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			Product product = null;
+			
+			try {
+				String query = "SELECT * FROM products WHERE isActive = 1 AND id = ?";
+		        conn = ConnectionUtil.getConnection();
+		        ps = conn.prepareStatement(query);
+		        ps.setInt(1, id);
+		        rs = ps.executeQuery();
+				
+			} catch(SQLException e) {
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+				throw new RuntimeException(e.getMessage());
+			}
+			finally {
+				ConnectionUtil.close(conn, ps, rs);
+			}
+			return product;
+			}
+		
 
 		@Override
 		public void updateProduct(int productId, String name, int categoryId, long price) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void ProductfindProductDetailsByProductId(int id) {
 			// TODO Auto-generated method stub
 			
 		}
