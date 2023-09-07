@@ -30,11 +30,11 @@ public class UserValidator {
 			validatePhoneNumber(user.getPhoneNumber());
 			validatePassword(user.getPassword()); 
 			
-			
+			  
 			
 		} 
 		
-	/**
+	/**  
 	 * 
 	 * @param phoneNumber
 	 * @throws ValidationException
@@ -106,7 +106,7 @@ public static void CheckUserExists(String email) throws ValidationException, Per
 			}
 			
 			UserDAO userdao = new UserDAO();
-			userdao.checkUserExistsWithId(id);
+			userdao.checkUserExistsWithId(id); 
 			
 		}
 		

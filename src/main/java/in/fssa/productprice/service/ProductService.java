@@ -43,14 +43,13 @@ public Set<Product> listAllProduct()throws Exception{
 	 * @param product
 	 * @throws Exception
 	 */
-	
+	 
 	
 	
 	public void createProduct(Product product)throws Exception{
 		
 		ProductValidator validator = new ProductValidator();
 		validator.validateProduct(product);
-		
 		ProductDAO productDAO = new ProductDAO();
 		productDAO.create(product);
 		
@@ -62,8 +61,10 @@ public Set<Product> listAllProduct()throws Exception{
 	 */
 	
 public void delete(int productId) throws Exception{
+	
+	ProductValidator productvalidate = new ProductValidator();
 		
-		ProductValidator.validateId(productId);
+	 productvalidate.validateProductId(productId);
 		
 		ProductDAO categoryDao = new ProductDAO();
 		
@@ -78,10 +79,11 @@ public void delete(int productId) throws Exception{
 
   public Product findByIdproductdetails(int id) throws Exception {
     ProductValidator validator = new ProductValidator();
-    
+    validator.validateProductId(id);
+    validator.validatingproductidAlreadyExist(id);
     ProductDAO productDAO = new ProductDAO();
     Product product = productDAO.findProductsById(id);
-	return product;
+	return product; 
     
     
      }

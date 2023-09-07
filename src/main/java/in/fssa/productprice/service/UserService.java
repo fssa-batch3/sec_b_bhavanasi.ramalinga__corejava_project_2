@@ -26,7 +26,7 @@ public class UserService {
 			}
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException("data is not available");
 		}
 				 
 		return userList; 

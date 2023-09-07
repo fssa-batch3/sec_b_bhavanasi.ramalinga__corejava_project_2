@@ -72,14 +72,14 @@ public class UserDAO implements UserInterface<UserEntity> {
 		PreparedStatement ps = null;
 		
 		try {
-			String query = "INSERT INTO users (name, email,  phoneNumber, password) VALUES (?, ?, ?, ?)";
+			String query = "INSERT INTO users (id,name, email,  phoneNumber, password) VALUES (?, ?, ?, ?,?)";
 			connection = ConnectionUtil.getConnection();
 			ps = connection.prepareStatement(query);
-			
-			ps.setString(1,  newuser.getName());
-			ps.setString(2,  newuser.getEmail());
-			ps.setLong(3, newuser.getPhoneNumber());
-			ps.setString(4, newuser.getPassword());
+			 ps.setInt(1, newuser.getId());
+			ps.setString(2,  newuser.getName());
+			ps.setString(3,  newuser.getEmail());
+			ps.setLong(4, newuser.getPhoneNumber());
+			ps.setString(5, newuser.getPassword());
 			
 			
 			ps.executeUpdate();

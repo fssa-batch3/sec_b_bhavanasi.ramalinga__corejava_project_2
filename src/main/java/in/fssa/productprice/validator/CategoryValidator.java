@@ -83,7 +83,7 @@ public class CategoryValidator {
            }
            
 		} catch (SQLException e) {
-           
+            
            e.printStackTrace();
            System.out.println(e.getMessage());
            throw new RuntimeException(e);

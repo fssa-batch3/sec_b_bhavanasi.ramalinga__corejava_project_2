@@ -9,12 +9,13 @@ import java.util.HashSet;
 import in.fssa.productprice.model.Category;
 import in.fssa.productprice.model.Product;
 import in.fssa.productprice.util.ConnectionUtil;
+import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.interfaces.ProductInterface;
 	
 	public class ProductDAO implements ProductInterface {
 
 	private long price;
-
+ 
 	/**
 	 * 
 	 * @param product
@@ -286,7 +287,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		        rs = ps.executeQuery();
 				
 			} catch(SQLException e) {
-				e.printStackTrace();
+//				e.printStackTrace();
 				System.out.println(e.getMessage());
 				throw new RuntimeException(e.getMessage());
 			}
@@ -310,10 +311,88 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		}
 
 
+	public void checkProductAlreadyExist(String name) {
+		
+		Connection con = null;
+	     PreparedStatement ps = null;
+	     ResultSet rs = null;
+	     
+		try {
+			String query = "SELECT * FROM products WHERE name = ?";
+			con = ConnectionUtil.getConnection();
+        ps = con.prepareStatement(query);
+        ps.setString(1, name);
+        rs = ps.executeQuery();
+        
+        if(rs.next()) {
+      	  throw new RuntimeException("product already exists");		
+        }
+		}catch (SQLException e) {
+        e.printStackTrace();
+        System.out.println(e.getMessage());
+        throw new RuntimeException(e);
+    
+    } finally {
+        ConnectionUtil.close(con, ps);
+    }
+	}
 	
 		
-
-	
+public void validateproductid(int id) {
+	 Connection con = null;
+     PreparedStatement ps = null;
+     ResultSet rs = null;
+     
+	try {
+		String query = "SELECT * FROM products WHERE id = ?";
+		con = ConnectionUtil.getConnection();
+       ps = con.prepareStatement(query);
+       ps.setInt(1, id);
+       rs = ps.executeQuery();
+       
+       if(rs.next()) {
+       	System.out.println("product exists");
+       }else {
+       	throw new RuntimeException("product doesn't exist");
+       }		
+	} catch (SQLException e) {
+		
+       e.printStackTrace();
+       System.out.println(e.getMessage());
+       throw new RuntimeException(e);
+   
+   } finally {
+       ConnectionUtil.close(con, ps);
+   }
+}
+	public void validateCategoryId(int categoryId) {
+		
+		 Connection con = null;
+	     PreparedStatement ps = null;
+	     ResultSet rs = null;
+	     
+		try {
+			String query = "SELECT * FROM categories WHERE id = ?";
+			con = ConnectionUtil.getConnection();
+           ps = con.prepareStatement(query);
+           ps.setInt(1, categoryId);
+           rs = ps.executeQuery(); 
+           
+           if(rs.next()) {
+           	System.out.println("category exists");
+           }else {
+           	throw new RuntimeException("category doesn't exist");
+           }		
+		} catch (SQLException e) {
+			
+           e.printStackTrace();
+           System.out.println(e.getMessage());
+           throw new RuntimeException(e);
+         
+       } finally {
+           ConnectionUtil.close(con, ps);
+       }
+	}
 
 		
 	}

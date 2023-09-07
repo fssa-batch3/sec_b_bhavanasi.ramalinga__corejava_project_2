@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.regex.Pattern;
 
+import in.fssa.productprice.dao.ProductDAO;
 import in.fssa.productprice.exception.PersistenceException;
 import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.model.Product;
@@ -20,43 +21,22 @@ public class ProductValidator {
 	 * 
 	 * @param product
 	 * @throws ValidationException
+	 * @throws PersistenceException 
 	 */
-	public void validateProduct(Product product) throws ValidationException{
+	public void validateProduct(Product product) throws ValidationException, PersistenceException{
 		
 		if(product == null) {
 			throw new ValidationException("Invalid Product object input");
 		}
-		// business validation
-		Connection con = null;
-	     PreparedStatement ps = null;
-	     ResultSet rs = null;
-	     
-		try {
-			String query = "SELECT * FROM products WHERE name = ?";
-			con = ConnectionUtil.getConnection();
-         ps = con.prepareStatement(query);
-         ps.setString(1, product.getName());
-         rs = ps.executeQuery();
-         
-         if(rs.next()) {
-       	  throw new ValidationException("product already exists");		
-         }
-		}catch (SQLException e) {
-         e.printStackTrace();
-         System.out.println(e.getMessage());
-         throw new RuntimeException(e);
-     
-     } finally {
-         ConnectionUtil.close(con, ps);
-     }
-		validateProductId1(product.getId());
 		validateName(product.getName());
+		validateNameExist(product.getName());
 		validateCategoryId(product.getcategoryId());
+		validateprice(product.getPrice());
 		
 	}
 	/**
 	 * 
-	 * @param name
+	 * @param name 
 	 * @throws ValidationException
 	 */
 	
@@ -70,11 +50,18 @@ public class ProductValidator {
     
     }
 	
-public static void validate (Long price) throws ValidationException, PersistenceException {
+	public void validateNameExist(String name) throws ValidationException{
+		
+		ProductDAO productDAO = new ProductDAO();
+		productDAO.checkProductAlreadyExist(name);
+		
+	}
+	
+public  void validateprice (double price) throws ValidationException, PersistenceException {
 		
 		if(price <=0) {
 			
-			throw new ValidationException("Price cannot be null or empty");
+			throw new ValidationException("Price cannot be Zero or empty");
 			
 		}
 		
@@ -84,44 +71,18 @@ public static void validate (Long price) throws ValidationException, Persistence
 	
 	
 	
-	public void validateProductId1(int productId)throws ValidationException{
-		if(productId < 0) {
-			throw new ValidationException("Id cannot be negative or zero");
-		}
-	}
-	
+
 	public void validateProductId(int productId)throws ValidationException{
 		
-		if(productId <= 0) {
-			
+		if(productId < 1) {
 			throw new ValidationException("Id cannot be negative or zero");
 		}
+	}
+	 
+	public void validatingproductidAlreadyExist(int id)throws ValidationException {
+	ProductDAO pr = new ProductDAO();
+	pr.validateproductid(id);
 		
-		 Connection con = null;
-	     PreparedStatement ps = null;
-	     ResultSet rs = null;
-	     
-		try {
-			String query = "SELECT * FROM products WHERE id = ?";
-			con = ConnectionUtil.getConnection();
-           ps = con.prepareStatement(query);
-           ps.setInt(1, productId);
-           rs = ps.executeQuery();
-           
-           if(rs.next()) {
-           	System.out.println("product exists");
-           }else {
-           	throw new ValidationException("product doesn't exist");
-           }		
-		} catch (SQLException e) {
-			
-           e.printStackTrace();
-           System.out.println(e.getMessage());
-           throw new RuntimeException(e);
-       
-       } finally {
-           ConnectionUtil.close(con, ps);
-       }
 	}
 	/**
 	 * 
@@ -133,31 +94,8 @@ public static void validate (Long price) throws ValidationException, Persistence
 		 if (categoryId <= 0) {
 		        throw new ValidationException("Category ID cannot be negative or zero");
 		    }
-		 Connection con = null;
-	     PreparedStatement ps = null;
-	     ResultSet rs = null;
-	     
-		try {
-			String query = "SELECT * FROM categories WHERE id = ?";
-			con = ConnectionUtil.getConnection();
-           ps = con.prepareStatement(query);
-           ps.setInt(1, categoryId);
-           rs = ps.executeQuery();
-           
-           if(rs.next()) {
-           	System.out.println("category exists");
-           }else {
-           	throw new ValidationException("category doesn't exist");
-           }		
-		} catch (SQLException e) {
-			
-           e.printStackTrace();
-           System.out.println(e.getMessage());
-           throw new RuntimeException(e);
-       
-       } finally {
-           ConnectionUtil.close(con, ps);
-       }
+		 ProductDAO valide = new ProductDAO();
+		 valide.validateCategoryId(categoryId);
 	}
 	/**
 	 * 
@@ -169,7 +107,7 @@ public static void validate (Long price) throws ValidationException, Persistence
 
 	public void validateProductUpdate(int id, String name, double price,String image_url, String Details) throws ValidationException {
 	    if (id <= 0) {
-	        throw new ValidationException("Name doesn't match the pattern");
+	        throw new ValidationException(" id not be zero");
 	    }
 
 	    if (name == null || name.trim().isEmpty()) {
@@ -200,10 +138,8 @@ public static void validate (Long price) throws ValidationException, Persistence
 	        ConnectionUtil.close(con, ps);
 	    }
 	}
-	public static void validateId(int productId) {
-		
-		
-	}
+	
+	
 
 
 }

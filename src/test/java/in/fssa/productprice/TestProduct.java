@@ -20,14 +20,14 @@ public class TestProduct {
 	    ProductService productService = new ProductService();
 	    Set<Product> products;
 	    try {
-	        products = productService.findProductDetailByCategoryId(1);
+	        products = productService.findProductDetailByCategoryId(34);
 	        System.out.println(products);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
 	}
 
-	
+	 
 	
 	@Test
 	public void getAll() {
@@ -48,11 +48,11 @@ public class TestProduct {
 		ProductService productService = new ProductService();
 		
 		Product product = new Product();
-		product.setName("camera");
-		product.setCategoryId(2);
-		product.setPrice(1000000);
-		product.setImage_url("https://iili.io/J95jyYb.jpg");
-		product.setDetails("4K and vertical movies, streaming, Auto video transcoding, Use as a webcam, Great in low light kladfskdlfjskldfjsallllllasdfskjdFHLSKDJFWSEDJFHSKDJFHKJSDFHKJASDFHKJSDFHKJSADFHJKSDFHJKSDFHJSDFHSJKDFHSJKHSDJFKGJFDHSLJDFKHASDKJFHSDKJFHSKJDFHSKJDF");
+		product.setName("Compact cameras");
+		product.setCategoryId(2); 
+		product.setPrice(4000000);
+		product.setImage_url("https://iili.io/J9Yhl0F.md.webp");
+		product.setDetails("Designed For: Medium Format Camera, DSLR/SLR Camera, Video Camera, Spotting Scope, Telescope, Mobile, Point & Shoot Camera, Advanced Point & Shoot Camera");
 		
 		assertDoesNotThrow(() ->{
 			productService.createProduct(product);

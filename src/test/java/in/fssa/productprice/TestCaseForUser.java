@@ -16,7 +16,7 @@ import in.fssa.productprice.service.UserService;
 public class TestCaseForUser {
 
 		
-		
+		  
 		////  GENERATE AUTOMATIC STRING FOR EMAIL
 		
 		 private String generateRandomString(int length) {
@@ -161,7 +161,7 @@ public class TestCaseForUser {
 				
 			UserEntity newUser = new UserEntity();
 			newUser.setName("SoundaryaReddy");
-			newUser.setEmail("u12@gmail.com");
+			newUser.setEmail("u1223@gmail.com");
 			newUser.setPhoneNumber(7908946112l);
 			newUser.setPassword("Ut@12");
 			
