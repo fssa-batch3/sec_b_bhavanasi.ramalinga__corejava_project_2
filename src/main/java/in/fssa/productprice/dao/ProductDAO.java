@@ -328,7 +328,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
       	  throw new RuntimeException("product already exists");		
         }
 		}catch (SQLException e) {
-        e.printStackTrace();
+//        e.printStackTrace();
         System.out.println(e.getMessage());
         throw new RuntimeException(e);
     
