@@ -357,7 +357,7 @@ public void validateproductid(int id) {
        }		
 	} catch (SQLException e) {
 		
-       e.printStackTrace();
+//       e.printStackTrace();
        System.out.println(e.getMessage());
        throw new RuntimeException(e);
    
@@ -385,7 +385,7 @@ public void validateproductid(int id) {
            }		
 		} catch (SQLException e) {
 			
-           e.printStackTrace();
+//           e.printStackTrace();
            System.out.println(e.getMessage());
            throw new RuntimeException(e);
          
