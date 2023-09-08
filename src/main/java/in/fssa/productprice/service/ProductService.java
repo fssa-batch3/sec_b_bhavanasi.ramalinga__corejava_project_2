@@ -13,9 +13,10 @@ public class ProductService {
 	/**
 	 * 
 	 * @return
+	 * @throws PersistenceException 
 	 * @throws Exception
 	 */
-public Set<Product> listAllProduct(){
+public Set<Product> listAllProduct() throws PersistenceException{
 		
 		ProductDAO product = new ProductDAO();
 		Set<Product> allProducts = product.listAllProducts();
@@ -27,10 +28,11 @@ public Set<Product> listAllProduct(){
  * @param category_id
  * @return
  * @throws ValidationException 
+ * @throws PersistenceException 
  * @throws Exception
  */
 	
-	public Set<Product> findProductDetailByCategoryId(int category_id) throws ValidationException {
+	public Set<Product> findProductDetailByCategoryId(int category_id) throws ValidationException, PersistenceException {
 	    ProductValidator validator = new ProductValidator();
 	    validator.validateCategoryId(category_id);
 
@@ -86,13 +88,12 @@ public void delete(int productId) throws PersistenceException, ValidationExcepti
     validator.validateProductId(id);
     validator.validatingproductidAlreadyExist(id);
     ProductDAO productDAO = new ProductDAO();
-    Product product = productDAO.findProductsById(id);
-	return product; 
+    return productDAO.findProductsById(id); 
     
     
      }
   
-  public Product findProductDetailsByProductId(int productId)throws  ValidationException{
+  public Product findProductDetailsByProductId(int productId)throws  ValidationException, PersistenceException{
 		
 		ProductValidator validator = new ProductValidator();
 		validator.validateProductId(productId);
@@ -107,10 +108,11 @@ public void delete(int productId) throws PersistenceException, ValidationExcepti
 	/**
 	 * 
 	 * @param productId
+	 * @throws PersistenceException 
 	 * @throws Exception
 	 */
 	
-	public void deleteProduct(int productId) throws ValidationException{
+	public void deleteProduct(int productId) throws ValidationException, PersistenceException{
 		
 		ProductValidator validator = new ProductValidator();
 		validator.validateProductId(productId);
@@ -125,11 +127,12 @@ public void delete(int productId) throws PersistenceException, ValidationExcepti
 	 * @param id
 	 * @param name
 	 * @param price 
+	 * @throws PersistenceException 
 	 * @throws Exception
 	 */
 	
 
-	public void updateProduct(int id, String name, double price,String image_url, String Details) throws  ValidationException {
+	public void updateProduct(int id, String name, double price,String image_url, String Details) throws  ValidationException, PersistenceException {
 		
 	    ProductValidator validator = new ProductValidator();
 	    validator.validateProductUpdate(id, name, price, image_url,Details); 

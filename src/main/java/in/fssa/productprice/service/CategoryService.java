@@ -4,6 +4,7 @@ import java.util.Set;
 
 
 import in.fssa.productprice.dao.CategoryDAO;
+import in.fssa.productprice.exception.PersistenceException;
 import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.model.Category;
 import in.fssa.productprice.validator.CategoryValidator;
@@ -14,9 +15,10 @@ public class CategoryService {
 /**
  * 
  * @param newcategory
+ * @throws PersistenceException 
  * @throws Exception
  */
-	public void create (Category newcategory) throws ValidationException{
+	public void create (Category newcategory) throws ValidationException, PersistenceException{
 		
 		CategoryValidator.validateCategory(newcategory);
 		
@@ -27,9 +29,10 @@ public class CategoryService {
 	/**
 	 * 
 	 * @param categoryId
+	 * @throws PersistenceException 
 	 * @throws Exception
 	 */
-	public void delete(int categoryId) throws ValidationException{
+	public void delete(int categoryId) throws ValidationException, PersistenceException{
 		
 		CategoryValidator.validateId(categoryId);
 		
@@ -41,10 +44,11 @@ public class CategoryService {
 	 * 
 	 * @param id
 	 * @param newCategoryName
+	 * @throws PersistenceException 
 	 * @throws Exception
 	 */
 	
-	public void updateCategoryName(int id, String newCategoryName)throws ValidationException{
+	public void updateCategoryName(int id, String newCategoryName)throws ValidationException, PersistenceException{
 		
 		CategoryValidator.validateId(id);
 		CategoryValidator.validateName(newCategoryName);
@@ -55,11 +59,12 @@ public class CategoryService {
 	/**
 	 * 
 	 * @return
+	 * @throws PersistenceException 
 	 * @throws ValidationException
 	 */
 	
 
-public static  Set<Category> listAllCategory(){
+public static  Set<Category> listAllCategory() throws PersistenceException{
 		
 		CategoryDAO cateogry = new CategoryDAO();
 		return cateogry.listAllCategory();

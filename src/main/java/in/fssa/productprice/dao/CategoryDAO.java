@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
+import in.fssa.productprice.util.Logger;
+import in.fssa.productprice.exception.PersistenceException;
 import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.interfaces.CategoryInterface;
 import in.fssa.productprice.util.ConnectionUtil;
@@ -16,7 +18,7 @@ public class CategoryDAO implements CategoryInterface{
 	private String imageURL;
 
 	@Override
-	public void create(Category category) {
+	public void create(Category category) throws PersistenceException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
@@ -29,12 +31,12 @@ public class CategoryDAO implements CategoryInterface{
 			
 			ps.executeUpdate();
 			
-			System.out.println("Category created Successfully");
+			Logger.info("Category created Successfully");
 			
 		}catch(SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			throw new RuntimeException();
+			Logger.error(e);
+			
+			throw new PersistenceException(e);
 		}
 		finally {
 			ConnectionUtil.close(conn, ps);
@@ -42,7 +44,7 @@ public class CategoryDAO implements CategoryInterface{
 	}
 	
 	@Override
-	public void updateName(int id, String categoryName) {
+	public void updateName(int id, String categoryName) throws PersistenceException {
 		
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -57,10 +59,11 @@ public class CategoryDAO implements CategoryInterface{
 			
 			int rowsAffected = ps.executeUpdate();
 			if(rowsAffected > 0) {
-				System.out.println("category name updated successfully");
+				Logger.info("category name updated successfully");
 			}
 		} catch (SQLException e) {
-			throw new RuntimeException();	
+			Logger.error(e);
+			throw new PersistenceException(e);	
 		}
 		finally {
 			ConnectionUtil.close(conn, ps);
@@ -68,7 +71,7 @@ public class CategoryDAO implements CategoryInterface{
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(int id) throws PersistenceException {
 		
 		
 		Connection conn = null;
@@ -81,12 +84,12 @@ public class CategoryDAO implements CategoryInterface{
 			ps.setInt(1, id);
 			ps.executeUpdate();
 			
-			System.out.println("Category deleted Successfully");
+          Logger.info("Category deleted Successfully");
 			
 		}catch(SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			throw new RuntimeException();
+			Logger.error(e);
+			
+			throw new PersistenceException(e);
 		}
 		finally {
 			ConnectionUtil.close(conn, ps);
@@ -95,7 +98,7 @@ public class CategoryDAO implements CategoryInterface{
 	}
 
 	@Override
-	public Set<Category> listAllCategroyByCategoryId(int categoryId) {
+	public Set<Category> listAllCategroyByCategoryId(int categoryId) throws PersistenceException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -119,9 +122,8 @@ public class CategoryDAO implements CategoryInterface{
 				allcategory.add(category);
 			}
 		}catch(SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
+			Logger.error(e);
+			throw new PersistenceException(e);
 		}
 		finally {
 			ConnectionUtil.close(conn, ps);
@@ -129,7 +131,7 @@ public class CategoryDAO implements CategoryInterface{
 		return allcategory ;
 	}
 
-	public Set<Category> listAllCategory() {
+	public Set<Category> listAllCategory() throws PersistenceException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -153,9 +155,8 @@ public class CategoryDAO implements CategoryInterface{
 				allCategory.add(category);
 			}
 		}catch(SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			throw new RuntimeException(e);
+			Logger.error(e);
+			throw new PersistenceException(e);
 		}
 		finally {
 			ConnectionUtil.close(conn, ps);
@@ -163,7 +164,7 @@ public class CategoryDAO implements CategoryInterface{
 		return allCategory;
 	}
 	
-	public void checkNameAlreadyExist(String name) {
+	public void checkNameAlreadyExist(String name) throws PersistenceException, ValidationException {
 		
 		Connection con = null;
 	    PreparedStatement ps = null;
@@ -177,14 +178,13 @@ public class CategoryDAO implements CategoryInterface{
            rs = ps.executeQuery();
            
            if(rs.next()) {
-           	throw new RuntimeException("Category name already exist");
+        	   throw new ValidationException("Asset Id doesn't exist");
            }
            
 		} catch (SQLException e) {
            
-           e.printStackTrace();
-           System.out.println(e.getMessage());
-           throw new RuntimeException(e);
+			Logger.error(e);
+			throw new PersistenceException(e);
        
        } finally {
            ConnectionUtil.close(con, ps);

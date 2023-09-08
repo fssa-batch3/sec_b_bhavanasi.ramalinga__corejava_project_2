@@ -2,18 +2,19 @@ package in.fssa.productprice.interfaces;
 
 import java.util.Set;
 
+import in.fssa.productprice.exception.PersistenceException;
 import in.fssa.productprice.model.Category;
 
 
 public interface CategoryInterface {
 
-	void create(Category category);
+	public abstract void create(Category category) throws PersistenceException;
 
-	void updateName(int id, String categoryName);
+	public abstract void updateName(int id, String categoryName) throws PersistenceException;
 
-	void delete(int id);
+	public abstract void delete(int id) throws PersistenceException;
 
-	Set<Category> listAllCategroyByCategoryId(int categoryId);
+	public abstract Set<Category> listAllCategroyByCategoryId(int categoryId) throws PersistenceException;
 	
 	
 }

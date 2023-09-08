@@ -4,17 +4,22 @@ package in.fssa.productprice.model;
 	 
 	 int id;
 	 String name;
-	 
 	 int categoryId;
+	 boolean isActive;
+	 double price;
+	 String imageurl;
 	 public String getDetails() {
-		return detail;
+		return details;
 	}
 
 	public void setDetails(String details) {
-		detail = details;
+		this.details = details;
 	}
 
-	String detail;
+	
+	 
+
+	String details;
 	 
 	 public int getCategoryId() {
 		return categoryId;
@@ -24,8 +29,7 @@ package in.fssa.productprice.model;
 		this.isActive = isActive;
 	}
 
-	boolean isActive;
-	 double price;
+	
 	 
 	 public String getImageurl() {
 		return imageurl;
@@ -35,8 +39,7 @@ package in.fssa.productprice.model;
 		this.imageurl = imageurl;
 	}
 
-	String imageurl;
-	private String details;
+	
 
 	 public double getPrice() {
 		return price;

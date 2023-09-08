@@ -18,19 +18,12 @@ public class ConnectionUtil {
 		String url;
 		String userName;
 		String passWord;
-		
-		// cloud//
-            url = System.getenv("DATABASE_HOSTNAME");
-            userName = System.getenv("DATABASE_USERNAME");
-            passWord = System.getenv("DATABASE_PASSWORD");
-      
-        	// local//
-//        	url = "jdbc:mysql://164.52.216.41/bhavanasi_ramalinga__corejava_project";
-//             userName ="uCyUroAdHR99";
-//        	passWord	="1b926b10-5b63-4775-a252-561e679f0668";
+	
+		url = "jdbc:mysql://localhost:3306/productprice";
+		userName = "root";
+		passWord ="123456";
 
-
-       Connection connection1 = null;
+      Connection connection1 = null;
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.regex.Pattern;
 
+import day02.practice.Logger;
 import in.fssa.productprice.dao.ProductDAO;
 import in.fssa.productprice.exception.PersistenceException;
 import in.fssa.productprice.exception.ValidationException;
@@ -50,7 +51,7 @@ public class ProductValidator {
     
     }
 	
-	public void validateNameExist(String name) throws ValidationException{
+	public void validateNameExist(String name) throws ValidationException, PersistenceException{
 		
 		ProductDAO productDAO = new ProductDAO();
 		productDAO.checkProductAlreadyExist(name);
@@ -79,7 +80,7 @@ public  void validateprice (double price) throws ValidationException, Persistenc
 		}
 	}
 	 
-	public void validatingproductidAlreadyExist(int id)throws ValidationException {
+	public void validatingproductidAlreadyExist(int id)throws ValidationException, PersistenceException {
 	ProductDAO pr = new ProductDAO();
 	pr.validateproductid(id);
 		
@@ -88,8 +89,9 @@ public  void validateprice (double price) throws ValidationException, Persistenc
 	 * 
 	 * @param categoryId
 	 * @throws ValidationException
+	 * @throws PersistenceException 
 	 */
-	public void validateCategoryId(int categoryId)throws ValidationException{
+	public void validateCategoryId(int categoryId)throws ValidationException, PersistenceException{
 		
 		 if (categoryId <= 0) {
 		        throw new ValidationException("Category ID cannot be negative or zero");
@@ -103,9 +105,10 @@ public  void validateprice (double price) throws ValidationException, Persistenc
 	 * @param name
 	 * @param price 
 	 * @throws ValidationException
+	 * @throws PersistenceException 
 	 */
 
-	public void validateProductUpdate(int id, String name, double price,String image_url, String Details) throws ValidationException {
+	public void validateProductUpdate(int id, String name, double price,String image_url, String Details) throws ValidationException, PersistenceException {
 	    if (id <= 0) {
 	        throw new ValidationException(" id not be zero");
 	    }
@@ -131,9 +134,8 @@ public  void validateprice (double price) throws ValidationException, Persistenc
 	            throw new ValidationException("Product doesn't exist");
 	        }
 	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        System.out.println(e.getMessage());
-	        throw new RuntimeException(e);
+	    	Logger.error(e);
+			throw new PersistenceException(e);
 	    } finally {
 	        ConnectionUtil.close(con, ps);
 	    }

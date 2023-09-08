@@ -5,6 +5,7 @@ import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.interfaces.UserInterface;
 import in.fssa.productprice.model.UserEntity;
 import in.fssa.productprice.util.ConnectionUtil;
+import in.fssa.productprice.util.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -49,9 +50,8 @@ public class UserDAO implements UserInterface<UserEntity> {
 			
 		} catch (SQLException e) {
 			
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			throw new PersistenceException(e.getMessage());
+			Logger.error(e);
+			throw new PersistenceException(e);
 			
 		} finally {
 			ConnectionUtil.close(con, ps, rs);
@@ -87,9 +87,8 @@ public class UserDAO implements UserInterface<UserEntity> {
 			System.out.println("User has been created successfully");
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			throw new PersistenceException(e.getMessage());
+			Logger.error(e);
+			throw new PersistenceException(e);
 			
 		} finally {
 			ConnectionUtil.close(connection, ps);
@@ -142,9 +141,8 @@ public class UserDAO implements UserInterface<UserEntity> {
 		   
 		    } catch (SQLException e) {
 		       
-		    	e.printStackTrace();
-		        System.out.println(e.getMessage());
-		        throw new PersistenceException(e.getMessage());
+		    	Logger.error(e);
+				throw new PersistenceException(e);
 		   
 		    } finally {
 		   
@@ -177,9 +175,8 @@ public class UserDAO implements UserInterface<UserEntity> {
 			
 		} catch(SQLException e) {
 			
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			throw new PersistenceException(e.getMessage());
+			Logger.error(e);
+			throw new PersistenceException(e);
 		
 		} finally {
 			ConnectionUtil.close(con, ps);
@@ -222,9 +219,8 @@ public class UserDAO implements UserInterface<UserEntity> {
 			
 		} catch (SQLException e) {
 		       
-	    	e.printStackTrace();
-	        System.out.println(e.getMessage());
-	        throw new PersistenceException(e.getMessage());
+			Logger.error(e);
+			throw new PersistenceException(e);
 	   
 	    } finally {
 	   
@@ -258,10 +254,8 @@ public class UserDAO implements UserInterface<UserEntity> {
 		
 		} catch (SQLException e) {
 			
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			throw new PersistenceException(e.getMessage());
-		
+			Logger.error(e);
+			throw new PersistenceException(e);
 		} finally {
 			
 			ConnectionUtil.close(con, ps, rs);
@@ -292,9 +286,8 @@ public class UserDAO implements UserInterface<UserEntity> {
 		
 		} catch (SQLException e) {
 			
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			throw new PersistenceException(e.getMessage());
+			Logger.error(e);
+			throw new PersistenceException(e);
 		
 		} finally {
 			
@@ -326,9 +319,8 @@ public class UserDAO implements UserInterface<UserEntity> {
 		
 		} catch (SQLException e) {
 			
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			throw new PersistenceException(e.getMessage());
+			Logger.error(e);
+			throw new PersistenceException(e);
 		
 		} finally {
 			
@@ -360,9 +352,8 @@ public class UserDAO implements UserInterface<UserEntity> {
 	
 	} catch (SQLException e) {
 		
-		e.printStackTrace();
-		System.out.println(e.getMessage());
-		throw new PersistenceException(e.getMessage());
+		Logger.error(e);
+		throw new PersistenceException(e);
 	
 	} finally {
 		
@@ -394,9 +385,8 @@ public class UserDAO implements UserInterface<UserEntity> {
 		
 		} catch (SQLException e) {
 			
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			throw new PersistenceException(e.getMessage());
+			Logger.error(e);
+			throw new PersistenceException(e);
 		
 		} finally {
 			
@@ -432,9 +422,8 @@ public class UserDAO implements UserInterface<UserEntity> {
 		
 		} catch (SQLException e) {
 			
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-			throw new PersistenceException(e.getMessage());
+			Logger.error(e);
+			throw new PersistenceException(e);
 		
 		} finally {
 			

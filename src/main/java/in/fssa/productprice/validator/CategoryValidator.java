@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import in.fssa.productprice.dao.CategoryDAO;
+import in.fssa.productprice.exception.PersistenceException;
 import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.model.Category;
 import in.fssa.productprice.model.CategoryEntity;
@@ -19,9 +20,10 @@ public class CategoryValidator {
 	 * 
 	 * @param category
 	 * @throws ValidationException
+	 * @throws PersistenceException 
 	 */
 
-	public static void validateCategory(Category category) throws ValidationException{
+	public static void validateCategory(Category category) throws ValidationException, PersistenceException{
 		
 		if (category == null) {
 			throw new ValidationException("Category object can not be null");
@@ -36,9 +38,10 @@ public class CategoryValidator {
 	 * 
 	 * @param Categoryname
 	 * @throws ValidationException
+	 * @throws PersistenceException 
 	 */
 	
-	public static void validateName(String Categoryname) throws ValidationException{
+	public static void validateName(String Categoryname) throws ValidationException, PersistenceException{
 		
 		if(Categoryname == null || "".equals(Categoryname.trim())) {
 			throw new ValidationException("Name cannot be null or empty");

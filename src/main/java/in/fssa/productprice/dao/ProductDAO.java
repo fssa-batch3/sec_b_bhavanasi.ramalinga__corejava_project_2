@@ -5,20 +5,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Set;
+
+import day02.practice.Logger;
+
 import java.util.HashSet;
 import in.fssa.productprice.model.Product;
 import in.fssa.productprice.util.ConnectionUtil;
+import in.fssa.productprice.exception.PersistenceException;
+import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.interfaces.ProductInterface;
 	
 	public class ProductDAO implements ProductInterface {
 
-	private long price;
  
 	/**
 	 * 
 	 * @param product
+	 * @throws PersistenceException 
 	 */
-		public void create(Product product) {
+		public void create(Product product) throws PersistenceException {
 			
 			Connection conn = null;
 			PreparedStatement ps = null;
@@ -35,12 +40,11 @@ import in.fssa.productprice.interfaces.ProductInterface;
 				
 				ps.executeUpdate();
 				
-				System.out.println("Product created Successfully");
+				Logger.info("Product created Successfully");
 				
 			}catch(SQLException e) {
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-				throw new RuntimeException("Product is not created");
+				Logger.error(e);
+				throw new PersistenceException(e);
 			}
 			finally {
 				ConnectionUtil.close(conn, ps);
@@ -52,9 +56,10 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		 * @param productId
 		 * @param name
 		 * @param image_url 
+		 * @throws PersistenceException 
 		 */
 
-		public void updateProduct( int productId, String name, double price, String imageurl, String details) {
+		public void updateProduct( int productId, String name, double price, String imageurl, String details) throws PersistenceException {
 		    Connection conn = null;
 		    PreparedStatement ps = null;
 		    
@@ -72,14 +77,13 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		        int rowsAffected = ps.executeUpdate();
 		        
 		        if (rowsAffected > 0) {
-		            System.out.println("Product with ID " + productId + " updated successfully");
+		           Logger.info("Product with ID " + productId + " updated successfully");
 		        } else {
-		            System.out.println("No product found with ID " + productId);
+		           Logger.info("No product found with ID " + productId);
 		        }
 		    } catch (SQLException e) {
-		        e.printStackTrace();
-		        System.out.println(e.getMessage());
-		        throw new RuntimeException("Error updating product");
+		    	Logger.error(e);
+				throw new PersistenceException(e);
 		    } finally {
 		        ConnectionUtil.close(conn, ps);
 		    }
@@ -90,10 +94,11 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		/**
 		 * 
 		 * @param id
+		 * @throws PersistenceException 
 		 */
 
 	
-		public void deleteProduct(int id) {
+		public void deleteProduct(int id) throws PersistenceException {
 			
 			Connection conn = null;
 			PreparedStatement ps = null;
@@ -105,11 +110,12 @@ import in.fssa.productprice.interfaces.ProductInterface;
 				ps.setInt(1, id);
 				ps.executeUpdate();
 				
-				System.out.println("Product deleted Successfully");
+				Logger.info("Product deleted Successfully");
 				
 			}catch(SQLException e) {
-				e.printStackTrace();
-				throw new RuntimeException(e.getMessage());
+				
+				Logger.error(e);
+				throw new PersistenceException(e);
 			}
 			finally {
 				ConnectionUtil.close(conn, ps);
@@ -117,9 +123,10 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		}
 
 	/**
+	 * @throws PersistenceException 
 	 * 
 	 */
-		public Set<Product> listAllProducts() {
+		public Set<Product> listAllProducts() throws PersistenceException {
 
 			Connection conn = null;
 			PreparedStatement ps = null;
@@ -147,9 +154,8 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					allProducts.add(product);
 				}
 			}catch(SQLException e) {
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-				throw new RuntimeException(e);
+				Logger.error(e);
+				throw new PersistenceException(e);
 			}
 			finally {
 				ConnectionUtil.close(conn, ps);
@@ -160,9 +166,10 @@ import in.fssa.productprice.interfaces.ProductInterface;
  * 
  * @param category_id
  * @return
+ * @throws PersistenceException 
  */
 	
-		public Set<Product> listallProductsByCategoryId(int categoryId) {
+		public Set<Product> listallProductsByCategoryId(int categoryId) throws PersistenceException {
 			
 			Connection conn = null;
 			PreparedStatement ps = null;
@@ -189,9 +196,8 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					listOfProductsByCategoryId.add(product);
 				}
 			}catch(SQLException e) {
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-				throw new RuntimeException(e);
+				Logger.error(e);
+				throw new PersistenceException(e);
 			}
 			finally {
 				ConnectionUtil.close(conn, ps);
@@ -200,7 +206,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 			
 		}
 		@Override
-		public void delete(int id) {
+		public void delete(int id) throws PersistenceException {
 			
 			
 			Connection conn = null;
@@ -214,12 +220,11 @@ import in.fssa.productprice.interfaces.ProductInterface;
 				ps.setInt(1, id);
 				ps.executeUpdate();
 				
-				System.out.println("Product deleted Successfully");
+				Logger.info("Product deleted Successfully");
 				
 			}catch(SQLException e) {
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-				throw new RuntimeException();
+				Logger.error(e);
+				throw new PersistenceException(e);
 			}
 			finally {
 				ConnectionUtil.close(conn, ps);
@@ -227,14 +232,10 @@ import in.fssa.productprice.interfaces.ProductInterface;
 			
 		}
 
-		@Override
-		public Set<Product> listAllProductsByCategoryId(int category_id) {
-			// TODO Auto-generated method stub
-			return null;
-		}
+		
 
 
-		public Product findProductsById(int id) {
+		public Product findProductsById(int id) throws PersistenceException {
 		    Connection conn = null;
 		    PreparedStatement ps = null;
 		    ResultSet rs = null;
@@ -258,8 +259,8 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					
 				}
 		    } catch (SQLException e) {
-		        e.printStackTrace();
-		        throw new RuntimeException("Error fetching product by ID", e);
+		    	Logger.error(e);
+				throw new PersistenceException(e);
 		    } finally {
 		        ConnectionUtil.close(conn, ps, rs);
 		    }
@@ -270,7 +271,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		
 		
 		@Override
-		public Product findProductDetailsByProductId(int id){
+		public Product findProductDetailsByProductId(int id) throws PersistenceException{
 			
 			Connection conn = null;
 			PreparedStatement ps = null;
@@ -285,9 +286,8 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		        rs = ps.executeQuery();
 				
 			} catch(SQLException e) {
-//				e.printStackTrace();
-				System.out.println(e.getMessage());
-				throw new RuntimeException(e.getMessage());
+         		Logger.error(e);
+				throw new PersistenceException(e);
 			}
 			finally {
 				ConnectionUtil.close(conn, ps, rs);
@@ -296,20 +296,10 @@ import in.fssa.productprice.interfaces.ProductInterface;
 			}
 		
 
-		@Override
-		public void updateProduct(int productId, String name, int categoryId, long price) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void ProductfindProductDetailsByProductId(int id) {
-			// TODO Auto-generated method stub
-			
-		}
+	
 
 
-	public void checkProductAlreadyExist(String name) {
+	public void checkProductAlreadyExist(String name) throws PersistenceException, ValidationException {
 		
 		Connection con = null;
 	     PreparedStatement ps = null;
@@ -323,12 +313,11 @@ import in.fssa.productprice.interfaces.ProductInterface;
         rs = ps.executeQuery();
         
         if(rs.next()) {
-      	  throw new RuntimeException("product already exists");		
+      	  throw new ValidationException("product already exists");		
         }
 		}catch (SQLException e) {
-//        e.printStackTrace();
-        System.out.println(e.getMessage());
-        throw new RuntimeException(e);
+			Logger.error(e);
+			throw new PersistenceException(e);
     
     } finally {
         ConnectionUtil.close(con, ps);
@@ -336,7 +325,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 	}
 	
 		
-public void validateproductid(int id) {
+public void validateproductid(int id) throws PersistenceException, ValidationException {
 	 Connection con = null;
      PreparedStatement ps = null;
      ResultSet rs = null;
@@ -349,21 +338,19 @@ public void validateproductid(int id) {
        rs = ps.executeQuery();
        
        if(rs.next()) {
-       	System.out.println("product exists");
+       Logger.info("product exists");
        }else {
-       	throw new RuntimeException("product doesn't exist");
+       	throw new ValidationException("product doesn't exist");
        }		
 	} catch (SQLException e) {
-		
-//       e.printStackTrace();
-       System.out.println(e.getMessage());
-       throw new RuntimeException(e);
+		Logger.error(e);
+		throw new PersistenceException(e);
    
    } finally {
        ConnectionUtil.close(con, ps);
    }
 }
-	public void validateCategoryId(int categoryId) {
+	public void validateCategoryId(int categoryId) throws PersistenceException, ValidationException {
 		
 		 Connection con = null;
 	     PreparedStatement ps = null;
@@ -377,20 +364,33 @@ public void validateproductid(int id) {
            rs = ps.executeQuery(); 
            
            if(rs.next()) {
-           	System.out.println("category exists");
+           Logger.info("category exists");
            }else {
-           	throw new RuntimeException("category doesn't exist");
+           	throw new ValidationException("category doesn't exist");
            }		
 		} catch (SQLException e) {
 			
-//           e.printStackTrace();
-           System.out.println(e.getMessage());
-           throw new RuntimeException(e);
+			Logger.error(e);
+			throw new PersistenceException(e);
          
        } finally {
            ConnectionUtil.close(con, ps);
        }
 	}
+
+	@Override
+	public Set<Product> listAllProductsByCategoryId(int categoryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateProduct(int productId, String name, int categoryId, long price) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 
 		
 	}
