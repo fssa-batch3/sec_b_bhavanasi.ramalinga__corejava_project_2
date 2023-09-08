@@ -4,9 +4,8 @@ import java.util.Set;
 
 
 import in.fssa.productprice.dao.CategoryDAO;
-import in.fssa.productprice.dao.ProductDAO;
+import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.model.Category;
-import in.fssa.productprice.model.Product;
 import in.fssa.productprice.validator.CategoryValidator;
 
 
@@ -17,7 +16,7 @@ public class CategoryService {
  * @param newcategory
  * @throws Exception
  */
-	public void create (Category newcategory) throws Exception{
+	public void create (Category newcategory) throws ValidationException{
 		
 		CategoryValidator.validateCategory(newcategory);
 		
@@ -30,7 +29,7 @@ public class CategoryService {
 	 * @param categoryId
 	 * @throws Exception
 	 */
-	public void delete(int categoryId) throws Exception{
+	public void delete(int categoryId) throws ValidationException{
 		
 		CategoryValidator.validateId(categoryId);
 		
@@ -45,7 +44,7 @@ public class CategoryService {
 	 * @throws Exception
 	 */
 	
-	public void updateCategoryName(int id, String newCategoryName)throws Exception{
+	public void updateCategoryName(int id, String newCategoryName)throws ValidationException{
 		
 		CategoryValidator.validateId(id);
 		CategoryValidator.validateName(newCategoryName);
@@ -56,15 +55,14 @@ public class CategoryService {
 	/**
 	 * 
 	 * @return
-	 * @throws Exception
+	 * @throws ValidationException
 	 */
+	
 
-public static  Set<Category> listAllCategory()throws Exception{
+public static  Set<Category> listAllCategory(){
 		
 		CategoryDAO cateogry = new CategoryDAO();
-		Set<Category> allCategory = cateogry.listAllCategory();
-		
-		return allCategory;
+		return cateogry.listAllCategory();
 	}
 	
 }

@@ -242,7 +242,7 @@ public class UserDAO implements UserInterface<UserEntity> {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		UserEntity user= null;
+		
 		
 		try {
 			
@@ -276,7 +276,7 @@ public class UserDAO implements UserInterface<UserEntity> {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		UserEntity user= null;
+		
 		
 		try {
 			

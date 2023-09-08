@@ -1,7 +1,4 @@
 package in.fssa.productprice.model;
-
-import java.awt.image.BufferedImage;
-
 public class Category {
     private int id;
     private String name;

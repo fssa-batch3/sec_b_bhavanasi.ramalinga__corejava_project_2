@@ -51,7 +51,7 @@ public class TestProduct {
 		product.setName("Compact cameras");
 		product.setCategoryId(2); 
 		product.setPrice(4000000);
-		product.setImage_url("https://iili.io/J9Yhl0F.md.webp");
+		product.setImageurl("https://iili.io/J9Yhl0F.md.webp");
 		product.setDetails("Designed For: Medium Format Camera, DSLR/SLR Camera, Video Camera, Spotting Scope, Telescope, Mobile, Point & Shoot Camera, Advanced Point & Shoot Camera");
 		
 		assertDoesNotThrow(() ->{
@@ -160,11 +160,11 @@ public class TestProduct {
         updateProduct.setId(2);
         updateProduct.setName("SAM");
         updateProduct.setPrice(8000);
-        updateProduct.setImage_url("https://iili.io/J9728oG.jpg");
+        updateProduct.setImageurl("https://iili.io/J9728oG.jpg");
         updateProduct.setDetails("adukfhwswiaheioqhediwjasdbfjw");
         
         assertDoesNotThrow(() -> {
-            productService.updateProduct(updateProduct.getId(), updateProduct.getName(), updateProduct.getPrice(),updateProduct.getImage_url(),updateProduct.getDetails());
+            productService.updateProduct(updateProduct.getId(), updateProduct.getName(), updateProduct.getPrice(),updateProduct.getImageurl(),updateProduct.getDetails());
         });
     }
     

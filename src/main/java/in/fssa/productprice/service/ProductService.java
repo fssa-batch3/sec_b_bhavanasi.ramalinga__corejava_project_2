@@ -3,9 +3,10 @@ import in.fssa.productprice.validator.CategoryValidator;
 import in.fssa.productprice.validator.ProductValidator;
 import in.fssa.productprice.dao.CategoryDAO;
 import in.fssa.productprice.dao.ProductDAO;
+import in.fssa.productprice.exception.PersistenceException;
+import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.model.Product;
 import in.fssa.productprice.model.ProductEntity;
-
 import java.util.Set;
 public class ProductService {
 	
@@ -14,7 +15,7 @@ public class ProductService {
 	 * @return
 	 * @throws Exception
 	 */
-public Set<Product> listAllProduct()throws Exception{
+public Set<Product> listAllProduct(){
 		
 		ProductDAO product = new ProductDAO();
 		Set<Product> allProducts = product.listAllProducts();
@@ -25,10 +26,11 @@ public Set<Product> listAllProduct()throws Exception{
  * 
  * @param category_id
  * @return
+ * @throws ValidationException 
  * @throws Exception
  */
 	
-	public Set<Product> findProductDetailByCategoryId(int category_id) throws Exception {
+	public Set<Product> findProductDetailByCategoryId(int category_id) throws ValidationException {
 	    ProductValidator validator = new ProductValidator();
 	    validator.validateCategoryId(category_id);
 
@@ -41,12 +43,14 @@ public Set<Product> listAllProduct()throws Exception{
 	/**
 	 * 
 	 * @param product
+	 * @throws PersistenceException 
+	 * @throws ValidationException 
 	 * @throws Exception
 	 */
 	 
 	
 	
-	public void createProduct(Product product)throws Exception{
+	public void createProduct(Product product)throws  PersistenceException, ValidationException{
 		
 		ProductValidator validator = new ProductValidator();
 		validator.validateProduct(product);
@@ -60,7 +64,7 @@ public Set<Product> listAllProduct()throws Exception{
 	 * @throws Exception
 	 */
 	
-public void delete(int productId) throws Exception{
+public void delete(int productId) throws PersistenceException, ValidationException{
 	
 	ProductValidator productvalidate = new ProductValidator();
 		
@@ -77,7 +81,7 @@ public void delete(int productId) throws Exception{
  * @throws Exception
  */
 
-  public Product findByIdproductdetails(int id) throws Exception {
+  public Product findByIdproductdetails(int id) throws PersistenceException, ValidationException {
     ProductValidator validator = new ProductValidator();
     validator.validateProductId(id);
     validator.validatingproductidAlreadyExist(id);
@@ -88,7 +92,7 @@ public void delete(int productId) throws Exception{
     
      }
   
-  public Product findProductDetailsByProductId(int productId)throws Exception{
+  public Product findProductDetailsByProductId(int productId)throws  ValidationException{
 		
 		ProductValidator validator = new ProductValidator();
 		validator.validateProductId(productId);
@@ -106,7 +110,7 @@ public void delete(int productId) throws Exception{
 	 * @throws Exception
 	 */
 	
-	public void deleteProduct(int productId) throws Exception{
+	public void deleteProduct(int productId) throws ValidationException{
 		
 		ProductValidator validator = new ProductValidator();
 		validator.validateProductId(productId);
@@ -125,7 +129,7 @@ public void delete(int productId) throws Exception{
 	 */
 	
 
-	public void updateProduct(int id, String name, double price,String image_url, String Details) throws Exception {
+	public void updateProduct(int id, String name, double price,String image_url, String Details) throws  ValidationException {
 		
 	    ProductValidator validator = new ProductValidator();
 	    validator.validateProductUpdate(id, name, price, image_url,Details); 

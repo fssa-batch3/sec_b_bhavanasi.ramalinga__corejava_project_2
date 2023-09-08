@@ -7,14 +7,14 @@ package in.fssa.productprice.model;
 	 
 	 int categoryId;
 	 public String getDetails() {
-		return Details;
+		return detail;
 	}
 
 	public void setDetails(String details) {
-		Details = details;
+		detail = details;
 	}
 
-	String Details;
+	String detail;
 	 
 	 public int getCategoryId() {
 		return categoryId;
@@ -27,15 +27,16 @@ package in.fssa.productprice.model;
 	boolean isActive;
 	 double price;
 	 
-	 public String getImage_url() {
-		return image_url;
+	 public String getImageurl() {
+		return imageurl;
 	}
 
-	public void setImage_url(String image_url) {
-		this.image_url = image_url;
+	public void setImageurl(String imageurl) {
+		this.imageurl = imageurl;
 	}
 
-	String image_url;
+	String imageurl;
+	private String details;
 
 	 public double getPrice() {
 		return price;
@@ -73,7 +74,7 @@ package in.fssa.productprice.model;
 	
 	 @Override
 		public String toString() {
-			return "ProductId=" + id + ", name=" + name  +" ,Details" + Details + " , categoryId="  +categoryId + ",image_url=" + image_url +", Price=" + price + ", isActive=" + isActive + "";
+			return "ProductId=" + id + ", name=" + name  +" ,Details" + details + " , categoryId="  +categoryId + ",image_url=" + imageurl +", Price=" + price + ", isActive=" + isActive + "";
 		}
 
 	

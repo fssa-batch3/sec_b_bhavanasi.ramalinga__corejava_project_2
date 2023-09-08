@@ -6,10 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Set;
 import java.util.HashSet;
-import in.fssa.productprice.model.Category;
 import in.fssa.productprice.model.Product;
 import in.fssa.productprice.util.ConnectionUtil;
-import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.interfaces.ProductInterface;
 	
 	public class ProductDAO implements ProductInterface {
@@ -32,7 +30,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 				ps.setString(1,product.getName());
 				ps.setInt(2, product.getcategoryId());
 				ps.setDouble(3,product.getPrice());
-				ps.setString(4,product.getImage_url());
+				ps.setString(4,product.getImageurl());
 				ps.setString(5, product.getDetails());
 				
 				ps.executeUpdate();
@@ -56,7 +54,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		 * @param image_url 
 		 */
 
-		public void updateProduct( int productId, String name, double price, String image_url, String Details) {
+		public void updateProduct( int productId, String name, double price, String imageurl, String details) {
 		    Connection conn = null;
 		    PreparedStatement ps = null;
 		    
@@ -66,8 +64,8 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		        ps = conn.prepareStatement(query);
 		        ps.setString(1, name);
 		        ps.setDouble(2,price);
-		        ps.setString(3,image_url);
-		        ps.setString(4, Details);
+		        ps.setString(3,imageurl);
+		        ps.setString(4, details);
 		        ps.setInt(5, productId);
 		       
 		      
@@ -141,7 +139,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					product.setName(rs.getString("name"));
 					product.setCategoryId(rs.getInt("categoryId"));
 					product.setPrice(rs.getDouble("price"));
-					product.setImage_url(rs.getNString("image_url"));
+					product.setImageurl(rs.getNString("image_url"));
 					product.setDetails(rs.getString("Details"));
 					product.setIsActive(rs.getBoolean("isActive"));
 					
@@ -184,7 +182,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					product.setId(rs.getInt("id"));
 					product.setName(rs.getString("name"));
 					product.setCategoryId(rs.getInt("categoryId"));
-					product.setImage_url(rs.getString("image_url"));
+					product.setImageurl(rs.getString("image_url"));
 					product.setPrice(rs.getDouble("price"));
 					product.setDetails(rs.getString("Details"));
 					
@@ -254,7 +252,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					product.setId(rs.getInt("id"));
 					product.setName(rs.getString("name"));
 					product.setCategoryId(rs.getInt("categoryId"));
-					product.setImage_url(rs.getString("image_url"));
+					product.setImageurl(rs.getString("image_url"));
 					product.setPrice(rs.getDouble("price"));
 					product.setDetails(rs.getString("Details"));
 					
