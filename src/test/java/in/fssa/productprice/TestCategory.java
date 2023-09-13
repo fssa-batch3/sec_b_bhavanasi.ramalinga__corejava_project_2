@@ -2,15 +2,12 @@
 package in.fssa.productprice;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.Set;
 
 import in.fssa.productprice.service.CategoryService;
-import in.fssa.productprice.service.ProductService;
 import in.fssa.productprice.model.Category;
-import in.fssa.productprice.model.Product;
 import in.fssa.productprice.exception.ValidationException;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +29,7 @@ public class TestCategory {
     
 
 	@Test
-	public void getAll() {
+	 void getAll() {
 	CategoryService categpryService = new CategoryService();
 		Set<Category> AllCategory;
 		try {
@@ -45,20 +42,19 @@ public class TestCategory {
 	}
 
     @Test
-    public void testCreateCategoryWithInvalidInput() {
+     void testCreateCategoryWithInvalidInput() {
         CategoryService categoryService = new CategoryService();
         Exception exception = assertThrows(ValidationException.class, () -> {
             categoryService.create(null);
         });
-        String expectedMessage = "Category object can not be null";
-        String actualMessage = exception.getMessage();
-        System.out.println(expectedMessage);
-        assertTrue(actualMessage.contains(expectedMessage)); 
-        
+        String expectedMessage = "Category object can't be null";
+		String actualMessage = exception.getMessage();
+
+		assertEquals(expectedMessage, actualMessage);
     }
     
     @Test
-	public void testDeleteCategory() {
+	 void testDeleteCategory() {
 		
 		CategoryService categoryService = new CategoryService();
 
@@ -70,7 +66,7 @@ public class TestCategory {
     }
 		
 		@Test
-		public void testUpdateCategoryName() {
+		 void testUpdateCategoryName() {
 			
 			CategoryService categoryService = new CategoryService();
 
@@ -84,7 +80,7 @@ public class TestCategory {
 	}
 		
 		@Test
-		public void testCreateUserWithNameNull() {
+		 void testCreateUserWithNameNull() {
 			
 			CategoryService categoryService = new CategoryService();
 			
@@ -97,14 +93,14 @@ public class TestCategory {
 				Exception exception = assertThrows(ValidationException.class, () ->{
 					categoryService.create(newCategory);
 		});
-		String expectedMessage = "Name cannot be null or empty";
-		String actualMessage = exception.getMessage();
-		System.out.println(actualMessage);
-		assertTrue(expectedMessage.equals(actualMessage));
+				String expectedMessage = "Name Can not be null";
+				String actualMessage = exception.getMessage();
+
+				assertEquals(expectedMessage, actualMessage);
 	}
 		
 		@Test
-		public void testCreateUserWithNameEmpty() {
+		 void testCreateUserWithNameEmpty() {
 			
 			CategoryService categoryService = new CategoryService();
 			
@@ -117,14 +113,14 @@ public class TestCategory {
 				Exception exception = assertThrows(ValidationException.class, () ->{
 					categoryService.create(newCategory);
 		});
-		String expectedMessage = "Name cannot be null or empty";
-		String actualMessage = exception.getMessage();
-		System.out.println(actualMessage);
-		assertTrue(expectedMessage.equals(actualMessage));
+				String expectedMessage = "Name can not be null";
+				String actualMessage = exception.getMessage();
+
+				assertEquals(expectedMessage, actualMessage);
 	}
 
 		@Test
-		public void testCreateUserWithInvalidName() {
+		 void testCreateUserWithInvalidName() {
 			
 			CategoryService categoryService = new CategoryService();
 			
@@ -137,15 +133,18 @@ public class TestCategory {
 				Exception exception = assertThrows(ValidationException.class, () ->{
 					categoryService.create(newCategory);
 		});
-		String expectedMessage = "Name doesn't match the pattern";
-		String actualMessage = exception.getMessage();
-		System.out.println(actualMessage);
-		assertTrue(expectedMessage.equals(actualMessage));
+				String expectedMessage = "Name Does not match pattern";
+				String actualMessage = exception.getMessage();
+
+				assertEquals(expectedMessage, actualMessage);
 	}
 		
+		
+		
+		
 	}
 		
-		
+		 
 
    
 

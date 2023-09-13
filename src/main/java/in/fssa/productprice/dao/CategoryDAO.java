@@ -15,8 +15,6 @@ import in.fssa.productprice.model.Category;
 	
 public class CategoryDAO implements CategoryInterface{
 
-	private String imageURL;
-
 	@Override
 	public void create(Category category) throws PersistenceException {
 		Connection conn = null;
@@ -26,11 +24,10 @@ public class CategoryDAO implements CategoryInterface{
 			String query = "INSERT INTO categories (name,image_url) values(?,?)";
 			conn = ConnectionUtil.getConnection();
 			ps = conn.prepareStatement(query);
-			ps.setString(1, category.getName());
+			ps.setString(1, category.getName()); 
 			ps.setString(2, category.getImageURL());
 			
 			ps.executeUpdate();
-			
 			Logger.info("Category created Successfully");
 			
 		}catch(SQLException e) {
@@ -38,7 +35,7 @@ public class CategoryDAO implements CategoryInterface{
 			
 			throw new PersistenceException(e);
 		}
-		finally {
+		finally { 
 			ConnectionUtil.close(conn, ps);
 		}
 	}
@@ -50,12 +47,12 @@ public class CategoryDAO implements CategoryInterface{
 		PreparedStatement ps = null;
 		
 		try {
-			String query = "UPDATE categories set name = ?, image_url=? WHERE id = ?";
+			String query = "UPDATE categories set name = ?  WHERE id = ?";
 			conn = ConnectionUtil.getConnection();
 			ps = conn.prepareStatement(query);
-			ps.setString(1, categoryName);
-			ps.setString(2, imageURL);
-			ps.setInt(3, id);
+			ps.setInt(1, id);
+			ps.setString(2, categoryName);
+			
 			
 			int rowsAffected = ps.executeUpdate();
 			if(rowsAffected > 0) {
@@ -97,39 +94,7 @@ public class CategoryDAO implements CategoryInterface{
 		
 	}
 
-	@Override
-	public Set<Category> listAllCategroyByCategoryId(int categoryId) throws PersistenceException {
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		
-		Set<Category> allcategory = new HashSet<>(); 
-		
-		try {
-			String query = "SELECT * FROM categories where isActive = 1";
-			conn = ConnectionUtil.getConnection();
-			ps = conn.prepareStatement(query);
-			rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				Category category = new Category();
-				category.setId(rs.getInt("id"));
-				category.setName(rs.getString("name"));
-				category.setImageURL("image_url");
-				
-				
-				
-				allcategory.add(category);
-			}
-		}catch(SQLException e) {
-			Logger.error(e);
-			throw new PersistenceException(e);
-		}
-		finally {
-			ConnectionUtil.close(conn, ps);
-		}
-		return allcategory ;
-	}
+	
 
 	public Set<Category> listAllCategory() throws PersistenceException {
 		Connection conn = null;
@@ -189,6 +154,12 @@ public class CategoryDAO implements CategoryInterface{
        } finally {
            ConnectionUtil.close(con, ps);
        }
+	}
+
+	@Override
+	public Set<Category> listAllCategroyByCategoryId(int categoryId) throws PersistenceException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

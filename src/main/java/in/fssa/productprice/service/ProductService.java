@@ -1,12 +1,9 @@
 package in.fssa.productprice.service;
-import in.fssa.productprice.validator.CategoryValidator;
 import in.fssa.productprice.validator.ProductValidator;
-import in.fssa.productprice.dao.CategoryDAO;
 import in.fssa.productprice.dao.ProductDAO;
 import in.fssa.productprice.exception.PersistenceException;
 import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.model.Product;
-import in.fssa.productprice.model.ProductEntity;
 import java.util.Set;
 public class ProductService {
 	
@@ -24,7 +21,7 @@ public Set<Product> listAllProduct() throws PersistenceException{
 		return allProducts;
 	}
 /**
- * 
+ *  
  * @param category_id
  * @return
  * @throws ValidationException 
@@ -32,12 +29,12 @@ public Set<Product> listAllProduct() throws PersistenceException{
  * @throws Exception
  */
 	
-	public Set<Product> findProductDetailByCategoryId(int category_id) throws ValidationException, PersistenceException {
+	public Set<Product> findProductDetailByCategoryId(int categoryId) throws ValidationException, PersistenceException {
 	    ProductValidator validator = new ProductValidator();
-	    validator.validateCategoryId(category_id);
+	    validator.validateCategoryId(categoryId);
 
 	    ProductDAO productDAO = new ProductDAO();
-	    Set<Product> products = productDAO.listallProductsByCategoryId(category_id);
+	    Set<Product> products = productDAO.listallProductsByCategoryId(categoryId);
 	    
 	    return products;
 	}
@@ -99,9 +96,7 @@ public void delete(int productId) throws PersistenceException, ValidationExcepti
 		validator.validateProductId(productId);
 		
 		ProductDAO productDAO = new ProductDAO();
-		Product product = productDAO.findProductDetailsByProductId(productId);
-		
-		return product;
+		return productDAO.findProductDetailsByProductId(productId);
 		
 	}
 
@@ -132,13 +127,13 @@ public void delete(int productId) throws PersistenceException, ValidationExcepti
 	 */
 	
 
-	public void updateProduct(int id, String name, double price,String image_url, String Details) throws  ValidationException, PersistenceException {
+	public void updateProduct(int id, String name, double price,String imageurl, String details) throws  ValidationException, PersistenceException {
 		
 	    ProductValidator validator = new ProductValidator();
-	    validator.validateProductUpdate(id, name, price, image_url,Details); 
+	    validator.validateProductUpdate(id, name, price, imageurl,details); 
 
 	    ProductDAO productDAO = new ProductDAO();
-	    productDAO.updateProduct(id, name, price,image_url,Details);
+	    productDAO.updateProduct(id, name, price,imageurl,details);
 	}
 	
 	

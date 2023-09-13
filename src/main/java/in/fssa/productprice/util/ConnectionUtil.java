@@ -21,7 +21,7 @@ public class ConnectionUtil {
 	
 		url = "jdbc:mysql://localhost:3306/productprice";
 		userName = "root";
-		passWord ="123456";
+		passWord ="123456"; 
 
       Connection connection1 = null;
 		
