@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import day02.practice.Logger;
 import in.fssa.productprice.dao.ProductDAO;
+import in.fssa.productprice.dao.UserDAO;
 import in.fssa.productprice.exception.PersistenceException;
 import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.model.Product;
@@ -24,22 +25,42 @@ public class ProductValidator {
 	 * @throws ValidationException
 	 * @throws PersistenceException 
 	 */
-	public void validateProduct(Product product) throws ValidationException, PersistenceException{
+	 public void validateProduct(Product product) throws ValidationException, PersistenceException{
 		
 		if(product == null) {
 			throw new ValidationException("Invalid Product object input");
 		}
 		validateName(product.getName());
-		validateNameExist(product.getName());
 		validateCategoryId(product.getcategoryId());
 		validateprice(product.getPrice());
+		validateDetails(product.getDetails());
+		validateImageUrl(product.getImageurl());
+		validateUserId(product.getUserId());
 		
 	}
-	/**
-	 * 
-	 * @param name 
-	 * @throws ValidationException
-	 */
+	
+	 private void validateImageUrl(String imageUrl) {
+		    if (imageUrl == null || imageUrl.isEmpty()) {
+		       throw new IllegalArgumentException("Image URL is empty or null.");
+		    }
+		    
+		  		   
+		}
+	 
+	 private boolean validateDetails(String details) {
+		    if (details == null || details.isEmpty()) {
+		        return false;
+		    }
+		    return true;
+		}
+	 
+	 
+	  /**
+	   * 
+	   * @param name 
+	   * @throws ValidationException
+	   */
+	 
 	
 	public  void validateName(String name) throws ValidationException {
         
@@ -51,26 +72,17 @@ public class ProductValidator {
     
     }
 	
-	public void validateNameExist(String name) throws ValidationException, PersistenceException{
-		
-		ProductDAO productDAO = new ProductDAO();
-		productDAO.checkProductAlreadyExist(name);
-		
-	}
+	 
 	
-public  void validateprice (double price) throws ValidationException, PersistenceException {
+      public static  void validateprice (double price) throws ValidationException, PersistenceException {
 		
 		if(price <=0) {
 			
 			throw new ValidationException("Price cannot be Zero or empty");
 			
 		}
-		
-		
+				
 	}
-	
-	
-	
 	
 
 	public void validateProductId(int productId)throws ValidationException{
@@ -80,9 +92,9 @@ public  void validateprice (double price) throws ValidationException, Persistenc
 		}
 	}
 	 
-	public void validatingproductidAlreadyExist(int id)throws ValidationException, PersistenceException {
-	ProductDAO pr = new ProductDAO();
-	pr.validateproductid(id);
+	  public void validatingproductidAlreadyExist(int id)throws ValidationException, PersistenceException {
+	    ProductDAO pr = new ProductDAO();
+	    pr.validateProductId(id);
 		
 	}
 	/**
@@ -91,13 +103,23 @@ public  void validateprice (double price) throws ValidationException, Persistenc
 	 * @throws ValidationException
 	 * @throws PersistenceException 
 	 */
-	public void validateCategoryId(int categoryId)throws ValidationException, PersistenceException{
+	  public void validateCategoryId(int categoryId)throws ValidationException, PersistenceException{
 		
 		 if (categoryId <= 0) {
 		        throw new ValidationException("Category ID cannot be negative or zero");
 		    }
 		 ProductDAO valide = new ProductDAO();
 		 valide.validateCategoryId(categoryId);
+	}
+	
+	
+	public void validateUserId(int userId)throws ValidationException, PersistenceException{
+		
+		 if (userId <= 0) {
+		        throw new ValidationException("userId ID cannot be negative or zero");
+		    }
+		 ProductDAO valide = new ProductDAO();
+		 valide.validateuserId(userId);
 	}
 	/**
 	 * 
@@ -119,28 +141,18 @@ public  void validateprice (double price) throws ValidationException, Persistenc
 	    
 	    
 
-	    Connection con = null;
-	    PreparedStatement ps = null;
-	    ResultSet rs = null;
-
-	    try {
-	        String query = "SELECT * FROM products WHERE id = ?";
-	        con = ConnectionUtil.getConnection();
-	        ps = con.prepareStatement(query);
-	        ps.setInt(1, id);
-	        rs = ps.executeQuery();
-
-	        if (!rs.next()) {
-	            throw new ValidationException("Product doesn't exist");
-	        }
-	    } catch (SQLException e) {
-	    	Logger.error(e);
-			throw new PersistenceException(e);
-	    } finally {
-	        ConnectionUtil.close(con, ps);
-	    }
 	}
 	
+        public static void validateSellerId(int id) throws ValidationException, PersistenceException {
+		
+		if(id<=0) {
+			throw new ValidationException("Seller id connot be zero or in negative");
+	      	}
+		
+		UserDAO userDAO = new UserDAO();
+		userDAO.checkUserIsSeller(id);
+		
+	    }
 	
 
 

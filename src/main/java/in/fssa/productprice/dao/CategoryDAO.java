@@ -30,14 +30,14 @@ public class CategoryDAO implements CategoryInterface{
 			ps.executeUpdate();
 			Logger.info("Category created Successfully");
 			
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			Logger.error(e);
+			throw new PersistenceException(e.getMessage());
 			
-			throw new PersistenceException(e);
-		}
-		finally { 
+		} finally {
 			ConnectionUtil.close(conn, ps);
 		}
+		
 	}
 	
 	@Override
@@ -60,11 +60,12 @@ public class CategoryDAO implements CategoryInterface{
 			}
 		} catch (SQLException e) {
 			Logger.error(e);
-			throw new PersistenceException(e);	
-		}
-		finally {
+			throw new PersistenceException(e.getMessage());
+			
+		} finally {
 			ConnectionUtil.close(conn, ps);
 		}
+		
 	}
 
 	@Override
@@ -82,15 +83,14 @@ public class CategoryDAO implements CategoryInterface{
 			ps.executeUpdate();
 			
           Logger.info("Category deleted Successfully");
-			
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			Logger.error(e);
+			throw new PersistenceException(e.getMessage());
 			
-			throw new PersistenceException(e);
-		}
-		finally {
+		} finally {
 			ConnectionUtil.close(conn, ps);
 		}
+		
 		
 	}
 
@@ -119,13 +119,14 @@ public class CategoryDAO implements CategoryInterface{
 				
 				allCategory.add(category);
 			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			Logger.error(e);
-			throw new PersistenceException(e);
-		}
-		finally {
+			throw new PersistenceException(e.getMessage());
+			
+		} finally {
 			ConnectionUtil.close(conn, ps);
 		}
+		
 		return allCategory;
 	}
 	
@@ -147,13 +148,13 @@ public class CategoryDAO implements CategoryInterface{
            }
            
 		} catch (SQLException e) {
-           
 			Logger.error(e);
-			throw new PersistenceException(e);
-       
-       } finally {
-           ConnectionUtil.close(con, ps);
-       }
+			throw new PersistenceException(e.getMessage());
+			
+		} finally {
+			ConnectionUtil.close(con, ps);
+		}
+		
 	}
 
 	@Override

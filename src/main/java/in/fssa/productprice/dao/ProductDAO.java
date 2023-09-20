@@ -21,34 +21,45 @@ import in.fssa.productprice.interfaces.ProductInterface;
 	/**
 	 * 
 	 * @param product
+	 * @return 
 	 * @throws PersistenceException 
 	 */
-		public void create(Product product) throws PersistenceException {
+		public int create(Product product) throws PersistenceException {
 			
 			Connection conn = null;
 			PreparedStatement ps = null;
+			ResultSet rs = null;
 
+			int productId = -1;
 			try {
-				String query = "INSERT INTO products (name,categoryId,price,image_url,Details) VALUES (?,?,?,?,?)";
+				String query = "INSERT INTO products (name, categoryId,  price,image_url,Details, userId) VALUES (?,?,?,?,?,?)";
 				conn = ConnectionUtil.getConnection();
 				ps = conn.prepareStatement(query);
 				ps.setString(1,product.getName());
-				ps.setInt(2, product.getcategoryId());
+				ps.setInt(2,product.getcategoryId());
 				ps.setDouble(3,product.getPrice());
 				ps.setString(4,product.getImageurl());
 				ps.setString(5, product.getDetails());
-				
+			 	ps.setInt(6,product.getUserId());
 				ps.executeUpdate();
+			    rs = ps.getGeneratedKeys();
+			    
+				if(rs.next()) {
+					productId = rs.getInt(1);
+				}
 				
-				Logger.info("Product created Successfully");
+				System.out.println("Product  has been created successfully");
 				
-			}catch(SQLException e) {
+							
+			} catch (SQLException e) {
 				Logger.error(e);
-				throw new PersistenceException(e);
+				throw new PersistenceException(e.getMessage());
+				
+			} finally {
+				ConnectionUtil.close(conn, ps, rs);
 			}
-			finally {
-				ConnectionUtil.close(conn, ps);
-			}
+			
+			return productId;
 		}
 		
 		/**
@@ -64,7 +75,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		    PreparedStatement ps = null;
 		    
 		    try {
-		        String query = "UPDATE products SET name = ? , price=? , image_url=?, Details=? WHERE id = ?";
+		        String query = "UPDATE products SET name = ? , price=? , image_url=?, Details=?  WHERE id = ?";
 		        conn = ConnectionUtil.getConnection();
 		        ps = conn.prepareStatement(query);
 		        ps.setString(1, name);
@@ -72,7 +83,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		        ps.setString(3,imageurl);
 		        ps.setString(4, details);
 		        ps.setInt(5, productId);
-		       
+		      
 		      
 		        int rowsAffected = ps.executeUpdate();
 		        
@@ -81,12 +92,17 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		        } else {
 		           Logger.info("No product found with ID " + productId);
 		        }
-		    } catch (SQLException e) {
-		    	Logger.error(e);
-				throw new PersistenceException(e);
-		    } finally {
-		        ConnectionUtil.close(conn, ps);
-		    }
+		        
+		        } catch (SQLException e) {
+		 	       
+			    	Logger.error(e);
+			        throw new PersistenceException(e.getMessage());
+			   
+			    } finally {
+			   
+			    	ConnectionUtil.close(conn, ps);
+			    
+			    }
 		}
 
 
@@ -111,15 +127,16 @@ import in.fssa.productprice.interfaces.ProductInterface;
 				ps.executeUpdate();
 				
 				Logger.info("Product deleted Successfully");
-				
-			}catch(SQLException e) {
-				
-				Logger.error(e);
-				throw new PersistenceException(e);
-			}
-			finally {
-				ConnectionUtil.close(conn, ps);
-			}
+			} catch (SQLException e) {
+			       
+		    	Logger.error(e);
+		        throw new PersistenceException(e.getMessage());
+		   
+		    } finally {
+		   
+		    	ConnectionUtil.close(conn, ps);
+		    
+		    }
 		}
 
 	/**
@@ -149,17 +166,20 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					product.setImageurl(rs.getNString("image_url"));
 					product.setDetails(rs.getString("Details"));
 					product.setIsActive(rs.getBoolean("isActive"));
-					
+					product.setUserId(rs.getInt("userId"));
 					
 					allProducts.add(product);
 				}
-			}catch(SQLException e) {
-				Logger.error(e);
-				throw new PersistenceException(e);
-			}
-			finally {
-				ConnectionUtil.close(conn, ps);
-			}
+			} catch (SQLException e) {
+			       
+		    	Logger.error(e);
+		        throw new PersistenceException(e.getMessage());
+		   
+		    } finally {
+		   
+		    	ConnectionUtil.close(conn, ps);
+		    
+		    }
 			return allProducts;
 		}
 /**
@@ -192,16 +212,20 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					product.setImageurl(rs.getString("image_url"));
 					product.setPrice(rs.getDouble("price"));
 					product.setDetails(rs.getString("Details"));
+					product.setUserId(rs.getInt("userId"));
 					
 					listOfProductsByCategoryId.add(product);
 				}
-			}catch(SQLException e) {
-				Logger.error(e);
-				throw new PersistenceException(e);
-			}
-			finally {
-				ConnectionUtil.close(conn, ps);
-			}
+			} catch (SQLException e) {
+			       
+		    	Logger.error(e);
+		        throw new PersistenceException(e.getMessage());
+		   
+		    } finally {
+		   
+		    	ConnectionUtil.close(conn, ps);
+		    
+		    }
 			return listOfProductsByCategoryId;
 			
 		}
@@ -221,14 +245,16 @@ import in.fssa.productprice.interfaces.ProductInterface;
 				ps.executeUpdate();
 				
 				Logger.info("Product deleted Successfully");
-				
-			}catch(SQLException e) {
-				Logger.error(e);
-				throw new PersistenceException(e);
-			}
-			finally {
-				ConnectionUtil.close(conn, ps);
-			}
+			} catch (SQLException e) {
+			       
+		    	Logger.error(e);
+		        throw new PersistenceException(e.getMessage());
+		   
+		    } finally {
+		   
+		    	ConnectionUtil.close(conn, ps);
+		    
+		    }
 			
 		}
 
@@ -256,13 +282,18 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					product.setImageurl(rs.getString("image_url"));
 					product.setPrice(rs.getDouble("price"));
 					product.setDetails(rs.getString("Details"));
+					product.setUserId(rs.getInt("userId"));
 					
 				}
 		    } catch (SQLException e) {
+			       
 		    	Logger.error(e);
-				throw new PersistenceException(e);
+		        throw new PersistenceException(e.getMessage());
+		   
 		    } finally {
-		        ConnectionUtil.close(conn, ps, rs);
+		   
+		    	ConnectionUtil.close(conn, ps);
+		    
 		    }
 		    
 		    return product;
@@ -284,14 +315,16 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		        ps = conn.prepareStatement(query);
 		        ps.setInt(1, id);
 		        rs = ps.executeQuery();
-				
-			} catch(SQLException e) {
-         		Logger.error(e);
-				throw new PersistenceException(e);
-			}
-			finally {
-				ConnectionUtil.close(conn, ps, rs);
-			}
+			} catch (SQLException e) {
+			       
+		    	Logger.error(e);
+		        throw new PersistenceException(e.getMessage());
+		   
+		    } finally {
+		   
+		    	ConnectionUtil.close(conn, ps);
+		    
+		    }
 			return product;
 			}
 		
@@ -313,43 +346,51 @@ import in.fssa.productprice.interfaces.ProductInterface;
         rs = ps.executeQuery();
         
         if(rs.next()) {
-      	  throw new ValidationException("product already exists");		
+      	  throw new ValidationException("product already exists");
         }
-		}catch (SQLException e) {
-			Logger.error(e);
-			throw new PersistenceException(e);
-    
-    } finally {
-        ConnectionUtil.close(con, ps);
-    }
+      	  } catch (SQLException e) {
+ 	       
+	    	Logger.error(e);
+	        throw new PersistenceException(e.getMessage());
+	   
+	    } finally {
+	   
+	    	ConnectionUtil.close(con, ps);
+	    
+	    }
 	}
+
 	
 		
-public void validateproductid(int id) throws PersistenceException, ValidationException {
-	 Connection con = null;
-     PreparedStatement ps = null;
-     ResultSet rs = null;
-     
-	try {
-		String query = "SELECT * FROM products WHERE id = ?";
-		con = ConnectionUtil.getConnection();
-       ps = con.prepareStatement(query);
-       ps.setInt(1, id);
-       rs = ps.executeQuery();
-       
-       if(rs.next()) {
-       Logger.info("product exists");
-       }else {
-       	throw new ValidationException("product doesn't exist");
-       }		
-	} catch (SQLException e) {
-		Logger.error(e);
-		throw new PersistenceException(e);
-   
-   } finally {
-       ConnectionUtil.close(con, ps);
-   }
-}
+		public void validateProductId(int id) throws PersistenceException, ValidationException {
+		    Connection con = null;
+		    PreparedStatement ps = null;
+		    ResultSet rs = null;
+
+		    try {
+		        String query = "SELECT * FROM products WHERE id = ?";
+		        con = ConnectionUtil.getConnection();
+		        ps = con.prepareStatement(query);
+		        ps.setInt(1, id);
+		        rs = ps.executeQuery();
+
+		        if (rs.next()) {
+		            Logger.info("Product exists");
+		        } else {
+		            throw new ValidationException("Product doesn't exist");
+		        }
+		    } catch (SQLException e) {
+		        Logger.error(e);
+		        throw new PersistenceException(e.getMessage());
+	   
+	    } finally {
+	   
+	    	ConnectionUtil.close(con, ps);
+	    
+	    }
+	}
+	
+	
 	public void validateCategoryId(int categoryId) throws PersistenceException, ValidationException {
 		
 		 Connection con = null;
@@ -367,33 +408,146 @@ public void validateproductid(int id) throws PersistenceException, ValidationExc
            Logger.info("category exists");
            }else {
            	throw new ValidationException("category doesn't exist");
-           }		
-		} catch (SQLException e) {
-			
-			Logger.error(e);
-			throw new PersistenceException(e);
-         
-       } finally {
-           ConnectionUtil.close(con, ps);
-       }
+           }
+    		    } catch (SQLException e) {
+    		        Logger.error(e);
+    		        throw new PersistenceException(e.getMessage());
+    	   
+    	    } finally {
+    	   
+    	    	ConnectionUtil.close(con, ps);
+    	    
+    	    }
+	}
+	
+	
+	
+	public void validateuserId(int userId) throws ValidationException, PersistenceException {
+		
+		 Connection con = null;
+	     PreparedStatement ps = null;
+	     ResultSet rs = null;
+	     
+		try {
+			String query = "SELECT * FROM users WHERE id = ?";
+			con = ConnectionUtil.getConnection();
+           ps = con.prepareStatement(query);
+           ps.setInt(1, userId);
+           rs = ps.executeQuery(); 
+           
+           if(rs.next()) {
+           Logger.info("category exists");
+           }else {
+           	throw new ValidationException("userId doesn't exist");
+           }
+    		    } catch (SQLException e) {
+    		        Logger.error(e);
+    		        throw new PersistenceException(e.getMessage());
+    	   
+    	    } finally {
+    	   
+    	    	ConnectionUtil.close(con, ps);
+    	    
+    	    }
+		
+	}
+	
+	
+	
+		
+
+	public void validateProductUpdate(int productId, String name, int categoryId, long price, int id, int userId) throws PersistenceException {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+
+	    try {
+	        String query = "SELECT * FROM products WHERE id = ?";
+	        con = ConnectionUtil.getConnection();
+	        ps = con.prepareStatement(query);
+	        ps.setInt(1, id);
+	        rs = ps.executeQuery();
+
+	        if (!rs.next()) {
+	            throw new PersistenceException("Product doesn't exist");
+	        }
+	    } catch (SQLException e) {
+	        Logger.error(e);
+	        throw new PersistenceException(e.getMessage());
+	    } finally {
+	        ConnectionUtil.close(con, ps, rs);
+	    }
 	}
 
-	@Override
-	public Set<Product> listAllProductsByCategoryId(int categoryId) {
-		// TODO Auto-generated method stub
-		return null;
+	
+     public Set<Product> findAllProductsBySellerId(int id) throws PersistenceException {
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		   Set<Product> pdt = new HashSet<>();
+		
+		try {
+			
+			String query = "SELECT id, name, image_url,  userId, Details, categoryId, price, isActive FROM products WHERE isActive = 1 AND userId = ?";
+			
+			con = ConnectionUtil.getConnection();
+			ps = con.prepareStatement(query);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				
+				Product product = new Product();
+				product.setId(rs.getInt("id"));
+				product.setName(rs.getString("name"));
+				product.setImageurl(rs.getString("image_url"));
+				product.setUserId(rs.getInt("userId"));
+				product.setDetails(rs.getString("Details"));
+				product.setCategoryId(rs.getInt("categoryId"));
+				product.setPrice(rs.getDouble("price"));
+				
+			  	pdt.add(product);
+				
+			}
+			
+		}  catch (SQLException e) {
+			
+			Logger.error(e);
+			throw new PersistenceException(e.getMessage());
+			
+		} finally {
+			ConnectionUtil.close(con, ps, rs);
+		}
+		
+		return pdt;
+		
 	}
+
+	
+	
 
 	@Override
 	public void updateProduct(int productId, String name, int categoryId, long price) {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public Set<Product> listAllProductsByCategoryId(int categoryId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+		
+	}
 
 	
 
 		
-	}
+	
 
 
 

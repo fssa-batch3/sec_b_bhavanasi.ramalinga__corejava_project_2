@@ -19,9 +19,9 @@ public class ConnectionUtil {
 		String userName;
 		String passWord;
 	
-		url = "jdbc:mysql://localhost:3306/productprice";
-		userName = "root";
-		passWord ="123456"; 
+		url = System.getenv("DATABASE_HOSTNAME");
+		userName = System.getenv("DATABASE_USERNAME");
+		passWord =System.getenv("DATABASE_PASSWORD"); 
 
       Connection connection1 = null;
 		

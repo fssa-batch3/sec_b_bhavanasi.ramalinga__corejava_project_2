@@ -9,7 +9,7 @@ import in.fssa.productprice.util.StringUtil;
 
 public class UserValidator {
 
-	private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\\\s]*$";
+	private static final String NAME_PATTERN = "^[A-Za-z]+(\\s[A-Za-z]+)*$";
 	private static final String EMAIL_PATTERN = "^[a-zA-Z0-9]+([a-zA-Z0-9_+\\-\\. ]*[a-zA-Z0-9]+)?@[a-zA-Z0-9]+([a-zA-Z0-9\\-\\.]*[a-zA-Z0-9])?\\.[a-zA-Z]{2,}$";
 	private static final String PASSWORD_PATTERN = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}";
 	
@@ -19,11 +19,11 @@ public class UserValidator {
 	 * @throws ValidationException
 	 */
 	
-	public static void validate(UserEntity user) throws ValidationException {
+	    public static void validate(UserEntity user) throws ValidationException {
 
-		if (user == null) { 
+		   if (user == null) { 
 			throw new ValidationException("Invalid user input");
-		}  
+		   }  
 			
 			validateName(user.getName());
 			validateEmail(user.getEmail());
@@ -40,7 +40,7 @@ public class UserValidator {
 	 * @throws ValidationException
 	 */
 	
-		private static void validatePhoneNumber(long phoneNumber) throws ValidationException{
+		 static void validatePhoneNumber(long phoneNumber) throws ValidationException{
 			
 			String phno = String.valueOf(phoneNumber);
 			
@@ -60,7 +60,7 @@ public class UserValidator {
 		 * @throws ValidationException
 		 */
 		
-		public static void validateName(String name) throws ValidationException {
+		   public static void validateName(String name) throws ValidationException {
 			
 			StringUtil.rejectIfInvalidString(name, "Name");
 			
@@ -68,7 +68,7 @@ public class UserValidator {
 				throw new ValidationException("Name doesn't match the pattern");
 			}
 		
-		}
+		    }
 		
 		/**
 		 * 
@@ -76,7 +76,7 @@ public class UserValidator {
 		 * @throws ValidationException
 		 */
 		
-		public static void validateEmail(String email) throws ValidationException {
+		  public static void validateEmail(String email) throws ValidationException {
 			
 			StringUtil.rejectIfInvalidString(email, "Email");
 			
@@ -84,22 +84,23 @@ public class UserValidator {
 				throw new ValidationException("Email doesn't match the pattern");
 			}			
 		
-		}
-public static void CheckUserExists(String email) throws ValidationException, PersistenceException {
+		    }
+          public static void CheckUserExists(String email) throws ValidationException, PersistenceException {
 			
 			UserDAO userdao = new UserDAO();
 			userdao.checkUserExists(email);
 			
-		}
+		    }
+          
 		
-		public static void CheckUserExistsWithPhoneNumber(long phoneNumber) throws ValidationException, PersistenceException {
+		  public static void CheckUserExistsWithPhoneNumber(long phoneNumber) throws ValidationException, PersistenceException {
 			
 			UserDAO userdao = new UserDAO();
 			userdao.checkUserExistsWithPhoneNumber(phoneNumber);
 			
-		}
+	    	}
 		
-		public static void CheckUserExistsWithId(int id) throws ValidationException, PersistenceException {
+		   public static void CheckUserExistsWithId(int id) throws ValidationException, PersistenceException {
 			
 			if(id<=0) {
 				throw new ValidationException("Invalid user id");
@@ -108,16 +109,16 @@ public static void CheckUserExists(String email) throws ValidationException, Per
 			UserDAO userdao = new UserDAO();
 			userdao.checkUserExistsWithId(id); 
 			
-		}
+	    	}
 		
-		public static void CheckUserExistsForUpdate(String email) throws ValidationException, PersistenceException {
+		  public static void CheckUserExistsForUpdate(String email) throws ValidationException, PersistenceException {
 			
 			UserDAO userdao = new UserDAO();
 			userdao.checkUserExistsForUpdate(email);
 			
-		}
+	     	}
 		
-		public static void CheckUserExistsWithPhoneNumberForUpdate(long phoneNumber) throws ValidationException, PersistenceException {
+		  public static void CheckUserExistsWithPhoneNumberForUpdate(long phoneNumber) throws ValidationException, PersistenceException {
 			
 			UserDAO userdao = new UserDAO();
 			userdao.checkUserExistsWithPhoneNumberForUpdate(phoneNumber);
@@ -130,7 +131,7 @@ public static void CheckUserExists(String email) throws ValidationException, Per
 		 * @throws ValidationException
 		 */
 		
-		public static void validatePassword(String password) throws ValidationException {
+		    public static void validatePassword(String password) throws ValidationException {
 			
 			StringUtil.rejectIfInvalidString(password, "Password");
 			
@@ -143,14 +144,23 @@ public static void CheckUserExists(String email) throws ValidationException, Per
 			}
 		
 		
-		}
+		    }
 		
-		/**
-		 * 
-		 * @param age
-		 * @throws ValidationException
-		 */
+
+		  
+
+		    private static void validateAddress(String address) throws ValidationException {
+		        if (address == null) {
+		            throw new ValidationException("Address cannot be null");
+		        }
+
+		        if (address.trim().isEmpty()) {
+		            throw new ValidationException("Address cannot be empty");
+		        }
+		    }
+
+	 
+	}
+
 		
-		
-		
-}
+

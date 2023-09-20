@@ -8,6 +8,21 @@ package in.fssa.productprice.model;
 	 boolean isActive;
 	 double price;
 	 String imageurl;
+	 int userId;
+	 String details;
+	 
+	 public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+
+
+
+	
 	 public String getDetails() {
 		return details;
 	}
@@ -19,7 +34,7 @@ package in.fssa.productprice.model;
 	
 	 
 
-	String details;
+	
 	 
 	 public int getCategoryId() {
 		return categoryId;

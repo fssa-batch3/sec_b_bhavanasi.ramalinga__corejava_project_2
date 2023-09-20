@@ -2,8 +2,11 @@ package in.fssa.productprice.service;
 import in.fssa.productprice.validator.ProductValidator;
 import in.fssa.productprice.dao.ProductDAO;
 import in.fssa.productprice.exception.PersistenceException;
+import in.fssa.productprice.exception.ServiceException;
 import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.model.Product;
+import in.fssa.productprice.model.ProductEntity;
+
 import java.util.Set;
 public class ProductService {
 	
@@ -54,7 +57,7 @@ public Set<Product> listAllProduct() throws PersistenceException{
 		ProductValidator validator = new ProductValidator();
 		validator.validateProduct(product);
 		ProductDAO productDAO = new ProductDAO();
-		productDAO.create(product);
+		 productDAO.create(product);
 		
 	}
 	/**
@@ -90,7 +93,7 @@ public void delete(int productId) throws PersistenceException, ValidationExcepti
     
      }
   
-  public Product findProductDetailsByProductId(int productId)throws  ValidationException, PersistenceException{
+  public static Product findProductDetailsByProductId(int productId)throws  ValidationException, PersistenceException{
 		
 		ProductValidator validator = new ProductValidator();
 		validator.validateProductId(productId);
@@ -136,6 +139,30 @@ public void delete(int productId) throws PersistenceException, ValidationExcepti
 	    productDAO.updateProduct(id, name, price,imageurl,details);
 	}
 	
+	
+      public static Set<Product> findAllProductsBySellerId(int id) throws PersistenceException, ValidationException, ServiceException  {
+
+		
+
+		Set<Product> productList;
+				
+			try {
+				
+				ProductValidator.validateSellerId(id);
+				
+				ProductDAO productDAO = new ProductDAO();
+				
+					
+				productList = productDAO.findAllProductsBySellerId(id);
+						
+			} catch (PersistenceException e) {
+				e.printStackTrace();
+				throw new ServiceException(e.getMessage());
+			}
+
+		return productList;
+		
+	}
 	
 
 	

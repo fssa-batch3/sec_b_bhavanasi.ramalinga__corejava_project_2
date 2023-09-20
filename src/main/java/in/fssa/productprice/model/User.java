@@ -9,17 +9,36 @@ public class User  implements Comparable<User>{
 	private long phoneNumber;
 	private String password;
 	private boolean isActive;
-	
-	
+	private String role;
+	private String address;
+	 
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 	
 
 	public int getId() {
 		return id;
 	}
 	
+	
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 	
 	public String getEmail() {
 		return email;
@@ -82,9 +101,10 @@ public class User  implements Comparable<User>{
 	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", email=" + email + ", name=" + name + ", phoneNumber=" + phoneNumber + ", password="
-				+ password + ",]";
+	    return "User [id=" + id + ", email=" + email + ", name=" + name + ", phoneNumber=" + phoneNumber +
+	    		 ", Address=" + address   + ", password=" + password  +" ]";
 	}
+
 
 	
 

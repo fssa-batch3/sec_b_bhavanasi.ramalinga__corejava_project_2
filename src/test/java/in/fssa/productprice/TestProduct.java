@@ -59,7 +59,18 @@ public class TestProduct {
 		});
 	}
 	
-
+@Test
+public void testproductbysellerId() {
+	ProductService product = new ProductService();
+	Set<Product> products;
+	try {
+		products = product.findAllProductsBySellerId(10) ;
+		System.out.print(products);
+		
+	}catch(Exception e) {
+		e.printStackTrace();
+	}
+}
 
 	
 	@Test    
