@@ -23,19 +23,29 @@ public class OrderValidator {
 					throw new ValidationException("Invalid order input");
 				}
 				
+				
 				UserValidator.validatePhoneNumber(order.getPhoneNumber());
 
 				validateQuantity(order.getQuantity());
+				validatepincode(order.getPincode());
 				
 				UserValidator.CheckUserExistsWithId(order.getUserId());
 				
 				ProductValidator.validateprice(order.getPrice());
 				
 			 	validateAddress(order.getAddress());
+			 	
 				
 				ProductValidator.validateSellerId(order.getSellerId());
 				
 			}
+	       private static void validatepincode(int pincode) throws ValidationException {
+		
+		   if(pincode <=0) {
+			 throw new ValidationException("Invalide pincode");
+			 
+		 }
+	 }
 	 
 
 		  

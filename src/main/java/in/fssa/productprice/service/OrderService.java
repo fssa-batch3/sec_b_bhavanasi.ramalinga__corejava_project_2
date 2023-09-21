@@ -17,7 +17,7 @@ import in.fssa.productprice.validator.UserValidator;
 
 public class OrderService {
 	
-	public void create(OrderEntity newOrder) throws ServiceException, ValidationException {
+	 public void create(OrderEntity newOrder) throws ServiceException, ValidationException {
 
 		try {
 			OrderValidator.validateOrder(newOrder);
@@ -94,8 +94,6 @@ public class OrderService {
 		Set<OrderEntity> orderList = null;
 
 		try {
-
-			UserValidator.CheckUserExistsWithId(id);
 
 			OrderDAO orderDAO = new OrderDAO();
 			orderList = orderDAO.findOrdersByUserId(id);

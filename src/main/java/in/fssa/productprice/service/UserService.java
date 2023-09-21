@@ -71,7 +71,6 @@ public class UserService {
 			UserValidator.CheckUserExistsWithId(id);
 			UserValidator.validateName(updatedUser.getName());
 			UserValidator.validatePassword(updatedUser.getPassword());
-			UserValidator.validateAddress(updatedUser.getAddress());
 			
 			UserDAO userdao = new UserDAO();
 			userdao.update(id, updatedUser);

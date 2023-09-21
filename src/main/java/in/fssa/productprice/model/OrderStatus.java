@@ -1,3 +1,4 @@
+
 package in.fssa.productprice.model;
 
 public enum OrderStatus {

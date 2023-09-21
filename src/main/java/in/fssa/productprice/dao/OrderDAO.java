@@ -27,8 +27,8 @@ public class OrderDAO {
 		PreparedStatement ps = null;
 
 		try {
-			String query = "INSERT INTO orders (quantity,phone_number,userId,price,Address,pincode,name,pdt_id,seller_id) "
-					+ "VALUES (?, ?,'Cash_on_delivery','WAITING_LIST', ?,  ?, ?, ?, ?, ?,?)";
+			String query = "INSERT INTO orders (quantity, phone_number, userId, price, Address, pincode, prt_name,image_url, pdt_id,seller_id) "
+		+ "VALUES (?, ?, ?,  ?, ?, ?, ?,?,?,?)";
 			connection = ConnectionUtil.getConnection();
 			ps = connection.prepareStatement(query);
 			ps.setInt(1,newOrder.getQuantity());
@@ -38,18 +38,21 @@ public class OrderDAO {
 			ps.setString(5, newOrder.getAddress());
 			ps.setInt(6, newOrder.getPincode());
 			ps.setString(7,newOrder.getName());
-			ps.setInt(8, newOrder.getPdtId());
-		    ps.setInt(9, newOrder.getSellerId());
+			ps.setString(8, newOrder.getImage());
+			ps.setInt(9, newOrder.getPdtId());
+			ps.setInt(10, newOrder.getSellerId());
 			
 	        LocalDate orderDate = LocalDate.now(); 
+	        
 	        int daysToAdd = 3; 
+	        
 	        LocalDate deliveryDate = orderDate.plusDays(daysToAdd);
 
-	        ps.setDate(6, Date.valueOf(deliveryDate));
+//	        ps.setDate(6, Date.valueOf(deliveryDate));
 
 			ps.executeUpdate();
 
-			System.out.println("Address has been created successfully");
+			System.out.println("Order has been created successfully");
 
 		} catch (SQLException e) {
 			Logger.error(e);
@@ -144,10 +147,8 @@ public class OrderDAO {
 
 				order.setOrderId(rs.getInt("order_id"));
 				String status = rs.getString("status");
-				order.setStatus(status);
-				order.setPrice(rs.getDouble("price"));
 				OrderStatus orderstatus = OrderStatus.valueOf(status);
-				
+				order.setStatus(orderstatus);
 				java.sql.Date orderedDateSQL = rs.getDate("ordered_date");
 				
 				order.setOrdereDate(orderedDateSQL.toLocalDate());
@@ -181,7 +182,6 @@ public class OrderDAO {
 	
 	
 	public Set<OrderEntity> findOrdersByUserId(int id) throws PersistenceException {
-
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -189,7 +189,7 @@ public class OrderDAO {
 
 		try {
 
-			String query = "SELECT order_id, order_date, delivery_date, phone_number, is_active, quantity, status, userId, Address, price  FROM orders WHERE user_id = ?";
+			String query = "SELECT order_id, order_date, delivery_date, phone_number, is_active, quantity, status, userId, Address, price , prt_name, image_url FROM orders WHERE userId = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setInt(1, id);
@@ -214,13 +214,13 @@ public class OrderDAO {
 				order.setQuantity(rs.getInt("quantity"));
 				
 				String status = rs.getString("status");
-				OrderStatus orderstatus = OrderStatus.valueOf(status);
-				
-				order.setStatus(status);
+				OrderStatus orderStatus = OrderStatus.valueOf(status);
+				order.setStatus(orderStatus);
 				order.setUserId(rs.getInt("userId"));
 				order.setAddress(rs.getString("Address"));
 				order.setPrice(rs.getDouble("price"));
-				
+				order.setName(rs.getString("prt_name"));
+				order.setImage(rs.getString("image_url"));
 				orders.add(order);
 
 			}
@@ -276,7 +276,7 @@ public class OrderDAO {
 				String status = rs.getString("status");
 				OrderStatus orderstatus = OrderStatus.valueOf(status);
 				
-				order.setStatus(status);
+				order.setStatus(orderstatus);
 				order.setUserId(rs.getInt("userId"));
 				order.setAddress(rs.getString("address"));
 				order.setPrice(rs.getDouble("price"));

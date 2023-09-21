@@ -8,7 +8,7 @@ public class Order {
 	int quantity;
 	Long phoneNumber;
 	String payment;
-	String status;
+	OrderStatus status;
 	int userId;
 	int pdtId;
 	boolean isActive;
@@ -19,6 +19,15 @@ public class Order {
 	int pincode;
 	int sellerId;
 	Double price;
+	String image;
+	
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
 	LocalDate  DeliveryDate;
 	 
 	public LocalDate getDeliveryDate() {
@@ -106,10 +115,10 @@ public class Order {
 	public void setPayment(String payment) {
 		this.payment = payment;
 	}
-	public String getStatus() {
+	public OrderStatus getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
 	public int getUserId() {
