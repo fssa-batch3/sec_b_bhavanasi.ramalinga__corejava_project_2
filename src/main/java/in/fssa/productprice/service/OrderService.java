@@ -105,7 +105,7 @@ public class OrderService {
 
 		return orderList;
 
-	}
+	} 
 	
 	
 	public static Set<OrderEntity> findOrdersBySellerId(int id) throws ServiceException, ValidationException {

@@ -20,7 +20,25 @@ public class Order {
 	int sellerId;
 	Double price;
 	String image;
+	String userName;
 	
+	
+	public LocalDate getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(LocalDate orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	public String getImage() {
 		return image;
 	}

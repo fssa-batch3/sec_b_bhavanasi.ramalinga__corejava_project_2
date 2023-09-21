@@ -27,8 +27,8 @@ public class OrderDAO {
 		PreparedStatement ps = null;
 
 		try {
-			String query = "INSERT INTO orders (quantity, phone_number, userId, price, Address, pincode, prt_name,image_url, pdt_id,seller_id) "
-		+ "VALUES (?, ?, ?,  ?, ?, ?, ?,?,?,?)";
+			String query = "INSERT INTO orders (quantity, phone_number, userId, price, Address, pincode, prt_name,image_url, pdt_id,seller_id,user_name) "
+		+ "VALUES (?, ?, ?,  ?, ?, ?, ?,?,?,?,?)";
 			connection = ConnectionUtil.getConnection();
 			ps = connection.prepareStatement(query);
 			ps.setInt(1,newOrder.getQuantity());
@@ -41,6 +41,7 @@ public class OrderDAO {
 			ps.setString(8, newOrder.getImage());
 			ps.setInt(9, newOrder.getPdtId());
 			ps.setInt(10, newOrder.getSellerId());
+			ps.setString(11,newOrder.getUserName());
 			
 	        LocalDate orderDate = LocalDate.now(); 
 	        
@@ -135,7 +136,7 @@ public class OrderDAO {
 
 		try {
 
-			String query = "SELECT quantity,phone_number, status, userId, price, Address, pincode,name,pdt_id,seller_id, delivery_date FROM orders WHERE is_active = 1 AND order_id = ?";
+			String query = "SELECT quantity,phone_number, status, userId, price, Address, pincode,name,pdt_id,seller_id, delivery_date , user_name FROM orders WHERE is_active = 1 AND order_id = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setInt(1, id);
@@ -154,6 +155,7 @@ public class OrderDAO {
 				order.setOrdereDate(orderedDateSQL.toLocalDate());
 				
 				java.sql.Date deliveryDateSQL = rs.getDate("delivery_date");
+				order.setUserName(rs.getString("user_name"));
 				
 				order.setDeliveryDate(deliveryDateSQL.toLocalDate());
 				
@@ -161,6 +163,7 @@ public class OrderDAO {
 				order.setActive(rs.getBoolean("is_active"));
 				
 				order.setUserId(rs.getInt("user_id"));
+				
 
 
 			}
@@ -221,6 +224,7 @@ public class OrderDAO {
 				order.setPrice(rs.getDouble("price"));
 				order.setName(rs.getString("prt_name"));
 				order.setImage(rs.getString("image_url"));
+				
 				orders.add(order);
 
 			}
@@ -241,63 +245,59 @@ public class OrderDAO {
 
 	
 	public Set<OrderEntity> findOrdersBySellerId(int id) throws PersistenceException {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    Set<OrderEntity> orders = new HashSet<>(); 
 
-		Connection con = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		Set<OrderEntity> orders = null;
+	    try {
+	        String query = "SELECT order_id, order_date, delivery_date, phone_number, is_active, quantity, status, userId, Address, price,  user_name , image_url, prt_name FROM orders WHERE seller_id = ?";
+	        con = ConnectionUtil.getConnection();
+	        ps = con.prepareStatement(query);
+	        ps.setInt(1, id);
+	        rs = ps.executeQuery();
 
-		try {
+	        while (rs.next()) {
+	            OrderEntity order = new OrderEntity();
 
-			String query = "SELECT order_id, order_date, delivery_date, phone_number, is_active, quantity, status, userId, Address, price FROM orders WHERE seller_id = ?";
-			con = ConnectionUtil.getConnection();
-			ps = con.prepareStatement(query);
-			ps.setInt(1, id);
-			rs = ps.executeQuery();
+	            order.setOrderId(rs.getInt("order_id"));
 
-			while (rs.next()) {
-				
-				OrderEntity order = new OrderEntity();
+	            java.sql.Date orderedDateSQL = rs.getDate("order_date");
 
-				order.setOrderId(rs.getInt("order_id"));
-				
-				java.sql.Date orderedDateSQL = rs.getDate("order_date");
-				
-				order.setOrdereDate(orderedDateSQL.toLocalDate());
-				
-				java.sql.Date deliveryDateSQL = rs.getDate("delivery_date");
-				
-				order.setDeliveryDate(deliveryDateSQL.toLocalDate());
-				
-				order.setPhoneNumber(rs.getLong("phone_number"));
-				order.setActive(rs.getBoolean("is_active"));
-				order.setQuantity(rs.getInt("quantity"));
-				
-				String status = rs.getString("status");
-				OrderStatus orderstatus = OrderStatus.valueOf(status);
-				
-				order.setStatus(orderstatus);
-				order.setUserId(rs.getInt("userId"));
-				order.setAddress(rs.getString("address"));
-				order.setPrice(rs.getDouble("price"));
-				
-				orders.add(order);
+	            order.setOrdereDate(orderedDateSQL.toLocalDate());
 
-			}
+	            java.sql.Date deliveryDateSQL = rs.getDate("delivery_date");
 
-		} catch (SQLException e) {
-			Logger.error(e);
-			throw new PersistenceException(e.getMessage());
+	            order.setDeliveryDate(deliveryDateSQL.toLocalDate());
+	            order.setPhoneNumber(rs.getLong("phone_number"));
+	            order.setActive(rs.getBoolean("is_active"));
+	            order.setQuantity(rs.getInt("quantity"));
 
-		} finally {
+	            String status = rs.getString("status");
+	            OrderStatus orderstatus = OrderStatus.valueOf(status);
 
-			ConnectionUtil.close(con, ps, rs);
+	            order.setStatus(orderstatus);
+	            order.setUserId(rs.getInt("userId"));
+	            order.setAddress(rs.getString("address"));
+	            order.setPrice(rs.getDouble("price"));
+                order.setUserName(rs.getString("user_name"));
+                order.setImage(rs.getNString("image_url"));
+                order.setName(rs.getString("prt_name"));
+                
+	            orders.add(order);
+	        }
 
-		}
+	    } catch (SQLException e) {
+	        Logger.error(e);
+	        throw new PersistenceException(e.getMessage());
+	    } finally {
+	        ConnectionUtil.close(con, ps, rs);
+	    }
 
-		return orders;
-
+	    return orders;
 	}
+
+	
 	
 	public void checkorderExistWithOrderId(int id) throws PersistenceException, ValidationException {
 

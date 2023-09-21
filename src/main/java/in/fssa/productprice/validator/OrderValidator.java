@@ -35,11 +35,17 @@ public class OrderValidator {
 				
 			 	validateAddress(order.getAddress());
 			 	
-				
+				 validateUserName(order.getUserName());
 				ProductValidator.validateSellerId(order.getSellerId());
 				
 			}
-	       private static void validatepincode(int pincode) throws ValidationException {
+	       private static void validateUserName(String userName) throws ValidationException {
+		      if(userName == null) {
+		    	  throw new ValidationException("Name can not be empty");
+		      }
+		
+	}
+		private static void validatepincode(int pincode) throws ValidationException {
 		
 		   if(pincode <=0) {
 			 throw new ValidationException("Invalide pincode");
