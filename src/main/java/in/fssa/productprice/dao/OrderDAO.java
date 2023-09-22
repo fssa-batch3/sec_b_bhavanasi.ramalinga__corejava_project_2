@@ -65,6 +65,38 @@ public class OrderDAO {
 
 	}
 	
+	public void orderDelivered(int id) throws PersistenceException {
+
+		Connection con = null;
+		PreparedStatement ps = null;
+
+		try {
+
+			String query = "UPDATE orders SET status = 'DELIVERED', is_active=0 WHERE is_active=1 AND order_id=?";
+
+			con = ConnectionUtil.getConnection();
+			ps = con.prepareStatement(query);
+
+			ps.setInt(1, id);
+
+			ps.executeUpdate();
+
+			System.out.println("Order has been delivered successfully");
+
+		} catch (SQLException e) {
+
+			Logger.error(e);
+			throw new PersistenceException(e.getMessage());
+
+		} finally {
+
+			ConnectionUtil.close(con, ps);
+
+		}
+
+	}
+	
+	
 	public void acceptOrder(int id) throws PersistenceException {
 
 		Connection con = null;

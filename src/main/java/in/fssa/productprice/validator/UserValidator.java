@@ -124,6 +124,8 @@ public class UserValidator {
 			userdao.checkUserExistsWithPhoneNumberForUpdate(phoneNumber);
 			
 		}
+		  
+		  
 		
 		/**
 		 * 

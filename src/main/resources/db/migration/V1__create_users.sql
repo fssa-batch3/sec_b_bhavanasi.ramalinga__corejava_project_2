@@ -59,6 +59,9 @@ id INT auto_increment PRIMARY KEY not null,
 
 );
 
+ 
+
+
 CREATE TABLE IF NOT EXISTS orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -67,25 +70,31 @@ CREATE TABLE IF NOT EXISTS orders (
     quantity INT NOT NULL,
     phone_number VARCHAR(100) NOT NULL,
     payment VARCHAR(100) DEFAULT 'Cash on Delivery',
-    status ENUM('Waiting list', 'Delivered', 'On the way', 'Canceled') NOT NULL DEFAULT 'Waiting list',
+  status ENUM('ORDERED_SUCCESSFULLY', 'ON_THE_WAY', 'DELIVERED') NOT NULL DEFAULT 'ORDERED_SUCCESSFULLY',
     userId INT,
     price DOUBLE,
     Address VARCHAR(1000),
-    pincode INT,
-    name VARCHAR(100),
+    pincode INT NOT NULL,
+    prt_name VARCHAR(100),
+    image_url VARCHAR(255),
     pdt_id INT,
     seller_id INT,
+    user_name VARCHAR(255),
+    delivery_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  
     FOREIGN KEY (seller_id) REFERENCES products(userId),
     FOREIGN KEY (pdt_id) REFERENCES products(id),
     FOREIGN KEY (userId) REFERENCES users(id)
 );
 
+
 select * from orders;
 
-INSERT INTO orders(name,Address,seller_id,pincode,quantity,phone_number,userId,pdt_id,price)
-VALUES ('Soundarya','Chennai','10','600032',2,'8466009892','5','1',5000);
+INSERT INTO orders(prt_name,Address,seller_id, pincode, quantity, phone_number, userId, pdt_id, price,image_url,user_name)
+VALUES ('Del', 'Chennai', 10,'600032',2 ,'8466009892', 5,  1, 5000, 'https://iili.io/J9pamVR.jpg','soundarya reddy');
 drop table orders;
 select * from users;
+
 
 INSERT INTO users (email, name, phoneNumber, password, isActive,role,Address )
 VALUES ('Soundarya@example.com', 'Soundarya Reddy', 1234567890, '9876754653', TRUE, 'buyer','Gandhi St, Abith Colony, Industrial Area, Saidapet, Chennai, Tamil Nadu 600015'),
@@ -97,6 +106,7 @@ select * from categories;
 
 drop table categories;
 drop table products;
+
 
 
 INSERT INTO categories (name, image_url)
@@ -125,8 +135,8 @@ UPDATE users
 SET name = 'Soundarya', phoneNumber = 9876543210
 WHERE id = 1;
 -- delete
-DELETE FROM users
-WHERE id = 1;
+DELETE FROM orders
+WHERE order_id = 1;
 
 
 

@@ -31,6 +31,22 @@ public class OrderService {
 		}
 
 	}
+	 public static void orderDelivered(int id) throws ServiceException, ValidationException {
+
+			try {
+
+				OrderValidator.validateOrderId(id);
+
+				OrderDAO orderDAO = new OrderDAO();
+				orderDAO.orderDelivered(id);
+
+			} catch (PersistenceException e) {
+				e.printStackTrace();
+				throw new ServiceException(e.getMessage());
+			}
+
+		}
+	 
 	
 	public static void acceptOrder(int id) throws ServiceException, ValidationException {
 

@@ -24,15 +24,15 @@ import in.fssa.productprice.interfaces.ProductInterface;
 	 * @return 
 	 * @throws PersistenceException 
 	 */
-		public int create(Product product) throws PersistenceException {
+		public void create(Product product) throws PersistenceException {
 			
 			Connection conn = null;
 			PreparedStatement ps = null;
-			ResultSet rs = null;
+			
 
-			int productId = -1;
+			
 			try {
-				String query = "INSERT INTO products (name, categoryId,  price,image_url,Details, userId) VALUES (?,?,?,?,?,?)";
+				String query = "INSERT INTO products (name, categoryId,  price,image_url, Details, userId) VALUES (?,?,?,?,?,?)";
 				conn = ConnectionUtil.getConnection();
 				ps = conn.prepareStatement(query);
 				ps.setString(1,product.getName());
@@ -41,12 +41,9 @@ import in.fssa.productprice.interfaces.ProductInterface;
 				ps.setString(4,product.getImageurl());
 				ps.setString(5, product.getDetails());
 			 	ps.setInt(6,product.getUserId());
+			 	
 				ps.executeUpdate();
-			    rs = ps.getGeneratedKeys();
 			    
-				if(rs.next()) {
-					productId = rs.getInt(1);
-				}
 				
 				System.out.println("Product  has been created successfully");
 				
@@ -56,10 +53,10 @@ import in.fssa.productprice.interfaces.ProductInterface;
 				throw new PersistenceException(e.getMessage());
 				
 			} finally {
-				ConnectionUtil.close(conn, ps, rs);
+				ConnectionUtil.close(conn, ps);
 			}
 			
-			return productId;
+			
 		}
 		
 		/**

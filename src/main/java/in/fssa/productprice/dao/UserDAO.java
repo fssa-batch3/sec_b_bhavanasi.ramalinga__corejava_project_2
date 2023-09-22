@@ -29,7 +29,7 @@ public class UserDAO implements UserInterface<UserEntity> {
 		 
 		try {
 			
-			String query = "SELECT id, email, name,  phoneNumber, password, role, Address isActive FROM users WHERE isActive=1";
+			String query = "SELECT id, email, name,  phoneNumber, password, role, Address, pincode, isActive FROM users WHERE isActive=1";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			rs = ps.executeQuery();
@@ -72,7 +72,7 @@ public class UserDAO implements UserInterface<UserEntity> {
 		PreparedStatement ps = null;
 		
 		try {
-			String query = "INSERT INTO users (email, name, phoneNumber, password, role , Address) VALUES (?, ?, ?, ?, ?, ?)";
+			String query = "INSERT INTO users (email, name, phoneNumber, password, role , Address,pincode) VALUES (?,?, ?, ?, ?, ?, ?)";
 			connection = ConnectionUtil.getConnection();
 			ps = connection.prepareStatement(query);
 			
@@ -82,6 +82,7 @@ public class UserDAO implements UserInterface<UserEntity> {
 			ps.setString(4, newuser.getPassword());
 			ps.setString(5, newuser.getRole());
 			ps.setString(6, newuser.getAddress());
+			ps.setInt(7, newuser.getPincode());
 		
 			ps.executeUpdate();
 			System.out.println("User has been created successfully");
@@ -126,6 +127,8 @@ public class UserDAO implements UserInterface<UserEntity> {
 		            queryBuilder.append("email = ?, ");
 		            values.add(updatedUser.getEmail());
 		        }
+		       
+		        
 		       
 		        queryBuilder.setLength(queryBuilder.length() - 2);
 		        queryBuilder.append(" WHERE isActive = 1 AND id = ?");
@@ -196,7 +199,7 @@ public class UserDAO implements UserInterface<UserEntity> {
 		
 		try {
 			
-			String query = "SELECT id, email, name,  phoneNumber, password, role, Address, isActive FROM users WHERE isActive = 1 AND id = ?";
+			String query = "SELECT id, email, name,  phoneNumber, password, role, Address, isActive, pincode FROM users WHERE isActive = 1 AND id = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setInt(1, id);
@@ -213,6 +216,7 @@ public class UserDAO implements UserInterface<UserEntity> {
 				user.setPassword(rs.getString("password"));
 				user.setRole(rs.getString("role"));
 				user.setAddress(rs.getString("Address"));
+				user.setPincode(rs.getInt("pincode"));
 			}
 			
 		} catch (SQLException e) {
@@ -303,7 +307,7 @@ public class UserDAO implements UserInterface<UserEntity> {
 		
 		try {
 			
-			String query = "SELECT id, name, phoneNumber, email,password, role, Address, isActive FROM users WHERE isActive=1 AND id=?";
+			String query = "SELECT id, name, phoneNumber, email,password, role, Address, isActive , pincode FROM users WHERE isActive=1 AND id=?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setInt(1, id);
@@ -318,6 +322,7 @@ public class UserDAO implements UserInterface<UserEntity> {
 				user.setPassword(rs.getString("password"));
 				user.setRole(rs.getString("role"));
 				user.setAddress(rs.getString("Address"));
+				user.setPincode(rs.getInt("pincode"));
 				
 			} else {
 				throw new ValidationException("User does not exist");
@@ -345,7 +350,7 @@ public class UserDAO implements UserInterface<UserEntity> {
 	
 	try {
 		
-		String query = "SELECT id,  name, phoneNumber, email, password, role, Address, isActive FROM users WHERE isActive=1 AND phoneNumber=?";
+		String query = "SELECT id,  name, phoneNumber, email, password, role, Address,pincode, isActive FROM users WHERE isActive=1 AND phoneNumber=?";
 		con = ConnectionUtil.getConnection();
 		ps = con.prepareStatement(query);
 		ps.setLong(1, phoneNumber);
@@ -360,6 +365,7 @@ public class UserDAO implements UserInterface<UserEntity> {
 			user.setPassword(rs.getString("password"));
 			user.setRole(rs.getString("role"));
 			user.setAddress(rs.getString("Address"));
+			user.setPincode(rs.getInt("pincode"));
 			
 		} else {
 			throw new ValidationException("User does not exist");
@@ -458,7 +464,7 @@ public class UserDAO implements UserInterface<UserEntity> {
 	
 	try {
 		
-		String query = "SELECT id, phoneNumber, password, role , Address FROM users WHERE isActive=1 AND phoneNumber=?";
+		String query = "SELECT id, phoneNumber, password, role , Address , pincode FROM users WHERE isActive=1 AND phoneNumber=?";
 		con = ConnectionUtil.getConnection();
 		ps = con.prepareStatement(query);
 		ps.setLong(1, phoneNumber);
@@ -471,6 +477,7 @@ public class UserDAO implements UserInterface<UserEntity> {
 			user.setPassword(rs.getString("password"));
 			user.setRole(rs.getString("role"));
 			user.setAddress(rs.getString("Address"));
+			user.setPincode(rs.getInt("pincode"));
 		} else {
 			throw new ValidationException("User does not exist");
 		}

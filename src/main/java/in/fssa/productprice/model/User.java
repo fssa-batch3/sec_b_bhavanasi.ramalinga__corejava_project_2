@@ -11,7 +11,16 @@ public class User  implements Comparable<User>{
 	private boolean isActive;
 	private String role;
 	private String address;
+	private int pincode;
 	 
+
+	public int getPincode() {
+		return pincode;
+	}
+
+	public void setPincode(int pincode) {
+		this.pincode = pincode;
+	}
 
 	public String getAddress() {
 		return address;

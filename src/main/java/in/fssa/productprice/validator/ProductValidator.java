@@ -40,7 +40,7 @@ public class ProductValidator {
 	}
 	
 	 private void validateImageUrl(String imageUrl) {
-		    if (imageUrl == null || imageUrl.isEmpty()) {
+		     if (imageUrl == null) {
 		       throw new IllegalArgumentException("Image URL is empty or null.");
 		    }
 		    
@@ -64,10 +64,8 @@ public class ProductValidator {
 	
 	public  void validateName(String name) throws ValidationException {
         
-        StringUtil.rejectIfInvalidString(name, "Name");
-        
-        if (!Pattern.matches(NAME_PATTERN, name)) {
-            throw new ValidationException("Name does not match the pattern");
+        if(name==null) {
+        	throw new ValidationException("Name can not be null");
         }
     
     }
