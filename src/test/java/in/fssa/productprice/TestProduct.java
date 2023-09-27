@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Set;
 
 import in.fssa.productprice.exception.ValidationException;
@@ -18,7 +19,7 @@ public class TestProduct {
 	@Test
 	public void getAllProductsByCategoryId() {
 	    ProductService productService = new ProductService();
-	    Set<Product> products;
+	    List<Product> products;
 	    try {
 	        products = productService.findProductDetailByCategoryId(34);
 	        System.out.println(products);
@@ -62,7 +63,7 @@ public class TestProduct {
 @Test
 public void testproductbysellerId() {
 	ProductService product = new ProductService();
-	Set<Product> products;
+	List<Product> products;
 	try {
 		products = product.findAllProductsBySellerId(10) ;
 		System.out.print(products);

@@ -15,8 +15,9 @@ import in.fssa.productprice.util.StringUtil;
 public class OrderValidator {
 	private static final String NAME_PATTERN = "^[A-Za-z][A-Za-z\\s]*$";
 	  private static final String ADDRESS_PATTERN = "^[A-Za-z0-9\\s.,'-]*$"; 
+	  
 	
-	 public static void validateOrder(OrderEntity order) throws ValidationException, PersistenceException{
+	     public static void validateOrder(OrderEntity order) throws ValidationException, PersistenceException{
 			
 
 				if (order == null) {
@@ -39,20 +40,39 @@ public class OrderValidator {
 				ProductValidator.validateSellerId(order.getSellerId());
 				
 			}
+	 
+	 
+	 
+	 
+	 
 	       private static void validateUserName(String userName) throws ValidationException {
 		      if(userName == null) {
 		    	  throw new ValidationException("Name can not be empty");
 		      }
+		      if (userName.trim().isEmpty()) {
+			        throw new ValidationException("Name cannot be empty");
+			    }
 		
 	}
-		private static void validatepincode(int pincode) throws ValidationException {
-		
-		   if(pincode <=0) {
-			 throw new ValidationException("Invalide pincode");
-			 
-		 }
-	 }
-	 
+	       
+	       
+	       
+	       
+	    public static void validatepincode(int i) throws ValidationException {
+	    String pincodeStr = String.valueOf(i);
+	    String regex = "\\d{6}";
+
+	    if (!pincodeStr.matches(regex) || pincodeStr.length() != 6) {
+	        throw new ValidationException("PIN code should be exactly 6 digits and contain only numbers");
+	    }
+	    
+	    if (pincodeStr.trim().isEmpty()) {
+	        throw new ValidationException("pincode cannot be empty");
+	    }
+	}
+	       
+	  
+	    
 
 		  
 	 private static void validateAddress(String address) throws ValidationException {
@@ -64,7 +84,7 @@ public class OrderValidator {
 		        throw new ValidationException("Address cannot be empty");
 		    }
 	 }
-			
+	 
 		
 
 			public static void validateQuantity(int quantity) throws ValidationException {

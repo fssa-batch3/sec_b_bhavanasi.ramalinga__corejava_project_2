@@ -4,6 +4,8 @@ package in.fssa.productprice;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.List;
 import java.util.Set;
 
 import in.fssa.productprice.service.CategoryService;
@@ -31,7 +33,7 @@ public class TestCategory {
 	@Test
 	 void getAll() {
 	CategoryService categpryService = new CategoryService();
-		Set<Category> AllCategory;
+		List<Category> AllCategory;
 		try {
 			AllCategory = categpryService.listAllCategory();
 			System.out.print(AllCategory);

@@ -1,5 +1,6 @@
 package in.fssa.productprice.service;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -64,7 +65,7 @@ public class CategoryService {
 	 */
 	
 
-public static  Set<Category> listAllCategory() throws PersistenceException{
+public static  List<Category> listAllCategory() throws PersistenceException{
 		
 		CategoryDAO cateogry = new CategoryDAO();
 		return cateogry.listAllCategory();

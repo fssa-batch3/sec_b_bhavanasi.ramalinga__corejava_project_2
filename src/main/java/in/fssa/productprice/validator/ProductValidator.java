@@ -40,18 +40,19 @@ public class ProductValidator {
 	}
 	
 	 private void validateImageUrl(String imageUrl) {
-		     if (imageUrl == null) {
+		     if (imageUrl == null  || imageUrl.trim().isEmpty()){
 		       throw new IllegalArgumentException("Image URL is empty or null.");
 		    }
 		    
 		  		   
 		}
 	 
-	 private boolean validateDetails(String details) {
-		    if (details == null || details.isEmpty()) {
-		        return false;
+	 private void validateDetails(String details) throws ValidationException {
+		    if (details == null || details.trim().isEmpty()) {
+		       
+		    	throw new ValidationException("Details Can not be null or empty");
 		    }
-		    return true;
+		  
 		}
 	 
 	 
@@ -64,24 +65,32 @@ public class ProductValidator {
 	
 	public  void validateName(String name) throws ValidationException {
         
-        if(name==null) {
+        if(name==null || name.trim().isEmpty()) {
         	throw new ValidationException("Name can not be null");
         }
     
     }
 	
+	/**
+	 * 
+	 * @param price
+	 * @throws ValidationException
+	 * @throws PersistenceException
+	 */
 	 
 	
-      public static  void validateprice (double price) throws ValidationException, PersistenceException {
-		
-		if(price <=0) {
-			
-			throw new ValidationException("Price cannot be Zero or empty");
-			
-		}
-				
+	public static void validateprice(double price) throws ValidationException {
+	    if (price <= 0 || String.valueOf(price).trim().isEmpty()) {
+	        throw new ValidationException("Price cannot be zero or empty");
+	    }
 	}
+
 	
+      /**
+       * 
+       * @param productId
+       * @throws ValidationException
+       */
 
 	public void validateProductId(int productId)throws ValidationException{
 		
@@ -89,6 +98,13 @@ public class ProductValidator {
 			throw new ValidationException("Id cannot be negative or zero");
 		}
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @throws ValidationException
+	 * @throws PersistenceException
+	 */
 	 
 	  public void validatingproductidAlreadyExist(int id)throws ValidationException, PersistenceException {
 	    ProductDAO pr = new ProductDAO();
@@ -109,6 +125,12 @@ public class ProductValidator {
 		 ProductDAO valide = new ProductDAO();
 		 valide.validateCategoryId(categoryId);
 	}
+	  /**
+	   * 
+	   * @param userId
+	   * @throws ValidationException
+	   * @throws PersistenceException
+	   */
 	
 	
 	public void validateUserId(int userId)throws ValidationException, PersistenceException{
@@ -140,6 +162,12 @@ public class ProductValidator {
 	    
 
 	}
+	/**
+	 * 
+	 * @param id
+	 * @throws ValidationException
+	 * @throws PersistenceException
+	 */
 	
         public static void validateSellerId(int id) throws ValidationException, PersistenceException {
 		

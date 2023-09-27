@@ -1,5 +1,6 @@
 package in.fssa.productprice.service;
 
+import java.util.List;
 import java.util.Set;
 
 import in.fssa.productprice.dao.OrderDAO;
@@ -81,6 +82,8 @@ public class OrderService {
 
 	}
 	
+
+	
 	public static OrderEntity findOrderByOrderId(int id) throws ServiceException, ValidationException {
 
 		OrderEntity order = null;
@@ -105,9 +108,9 @@ public class OrderService {
 	
 	
 	
-	public static Set<OrderEntity> findOrdersByUserId(int id) throws ServiceException, ValidationException {
+	public static List<OrderEntity> findOrdersByUserId(int id) throws ServiceException, ValidationException {
 
-		Set<OrderEntity> orderList = null;
+		List<OrderEntity> orderList = null;
 
 		try {
 
@@ -124,9 +127,9 @@ public class OrderService {
 	} 
 	
 	
-	public static Set<OrderEntity> findOrdersBySellerId(int id) throws ServiceException, ValidationException {
+	public static List<OrderEntity> findOrdersBySellerId(int id) throws ServiceException, ValidationException {
 
-		Set<OrderEntity> orderList = null;
+		List<OrderEntity> orderList = null;
 
 		try {
 

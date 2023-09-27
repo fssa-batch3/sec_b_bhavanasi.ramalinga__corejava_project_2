@@ -8,7 +8,10 @@ import java.util.Set;
 
 import day02.practice.Logger;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+
 import in.fssa.productprice.model.Product;
 import in.fssa.productprice.util.ConnectionUtil;
 import in.fssa.productprice.exception.PersistenceException;
@@ -186,13 +189,13 @@ import in.fssa.productprice.interfaces.ProductInterface;
  * @throws PersistenceException 
  */
 	
-		public Set<Product> listallProductsByCategoryId(int categoryId) throws PersistenceException {
+		public List<Product> listallProductsByCategoryId(int categoryId) throws PersistenceException {
 			
 			Connection conn = null;
 			PreparedStatement ps = null;
 			ResultSet rs = null;
 			
-			Set<Product> listOfProductsByCategoryId = new HashSet<>(); 
+			List<Product> listOfProductsByCategoryId = new ArrayList<>(); 
 			
 			try {
 				String query = "SELECT * FROM products WHERE isActive=1 and categoryId = ?";
@@ -477,13 +480,13 @@ import in.fssa.productprice.interfaces.ProductInterface;
 	}
 
 	
-     public Set<Product> findAllProductsBySellerId(int id) throws PersistenceException {
+     public List<Product> findAllProductsBySellerId(int id) throws PersistenceException {
 		
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		   Set<Product> pdt = new HashSet<>();
+		   List<Product> pdt = new ArrayList<>();
 		
 		try {
 			

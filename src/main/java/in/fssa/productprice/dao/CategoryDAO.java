@@ -3,7 +3,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import in.fssa.productprice.util.Logger;
@@ -96,12 +98,12 @@ public class CategoryDAO implements CategoryInterface{
 
 	
 
-	public Set<Category> listAllCategory() throws PersistenceException {
+	public List<Category> listAllCategory() throws PersistenceException {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		Set<Category> allCategory = new HashSet<>(); 
+		List<Category> allCategory = new ArrayList<>(); 
 		
 		try {
 			String query = "SELECT * FROM categories where isActive = 1";

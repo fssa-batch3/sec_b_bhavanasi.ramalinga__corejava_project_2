@@ -7,6 +7,7 @@ import in.fssa.productprice.exception.ValidationException;
 import in.fssa.productprice.model.Product;
 import in.fssa.productprice.model.ProductEntity;
 
+import java.util.List;
 import java.util.Set;
 public class ProductService {
 	
@@ -32,12 +33,12 @@ public Set<Product> listAllProduct() throws PersistenceException{
  * @throws Exception
  */
 	
-	public Set<Product> findProductDetailByCategoryId(int categoryId) throws ValidationException, PersistenceException {
+	public List<Product> findProductDetailByCategoryId(int categoryId) throws ValidationException, PersistenceException {
 	    ProductValidator validator = new ProductValidator();
 	    validator.validateCategoryId(categoryId);
 
 	    ProductDAO productDAO = new ProductDAO();
-	    Set<Product> products = productDAO.listallProductsByCategoryId(categoryId);
+	    List<Product> products = productDAO.listallProductsByCategoryId(categoryId);
 	    
 	    return products;
 	}
@@ -140,11 +141,11 @@ public void delete(int productId) throws PersistenceException, ValidationExcepti
 	}
 	
 	
-      public static Set<Product> findAllProductsBySellerId(int id) throws PersistenceException, ValidationException, ServiceException  {
+      public static List<Product> findAllProductsBySellerId(int id) throws PersistenceException, ValidationException, ServiceException  {
 
 		
 
-		Set<Product> productList;
+		List<Product> productList;
 				
 			try {
 				

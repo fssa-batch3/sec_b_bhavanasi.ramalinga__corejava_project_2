@@ -47,6 +47,8 @@ public class UserService {
 			UserValidator.validate(newUser); 
 			UserValidator.CheckUserExists(newUser.getEmail());
 			UserValidator.CheckUserExistsWithPhoneNumber(newUser.getPhoneNumber());
+			UserValidator.validateEmail(newUser.getEmail());
+			UserValidator.validateName(newUser.getName());
 			
 			UserDAO userdao = new UserDAO();
 			userdao.create(newUser);

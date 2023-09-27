@@ -10,8 +10,9 @@ import in.fssa.productprice.util.StringUtil;
 public class UserValidator {
 
 	private static final String NAME_PATTERN = "^[A-Za-z]+(\\s[A-Za-z]+)*$";
-	private static final String EMAIL_PATTERN = "^[a-zA-Z0-9]+([a-zA-Z0-9_+\\-\\. ]*[a-zA-Z0-9]+)?@[a-zA-Z0-9]+([a-zA-Z0-9\\-\\.]*[a-zA-Z0-9])?\\.[a-zA-Z]{2,}$";
+	private static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 	private static final String PASSWORD_PATTERN = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}";
+	
 	
 	/**
 	 * 
@@ -19,18 +20,35 @@ public class UserValidator {
 	 * @throws ValidationException
 	 */
 	
-	    public static void validate(UserEntity user) throws ValidationException {
+	public static void validatePincode(int i) throws ValidationException {
+	    String pincodeStr = String.valueOf(i);
+	    String regex = "\\d{6}";
 
-		   if (user == null) { 
+	    if (!pincodeStr.matches(regex) || pincodeStr.length() != 6) {
+	        throw new ValidationException("PIN code should be exactly 6 digits and contain only numbers");
+	    }
+	    
+	    
+	    if (pincodeStr.trim().isEmpty()) {
+	        throw new ValidationException("Pincode cannot be empty");
+	    }
+	    
+	}
+
+
+
+	       public static void validate(UserEntity user) throws ValidationException {
+
+		    if (user == null) { 
 			throw new ValidationException("Invalid user input");
-		   }  
+		     }  
 			
 			validateName(user.getName());
 			validateEmail(user.getEmail());
 			validatePhoneNumber(user.getPhoneNumber());
 			validatePassword(user.getPassword()); 
-			
-			  
+			validatePincode(user.getPincode());
+			validateAddress(user.getAddress());  
 			
 		} 
 		
@@ -51,8 +69,10 @@ public class UserValidator {
 			if(phoneNumber <= 6000000000l || phoneNumber >= 9999999999l) {
 				throw new ValidationException("Invalid phone number");
 			} 
-	
-		}
+	  }
+		 
+		 
+		 
 		
 		/**
 		 * 
@@ -67,6 +87,9 @@ public class UserValidator {
 			if (!Pattern.matches(NAME_PATTERN, name)) {
 				throw new ValidationException("Name doesn't match the pattern");
 			}
+			 if (name.trim().isEmpty()) {
+		            throw new ValidationException("Name cannot be empty");
+		        }
 		
 		    }
 		
@@ -76,15 +99,19 @@ public class UserValidator {
 		 * @throws ValidationException
 		 */
 		
-		  public static void validateEmail(String email) throws ValidationException {
-			
-			StringUtil.rejectIfInvalidString(email, "Email");
-			
-			if (!Pattern.matches(EMAIL_PATTERN, email)) {
-				throw new ValidationException("Email doesn't match the pattern");
-			}			
-		
-		    }
+		   public static void validateEmail(String email) throws ValidationException {
+			    StringUtil.rejectIfInvalidString(email, "Email");
+
+			    if (!Pattern.matches(EMAIL_PATTERN, email)) {
+			        throw new ValidationException("Email doesn't match the pattern");
+			    }
+
+			    if (email.toUpperCase().equals(email)) {
+			        throw new ValidationException("Email should not be fully uppercase");
+			    }
+			}
+
+
           public static void CheckUserExists(String email) throws ValidationException, PersistenceException {
 			
 			UserDAO userdao = new UserDAO();
@@ -142,8 +169,8 @@ public class UserValidator {
 			}
 			
 			if (!Pattern.matches(PASSWORD_PATTERN, password)) {
-				throw new ValidationException("Password doesn't match the pattern");
-			}
+		        throw new ValidationException("Password must match the pattern: " + PASSWORD_PATTERN);
+		    }
 		
 		
 		    }

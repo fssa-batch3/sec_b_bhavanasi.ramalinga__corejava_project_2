@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import in.fssa.productprice.exception.PersistenceException;
@@ -27,8 +29,8 @@ public class OrderDAO {
 		PreparedStatement ps = null;
 
 		try {
-			String query = "INSERT INTO orders (quantity, phone_number, userId, price, Address, pincode, prt_name,image_url, pdt_id,seller_id,user_name) "
-		+ "VALUES (?, ?, ?,  ?, ?, ?, ?,?,?,?,?)";
+			String query = "INSERT INTO orders (quantity, phone_number, userId, price, Address, pincode, prt_name, image_url, pdt_id, seller_id, user_name)"
+		+ "VALUES (?, ?, ?,  ?, ?, ?, ?, ?,?, ?, ?)";
 			connection = ConnectionUtil.getConnection();
 			ps = connection.prepareStatement(query);
 			ps.setInt(1,newOrder.getQuantity());
@@ -135,7 +137,7 @@ public class OrderDAO {
 
 		try {
 
-			String query = "UPDATE orders SET status = 'CANCELLED', is_active=0 WHERE is_active=1 AND order_id=?";
+			String query = "UPDATE orders SET status = 'CANCEL_ORDER', is_active=0 WHERE is_active=1 AND order_id=?";
 
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
@@ -168,7 +170,7 @@ public class OrderDAO {
 
 		try {
 
-			String query = "SELECT quantity,phone_number, status, userId, price, Address, pincode,name,pdt_id,seller_id, delivery_date , user_name FROM orders WHERE is_active = 1 AND order_id = ?";
+			String query = "SELECT quantity,phone_number, status, userId, price, Address, pincode,  name,  pdt_id,  seller_id, delivery_date , user_name FROM  orders WHERE is_active = 1 AND order_id = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setInt(1, id);
@@ -183,21 +185,12 @@ public class OrderDAO {
 				OrderStatus orderstatus = OrderStatus.valueOf(status);
 				order.setStatus(orderstatus);
 				java.sql.Date orderedDateSQL = rs.getDate("ordered_date");
-				
 				order.setOrdereDate(orderedDateSQL.toLocalDate());
-				
 				java.sql.Date deliveryDateSQL = rs.getDate("delivery_date");
 				order.setUserName(rs.getString("user_name"));
-				
 				order.setDeliveryDate(deliveryDateSQL.toLocalDate());
-				
-				
 				order.setActive(rs.getBoolean("is_active"));
-				
 				order.setUserId(rs.getInt("user_id"));
-				
-
-
 			}
 
 		} catch (SQLException e) {
@@ -216,15 +209,15 @@ public class OrderDAO {
 	
 	
 	
-	public Set<OrderEntity> findOrdersByUserId(int id) throws PersistenceException {
+	public List<OrderEntity> findOrdersByUserId(int id) throws PersistenceException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		Set<OrderEntity> orders = new HashSet<>();
+		List<OrderEntity> orders = new ArrayList<>();
 
 		try {
 
-			String query = "SELECT order_id, order_date, delivery_date, phone_number, is_active, quantity, status, userId, Address, price , prt_name, image_url FROM orders WHERE userId = ?";
+			String query = "SELECT order_id, order_date, delivery_date, phone_number, is_active, quantity, status, userId, Address, price , prt_name, image_url FROM orders WHERE is_active=1 and  userId = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setInt(1, id);
@@ -276,14 +269,14 @@ public class OrderDAO {
 	}
 
 	
-	public Set<OrderEntity> findOrdersBySellerId(int id) throws PersistenceException {
+	public List<OrderEntity> findOrdersBySellerId(int id) throws PersistenceException {
 	    Connection con = null;
 	    PreparedStatement ps = null;
 	    ResultSet rs = null;
-	    Set<OrderEntity> orders = new HashSet<>(); 
+	    List<OrderEntity> orders = new ArrayList<>(); 
 
 	    try {
-	        String query = "SELECT order_id, order_date, delivery_date, phone_number, is_active, quantity, status, userId, Address, price,  user_name , image_url, prt_name FROM orders WHERE seller_id = ?";
+	        String query = "SELECT order_id, order_date, delivery_date, phone_number, is_active, quantity, status, userId, Address, price,  user_name , image_url, prt_name FROM orders  WHERE is_active=1 and  seller_id = ?";
 	        con = ConnectionUtil.getConnection();
 	        ps = con.prepareStatement(query);
 	        ps.setInt(1, id);
@@ -363,5 +356,7 @@ public class OrderDAO {
 		}
 
 	}
+
+	
 	
 }
