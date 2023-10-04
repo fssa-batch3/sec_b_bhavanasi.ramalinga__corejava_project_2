@@ -217,7 +217,7 @@ public class OrderDAO {
 
 		try {
 
-			String query = "SELECT order_id, order_date, delivery_date, phone_number, is_active, quantity, status, userId, Address, price , prt_name, image_url FROM orders WHERE is_active=1 and  userId = ?";
+			String query = "SELECT order_id, order_date, delivery_date, phone_number, is_active, quantity, status, userId, Address, price , prt_name, image_url FROM orders WHERE userId = ?";
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
 			ps.setInt(1, id);

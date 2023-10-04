@@ -528,18 +528,6 @@ import in.fssa.productprice.interfaces.ProductInterface;
 	
 	
 
-	@Override
-	public void updateProduct(int productId, String name, int categoryId, long price) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public Set<Product> listAllProductsByCategoryId(int categoryId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
 		
 	}

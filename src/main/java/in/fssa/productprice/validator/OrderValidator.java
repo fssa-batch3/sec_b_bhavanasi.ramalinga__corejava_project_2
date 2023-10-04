@@ -96,8 +96,6 @@ public class OrderValidator {
 			}
 			
 			
-			
-			
 			public static void validateOrderId(int id) throws ValidationException, PersistenceException {
 
 				if (id <= 0) {
