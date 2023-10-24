@@ -35,7 +35,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 
 			
 			try {
-				String query = "INSERT INTO products (name, categoryId,  price,image_url, Details, userId) VALUES (?,?,?,?,?,?)";
+				String query = "INSERT INTO products (name, categoryId,  price,image_url, details, userId) VALUES (?,?,?,?,?,?)";
 				conn = ConnectionUtil.getConnection();
 				ps = conn.prepareStatement(query);
 				ps.setString(1,product.getName());
@@ -75,7 +75,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		    PreparedStatement ps = null;
 		    
 		    try {
-		        String query = "UPDATE products SET name = ? , price=? , image_url=?, Details=?  WHERE id = ?";
+		        String query = "UPDATE products SET name = ? , price=? , image_url=?, details=?  WHERE id = ?";
 		        conn = ConnectionUtil.getConnection();
 		        ps = conn.prepareStatement(query);
 		        ps.setString(1, name);
@@ -164,7 +164,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					product.setCategoryId(rs.getInt("categoryId"));
 					product.setPrice(rs.getDouble("price"));
 					product.setImageurl(rs.getNString("image_url"));
-					product.setDetails(rs.getString("Details"));
+					product.setDetails(rs.getString("details"));
 					product.setIsActive(rs.getBoolean("isActive"));
 					product.setUserId(rs.getInt("userId"));
 					
@@ -211,7 +211,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					product.setCategoryId(rs.getInt("categoryId"));
 					product.setImageurl(rs.getString("image_url"));
 					product.setPrice(rs.getDouble("price"));
-					product.setDetails(rs.getString("Details"));
+					product.setDetails(rs.getString("details"));
 					product.setUserId(rs.getInt("userId"));
 					
 					listOfProductsByCategoryId.add(product);
@@ -281,7 +281,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 					product.setCategoryId(rs.getInt("categoryId"));
 					product.setImageurl(rs.getString("image_url"));
 					product.setPrice(rs.getDouble("price"));
-					product.setDetails(rs.getString("Details"));
+					product.setDetails(rs.getString("details"));
 					product.setUserId(rs.getInt("userId"));
 					
 				}
@@ -490,7 +490,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 		
 		try {
 			
-			String query = "SELECT id, name, image_url,  userId, Details, categoryId, price, isActive FROM products WHERE isActive = 1 AND userId = ?";
+			String query = "SELECT id, name, image_url,  userId, details, categoryId, price, isActive FROM products WHERE isActive = 1 AND userId = ?";
 			
 			con = ConnectionUtil.getConnection();
 			ps = con.prepareStatement(query);
@@ -504,7 +504,7 @@ import in.fssa.productprice.interfaces.ProductInterface;
 				product.setName(rs.getString("name"));
 				product.setImageurl(rs.getString("image_url"));
 				product.setUserId(rs.getInt("userId"));
-				product.setDetails(rs.getString("Details"));
+				product.setDetails(rs.getString("details"));
 				product.setCategoryId(rs.getInt("categoryId"));
 				product.setPrice(rs.getDouble("price"));
 				
